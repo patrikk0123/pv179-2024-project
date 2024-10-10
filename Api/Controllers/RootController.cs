@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("/hello")]
+    [Route("/")]
     public class RootController(ILogger<RootController> logger) : ControllerBase
     {
         [HttpGet()]

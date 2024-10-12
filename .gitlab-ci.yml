@@ -1,0 +1,20 @@
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/dotNET-Core.gitlab-ci.yml
+
+variables:
+  NUGET_PACKAGES_DIRECTORY: ".nuget"
+
+default:
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - dotnet tool restore
+    - dotnet restore --packages $NUGET_PACKAGES_DIRECTORY
+  tags:
+    - shared-fi
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - dotnet build --no-restore

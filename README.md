@@ -12,3 +12,7 @@ dotnet ef database update --project "DAL.SQLite.Migrations"
 dotnet ef migrations add <Migration-Name> --project "DAL.SQLite.Migrations"
 dotnet ef database update --project "DAL.SQLite.Migrations"
 ```
+
+## Diagrams
+### Entity Relationship Diagram
+![ERD](docs/ERD.png)

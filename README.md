@@ -16,3 +16,6 @@ dotnet ef database update --project "DAL.SQLite.Migrations"
 ## Diagrams
 ### Entity Relationship Diagram
 ![ERD](docs/ERD.png)
+
+### Use-case diagram
+![UseCaseDiagram](docs/use-case-diagram.png)

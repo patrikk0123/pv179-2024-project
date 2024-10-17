@@ -13,8 +13,14 @@ default:
 
 stages:
   - build
+  - format
 
 build:
   stage: build
   script:
     - dotnet build --no-restore
+
+format:csharpier:
+  stage: format
+  script:
+    - dotnet csharpier --check .

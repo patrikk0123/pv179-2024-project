@@ -12,10 +12,7 @@ var dbPath = Path.Join(Environment.GetFolderPath(folder), "bookhub.db");
 
 builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
     options
-        .UseSqlite(
-        $"Data Source={dbPath}",
-        x => x.MigrationsAssembly("DAL.SQLite.Migrations")
-        )
+        .UseSqlite($"Data Source={dbPath}", x => x.MigrationsAssembly("DAL.SQLite.Migrations"))
         .UseLazyLoadingProxies()
 );
 

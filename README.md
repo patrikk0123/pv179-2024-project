@@ -31,3 +31,6 @@ See Csharpier plugin for [Rider](https://plugins.jetbrains.com/plugin/18243-csha
 ## Diagrams
 ### Entity Relationship Diagram
 ![ERD](docs/ERD.png)
+
+### Use-case diagram
+![UseCaseDiagram](docs/use-case-diagram.png)

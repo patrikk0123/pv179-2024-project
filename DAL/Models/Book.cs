@@ -35,4 +35,6 @@ public class Book : BaseEntity
 
     [ForeignKey(nameof(PublisherId))]
     public virtual Publisher? Publisher { get; set; }
+
+    public virtual IEnumerable<BookAuthor>? BookAuthors { get; set; }
 }

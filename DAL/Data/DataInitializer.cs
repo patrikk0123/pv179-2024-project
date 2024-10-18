@@ -21,8 +21,28 @@ namespace DAL.Data
         {
             return new List<Book>()
             {
-                new Book() { Id = 1, Title = "Cesta do neznáma" },
-                new Book() { Id = 2, Title = "Hadí princezna a 102 psů" },
+                new Book()
+                {
+                    Id = 1,
+                    Name = "Cesta do neznáma",
+                    Description = "",
+                    ISBN = "0-9742-0105-7",
+                    PublishDate = new DateOnly(1990, 1, 2),
+                    Pages = 120,
+                    Rating = 4.0,
+                    Price = 10.0,
+                },
+                new Book()
+                {
+                    Id = 2,
+                    Name = "Hadí princezna a 102 psů",
+                    Description = "",
+                    ISBN = "0-5613-1830-1",
+                    PublishDate = new DateOnly(2001, 3, 10),
+                    Pages = 102,
+                    Rating = 3.2,
+                    Price = 30.0,
+                },
             };
         }
     }

@@ -18,12 +18,12 @@ dotnet run --project "API"
 - We are using SQLITE, may be changed in the future
 - Init database
 ```sh
-dotnet ef database update --project "DAL.SQLite.Migrations"
+dotnet ef database update --project "DAL.SQLite.Migrations" --startup-project "Api"
 ```
 - Add migration
 ```sh
-dotnet ef migrations add <Migration-Name> --project "DAL.SQLite.Migrations"
-dotnet ef database update --project "DAL.SQLite.Migrations"
+dotnet ef migrations add <Migration-Name> --project "DAL.SQLite.Migrations" --startup-project "Api"
+dotnet ef database update --project "DAL.SQLite.Migrations" --startup-project "Api"
 ```
 
 ## Code formatter

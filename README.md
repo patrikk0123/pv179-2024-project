@@ -1,6 +1,15 @@
 # BookHub I guess
 Eshop for books, that will guess what book you want to read.
 
+## Pre-requisites
+- .NET 8.0
+
+## API
+- Run the API
+```sh
+dotnet run --project "API"
+```
+
 ## Database
 - We are using SQLITE, may be changed in the future
 - Init database

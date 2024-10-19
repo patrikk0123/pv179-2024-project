@@ -5,6 +5,10 @@ Eshop for books, that will guess what book you want to read.
 - .NET 8.0
 
 ## API
+- Install dependencies
+```sh
+dotnet restore
+```
 - Run the API
 ```sh
 dotnet run --project "API"

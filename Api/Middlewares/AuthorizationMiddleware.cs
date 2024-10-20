@@ -5,7 +5,11 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Api.Middlewares
 {
-    public class AuthorizationMiddleware(RequestDelegate next, ILogger<AuthorizationMiddleware> logger, IConfiguration configuration)
+    public class AuthorizationMiddleware(
+        RequestDelegate next,
+        ILogger<AuthorizationMiddleware> logger,
+        IConfiguration configuration
+    )
     {
         private readonly RequestDelegate _next = next;
 
@@ -25,7 +29,7 @@ namespace Api.Middlewares
                 await _next(context);
                 return;
             }
-            
+
             logger.LogError("Unauthorized request");
             var detailsFactory =
                 context.RequestServices.GetRequiredService<ProblemDetailsFactory>();
@@ -49,13 +53,15 @@ namespace Api.Middlewares
                 return false;
             }
             var token = header[7..];
-            var authenticated = token.Equals(configuration.GetSection("Authorization:Token").Value!);
-            
+            var authenticated = token.Equals(
+                configuration.GetSection("Authorization:Token").Value!
+            );
+
             if (!authenticated)
             {
                 logger.LogError("invalid token: '{token}'", token);
             }
-            
+
             return authenticated;
         }
     }

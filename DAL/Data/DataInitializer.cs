@@ -12,9 +12,23 @@ namespace DAL.Data
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
+            var publishers = PreparePublisherModels();
             var books = PrepareBookModels();
+            var authors = PrepareAuthorModels();
+            var bookAuthors = PrepareBookAuthorModels();
 
+            modelBuilder.Entity<Publisher>().HasData(publishers);
             modelBuilder.Entity<Book>().HasData(books);
+            modelBuilder.Entity<Author>().HasData(authors);
+            modelBuilder.Entity<BookAuthor>().HasData(bookAuthors);
+        }
+
+        private static List<Publisher> PreparePublisherModels()
+        {
+            return new List<Publisher>()
+            {
+                new Publisher() { Id = 1, Name = "Booklord ABC" },
+            };
         }
 
         private static List<Book> PrepareBookModels()
@@ -31,6 +45,7 @@ namespace DAL.Data
                     Pages = 120,
                     Rating = 4.0,
                     Price = 10.0,
+                    PublisherId = 1,
                 },
                 new Book()
                 {
@@ -42,6 +57,51 @@ namespace DAL.Data
                     Pages = 102,
                     Rating = 3.2,
                     Price = 30.0,
+                    PublisherId = 1,
+                },
+            };
+        }
+
+        private static List<Author> PrepareAuthorModels()
+        {
+            return new List<Author>()
+            {
+                new Author()
+                {
+                    Id = 1,
+                    Name = "Ronald",
+                    Surname = "Kingson",
+                },
+                new Author()
+                {
+                    Id = 2,
+                    Name = "Richard",
+                    Surname = "Douchebag",
+                },
+                new Author()
+                {
+                    Id = 3,
+                    Name = "William",
+                    Surname = "Jerk",
+                },
+            };
+        }
+
+        private static List<BookAuthor> PrepareBookAuthorModels()
+        {
+            return new List<BookAuthor>()
+            {
+                new BookAuthor()
+                {
+                    Id = 1,
+                    BookId = 1,
+                    AuthorId = 1,
+                },
+                new BookAuthor()
+                {
+                    Id = 2,
+                    BookId = 2,
+                    AuthorId = 2,
                 },
             };
         }

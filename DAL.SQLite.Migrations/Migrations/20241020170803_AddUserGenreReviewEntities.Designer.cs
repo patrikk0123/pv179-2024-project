@@ -3,6 +3,7 @@ using System;
 using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.SQLite.Migrations.Migrations
 {
     [DbContext(typeof(BookHubDBContext))]
-    partial class BookHubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241020170803_AddUserGenreReviewEntities")]
+    partial class AddUserGenreReviewEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,21 +49,21 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2704),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3375),
                             Name = "Ronald",
                             Surname = "Kingson"
                         },
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2708),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3379),
                             Name = "Richard",
                             Surname = "Douchebag"
                         },
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2711),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3381),
                             Name = "William",
                             Surname = "Jerk"
                         });
@@ -112,7 +115,7 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2687),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3359),
                             Description = "",
                             ISBN = "0-9742-0105-7",
                             Name = "Cesta do neznáma",
@@ -125,7 +128,7 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2697),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3369),
                             Description = "",
                             ISBN = "0-5613-1830-1",
                             Name = "Hadí princezna a 102 psů",
@@ -166,14 +169,14 @@ namespace DAL.SQLite.Migrations.Migrations
                             Id = 1,
                             AuthorId = 1,
                             BookId = 1,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2716)
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3385)
                         },
                         new
                         {
                             Id = 2,
                             AuthorId = 2,
                             BookId = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2719)
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3388)
                         });
                 });
 
@@ -205,21 +208,21 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 1,
                             BookId = 1,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2745),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3415),
                             GenreId = 1
                         },
                         new
                         {
                             Id = 2,
                             BookId = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2749),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3419),
                             GenreId = 2
                         },
                         new
                         {
                             Id = 3,
                             BookId = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2751),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3421),
                             GenreId = 3
                         });
                 });
@@ -245,19 +248,19 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2735),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3407),
                             GenreType = "Fantasy"
                         },
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2738),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3410),
                             GenreType = "Horror"
                         },
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2741),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3412),
                             GenreType = "Sci-fi"
                         });
                 });
@@ -283,7 +286,7 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2633),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3309),
                             Name = "Booklord ABC"
                         });
                 });
@@ -325,7 +328,7 @@ namespace DAL.SQLite.Migrations.Migrations
                             Id = 1,
                             Body = "Great book, I loved it!",
                             BookId = 1,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2755),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3425),
                             Rating = 4,
                             UserId = 1
                         },
@@ -334,7 +337,7 @@ namespace DAL.SQLite.Migrations.Migrations
                             Id = 2,
                             Body = "I didn't like it at all.",
                             BookId = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2759),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3428),
                             Rating = 2,
                             UserId = 1
                         },
@@ -343,7 +346,7 @@ namespace DAL.SQLite.Migrations.Migrations
                             Id = 3,
                             Body = "I hated it.",
                             BookId = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2762),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3431),
                             Rating = 1,
                             UserId = 2
                         });
@@ -362,12 +365,12 @@ namespace DAL.SQLite.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -381,28 +384,28 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2723),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3394),
                             Email = "john335@muni.com",
+                            IsAdmin = true,
                             Password = "123456",
-                            Role = 0,
                             Username = "johnmotika335"
                         },
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2728),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3400),
                             Email = "john335@muni.com",
+                            IsAdmin = false,
                             Password = "212121",
-                            Role = 1,
                             Username = "kvalitnipolevka90"
                         },
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2024, 10, 20, 19, 35, 50, 87, DateTimeKind.Local).AddTicks(2730),
+                            Created = new DateTime(2024, 10, 20, 19, 8, 2, 702, DateTimeKind.Local).AddTicks(3402),
                             Email = "john335@muni.com",
+                            IsAdmin = false,
                             Password = "432343",
-                            Role = 1,
                             Username = "flameboi22"
                         });
                 });

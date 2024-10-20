@@ -11,6 +11,9 @@ namespace DAL.Data;
 public class BookHubDBContext : DbContext
 {
     public DbSet<Book> Books { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public BookHubDBContext(DbContextOptions<BookHubDBContext> options)
         : base(options) { }

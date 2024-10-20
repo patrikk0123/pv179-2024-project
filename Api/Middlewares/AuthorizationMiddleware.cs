@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Api.Middlewares
 {
-    public class AuthorizationMiddleware(RequestDelegate next, IConfiguration configuration)
+    public class AuthorizationMiddleware(RequestDelegate next, ILogger<AuthorizationMiddleware> logger, IConfiguration configuration)
     {
         private readonly RequestDelegate _next = next;
 
@@ -25,7 +25,8 @@ namespace Api.Middlewares
                 await _next(context);
                 return;
             }
-
+            
+            logger.LogError("Unauthorized request");
             var detailsFactory =
                 context.RequestServices.GetRequiredService<ProblemDetailsFactory>();
             const int statusCode = (int)HttpStatusCode.Unauthorized;
@@ -44,11 +45,18 @@ namespace Api.Middlewares
             var header = context.Request.Headers["Authorization"].ToString();
             if (!header.StartsWith("Bearer ", StringComparison.CurrentCulture))
             {
-                Console.WriteLine($"wrong format: '{header}'");
+                logger.LogError("wrong format: '{header}'", header);
                 return false;
             }
             var token = header[7..];
-            return token.Equals(configuration.GetSection("Authorization:Token").Value!);
+            var authenticated = token.Equals(configuration.GetSection("Authorization:Token").Value!);
+            
+            if (!authenticated)
+            {
+                logger.LogError("invalid token: '{token}'", token);
+            }
+            
+            return authenticated;
         }
     }
 }

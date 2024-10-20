@@ -18,6 +18,7 @@ mv Api/appsettings.json appsettings.Development.json
 ```sh
 dotnet run --project "API"
 ```
+- Swagger is available at `https://localhost:5174/swagger/index.html`
 
 ## Database
 - We are using SQLITE, may be changed in the future

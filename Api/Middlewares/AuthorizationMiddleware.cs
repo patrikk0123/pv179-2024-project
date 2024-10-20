@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Api.Middlewares
 {
-    public class AuthorizationMiddleware(RequestDelegate next)
+    public class AuthorizationMiddleware(RequestDelegate next, IConfiguration configuration)
     {
         private readonly RequestDelegate _next = next;
 
@@ -41,13 +41,14 @@ namespace Api.Middlewares
 
         public bool ValidateToken(HttpContext context)
         {
-            var token = context.Request.Query["token"].ToString();
-            if (string.IsNullOrEmpty(token))
+            var header = context.Request.Headers["Authorization"].ToString();
+            if (!header.StartsWith("Bearer ", StringComparison.CurrentCulture))
             {
+                Console.WriteLine($"wrong format: '{header}'");
                 return false;
             }
-
-            return token.Equals("123456");
+            var token = header[7..];
+            return token.Equals(configuration.GetSection("Authorization:Token").Value!);
         }
     }
 }

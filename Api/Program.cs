@@ -1,12 +1,40 @@
 using Api.Middlewares;
 using DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookHub API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Enter the API key as follows: Bearer YourHardcodedToken",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 var folder = Environment.SpecialFolder.LocalApplicationData;
 var dbPath = Path.Join(Environment.GetFolderPath(folder), "bookhub.db");
@@ -23,6 +51,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    
     _ = app.UseSwagger();
     _ = app.UseSwaggerUI();
 }

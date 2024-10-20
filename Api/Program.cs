@@ -29,4 +29,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<AuthorizationMiddleware>();
 app.Run();

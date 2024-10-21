@@ -24,6 +24,9 @@ public static class DataInitializer
         modelBuilder.Entity<Genre>().HasData(genres);
         modelBuilder.Entity<BookGenre>().HasData(bookGenres);
         modelBuilder.Entity<Review>().HasData(reviews);
+        modelBuilder.Entity<WishListItem>().HasData(PrepareWishListItems());
+        modelBuilder.Entity<Order>().HasData(PrepareOrders());
+        modelBuilder.Entity<OrderItem>().HasData(PrepareOrdersItem());
     }
 
     private static List<Publisher> PreparePublisherModels()
@@ -202,6 +205,73 @@ public static class DataInitializer
                 Id = 3,
                 BookId = 2,
                 GenreId = 3,
+            },
+        };
+    }
+
+    private static List<WishListItem> PrepareWishListItems()
+    {
+        return new List<WishListItem>()
+        {
+            new WishListItem()
+            {
+                Id = 1,
+                UserId = 1,
+                BookId = 1,
+            },
+            new WishListItem()
+            {
+                Id = 2,
+                UserId = 1,
+                BookId = 2,
+            },
+            new WishListItem()
+            {
+                Id = 3,
+                UserId = 2,
+                BookId = 2,
+            },
+        };
+    }
+
+    private static List<Order> PrepareOrders()
+    {
+        return new List<Order>()
+        {
+            new Order()
+            {
+                Id = 1,
+                TotalPrice = 40.0,
+                UserId = 1,
+            },
+            new Order()
+            {
+                Id = 2,
+                TotalPrice = 30.0,
+                UserId = 2,
+            },
+        };
+    }
+
+    private static List<OrderItem> PrepareOrdersItem()
+    {
+        return new List<OrderItem>()
+        {
+            new OrderItem()
+            {
+                Id = 1,
+                OrderId = 1,
+                BookId = 1,
+                Quantity = 4,
+                PricePerItem = 10.0,
+            },
+            new OrderItem()
+            {
+                Id = 2,
+                OrderId = 2,
+                BookId = 2,
+                Quantity = 1,
+                PricePerItem = 30.0,
             },
         };
     }

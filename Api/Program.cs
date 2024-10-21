@@ -1,3 +1,4 @@
+using Api.Middlewares;
 using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,4 +28,5 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.Run();

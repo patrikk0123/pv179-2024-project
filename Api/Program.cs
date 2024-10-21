@@ -1,5 +1,9 @@
+using Api.DTOs.Book;
+using Api.Mappers;
+using Api.Mappers.Interfaces;
 using Api.Middlewares;
 using DAL.Data;
+using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +23,8 @@ builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
 );
 
 builder.Services.AddDbContext<BookHubDBContext>();
+
+builder.Services.AddSingleton<IEntityMapper<Book, BookDto, BookDetailDto>, BookMapper>();
 
 var app = builder.Build();
 

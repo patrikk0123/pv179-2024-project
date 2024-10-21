@@ -9,17 +9,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Controllers;
 
 [Route("[controller]")]
-public class BooksController : Controller
+public class BooksController(BookHubDBContext dBContext, IEntityMapper<Book, BookDto> bookMapper)
+    : Controller
 {
-    private readonly BookHubDBContext _dBContext;
-    private readonly IEntityMapper<Book, BookDto> _bookMapper;
-
-    public BooksController(BookHubDBContext dBContext, IEntityMapper<Book, BookDto> bookMapper)
-    {
-        _dBContext = dBContext;
-        _bookMapper = bookMapper;
-    }
-
     [HttpGet]
     [Route("/books")]
     public async Task<IActionResult> GetAllBooks(
@@ -31,7 +23,7 @@ public class BooksController : Controller
         [FromQuery] string? genreType
     )
     {
-        var books = await _dBContext
+        var books = await dBContext
             .Books.WhereIf(!string.IsNullOrEmpty(name), book => book.Name.Contains(name))
             .WhereIf(
                 !string.IsNullOrEmpty(description),
@@ -47,7 +39,7 @@ public class BooksController : Controller
                 !string.IsNullOrEmpty(genreType),
                 book => book.BookGenres.Any(bookGenre => bookGenre.Genre.GenreType == genreType)
             )
-            .Select(book => _bookMapper.ToDto(book))
+            .Select(book => bookMapper.ToDto(book))
             .ToListAsync();
 
         return Ok(books);

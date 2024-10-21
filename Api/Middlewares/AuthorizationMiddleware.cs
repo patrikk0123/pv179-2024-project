@@ -3,66 +3,62 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-namespace Api.Middlewares
+namespace Api.Middlewares;
+
+public class AuthorizationMiddleware(
+    RequestDelegate next,
+    ILogger<AuthorizationMiddleware> logger,
+    IConfiguration configuration
+)
 {
-    public class AuthorizationMiddleware(
-        RequestDelegate next,
-        ILogger<AuthorizationMiddleware> logger,
-        IConfiguration configuration
-    )
+    private readonly RequestDelegate _next = next;
+
+    public async Task InvokeAsync(HttpContext context)
     {
-        private readonly RequestDelegate _next = next;
+        var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
+        var attribute = endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>();
 
-        public async Task InvokeAsync(HttpContext context)
+        if (attribute != null)
         {
-            var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
-            var attribute = endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>();
-
-            if (attribute != null)
-            {
-                await _next(context);
-                return;
-            }
-
-            if (ValidateToken(context))
-            {
-                await _next(context);
-                return;
-            }
-
-            logger.LogError("Unauthorized request");
-            var detailsFactory =
-                context.RequestServices.GetRequiredService<ProblemDetailsFactory>();
-            const int statusCode = (int)HttpStatusCode.Unauthorized;
-
-            var details = detailsFactory.CreateProblemDetails(
-                context,
-                statusCode: statusCode,
-                title: "Unauthorized"
-            );
-            context.Response.StatusCode = statusCode;
-            await context.Response.WriteAsJsonAsync(details);
+            await _next(context);
+            return;
         }
 
-        public bool ValidateToken(HttpContext context)
+        if (ValidateToken(context))
         {
-            var header = context.Request.Headers["Authorization"].ToString();
-            if (!header.StartsWith("Bearer ", StringComparison.CurrentCulture))
-            {
-                logger.LogError("wrong format: '{header}'", header);
-                return false;
-            }
-            var token = header[7..];
-            var authenticated = token.Equals(
-                configuration.GetSection("Authorization:Token").Value!
-            );
-
-            if (!authenticated)
-            {
-                logger.LogError("invalid token: '{token}'", token);
-            }
-
-            return authenticated;
+            await _next(context);
+            return;
         }
+
+        logger.LogError("Unauthorized request");
+        var detailsFactory = context.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+        const int statusCode = (int)HttpStatusCode.Unauthorized;
+
+        var details = detailsFactory.CreateProblemDetails(
+            context,
+            statusCode: statusCode,
+            title: "Unauthorized"
+        );
+        context.Response.StatusCode = statusCode;
+        await context.Response.WriteAsJsonAsync(details);
+    }
+
+    public bool ValidateToken(HttpContext context)
+    {
+        var header = context.Request.Headers["Authorization"].ToString();
+        if (!header.StartsWith("Bearer ", StringComparison.CurrentCulture))
+        {
+            logger.LogError("wrong format: '{header}'", header);
+            return false;
+        }
+        var token = header[7..];
+        var authenticated = token.Equals(configuration.GetSection("Authorization:Token").Value!);
+
+        if (!authenticated)
+        {
+            logger.LogError("invalid token: '{token}'", token);
+        }
+
+        return authenticated;
     }
 }

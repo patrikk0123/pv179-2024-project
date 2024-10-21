@@ -11,8 +11,6 @@ public class AuthorizationMiddleware(
     IConfiguration configuration
 )
 {
-    private readonly RequestDelegate _next = next;
-
     public async Task InvokeAsync(HttpContext context)
     {
         var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
@@ -20,13 +18,13 @@ public class AuthorizationMiddleware(
 
         if (attribute != null)
         {
-            await _next(context);
+            await next(context);
             return;
         }
 
         if (ValidateToken(context))
         {
-            await _next(context);
+            await next(context);
             return;
         }
 

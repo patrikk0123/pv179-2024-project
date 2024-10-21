@@ -9,11 +9,6 @@ Eshop for books, that will guess what book you want to read.
 ```sh
 dotnet restore
 ```
-- Setup config 
-```sh
-mv Api/appsettings.json Api/appsettings.Development.json
-```
-- Fill in all values required in config (authorization token, etc...)
 - Run the API
 ```sh
 dotnet run --project "API"

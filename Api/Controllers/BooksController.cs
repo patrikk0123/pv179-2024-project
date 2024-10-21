@@ -9,8 +9,10 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Controllers;
 
 [Route("[controller]")]
-public class BooksController(BookHubDBContext dBContext, IEntityMapper<Book, BookDto> bookMapper)
-    : Controller
+public class BooksController(
+    BookHubDBContext dBContext,
+    IEntityMapper<Book, BookDto, BookDetailDto> bookMapper
+) : Controller
 {
     [HttpGet]
     [Route("/books")]
@@ -61,6 +63,6 @@ public class BooksController(BookHubDBContext dBContext, IEntityMapper<Book, Boo
             return NotFound();
         }
 
-        return Ok(bookMapper.ToDto(book));
+        return Ok(bookMapper.ToDetailDto(book));
     }
 }

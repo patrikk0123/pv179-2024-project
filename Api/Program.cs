@@ -23,7 +23,7 @@ builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
 
 builder.Services.AddDbContext<BookHubDBContext>();
 
-builder.Services.AddSingleton<IEntityMapper<Book, BookDto>, BookMapper>();
+builder.Services.AddSingleton<IEntityMapper<Book, BookDto, BookDetailDto>, BookMapper>();
 
 var app = builder.Build();
 

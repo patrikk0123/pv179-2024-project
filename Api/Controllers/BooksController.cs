@@ -24,24 +24,43 @@ public class BooksController(BookHubDBContext dBContext, IEntityMapper<Book, Boo
     )
     {
         var books = await dBContext
-            .Books.WhereIf(!string.IsNullOrEmpty(name), book => book.Name.Contains(name))
+            .Books.WhereIf(
+                !string.IsNullOrEmpty(name),
+                book => EF.Functions.Like(book.Name, $"%{name}%")
+            )
             .WhereIf(
                 !string.IsNullOrEmpty(description),
-                book => book.Description.Contains(description)
+                book => EF.Functions.Like(book.Description, $"%{description}%")
             )
             .WhereIf(minPrice != null, book => book.Price >= minPrice.Value)
             .WhereIf(maxPrice != null, book => book.Price <= maxPrice.Value)
             .WhereIf(
                 !string.IsNullOrEmpty(publisherName),
-                book => book.Publisher.Name.Contains(publisherName)
+                book => EF.Functions.Like(book.Publisher.Name, $"%{publisherName}%")
             )
             .WhereIf(
                 !string.IsNullOrEmpty(genreType),
-                book => book.BookGenres.Any(bookGenre => bookGenre.Genre.GenreType == genreType)
+                book =>
+                    book.BookGenres.Any(bookGenre =>
+                        EF.Functions.Like(bookGenre.Genre.GenreType, $"%{genreType}%")
+                    )
             )
             .Select(book => bookMapper.ToDto(book))
             .ToListAsync();
 
         return Ok(books);
+    }
+
+    [HttpGet]
+    [Route("/books/{bookId}")]
+    public async Task<IActionResult> GetSingleBook(int bookId)
+    {
+        var book = await dBContext.Books.FindAsync(bookId);
+        if (book == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(bookMapper.ToDto(book));
     }
 }

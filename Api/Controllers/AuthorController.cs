@@ -64,4 +64,20 @@ public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMa
             authorMapper.ToDto(author.Entity)
         );
     }
+
+    [HttpDelete]
+    [Route("{authorId}")]
+    public async Task<IActionResult> DeleteSingleAuthor(int authorId)
+    {
+        var author = await dBContext.Authors.FindAsync(authorId);
+        if (author == null)
+        {
+            return NotFound();
+        }
+
+        author.DeletedAt = DateTime.Now;
+        await dBContext.SaveChangesAsync();
+
+        return Ok(authorMapper.ToDto(author));
+    }
 }

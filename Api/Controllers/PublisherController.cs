@@ -35,10 +35,10 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
 
     [HttpPost]
     [Route("")]
-    public async Task<IActionResult> CreatePublisher([FromBody] CreatePublisherDto publisher)
+    public async Task<IActionResult> CreatePublisher([FromBody] CreatePublisherDto publisherDto)
     {
         var createdPublisher = await dBContext.Publishers.AddAsync(
-            publisherMapper.ToModel(publisher)
+            publisherMapper.ToModel(publisherDto)
         );
         await dBContext.SaveChangesAsync();
         return Ok(publisherMapper.ToDto(createdPublisher.Entity));
@@ -48,7 +48,7 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
     [Route("{publisherId}")]
     public async Task<IActionResult> UpdatePublisher(
         int publisherId,
-        [FromBody] UpdatePublisherDto publisher
+        [FromBody] UpdatePublisherDto publisherDto
     )
     {
         var publisherToUpdate = await dBContext.Publishers.FindAsync(publisherId);
@@ -57,9 +57,7 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
             return NotFound();
         }
 
-        dBContext
-            .Entry(publisherToUpdate)
-            .CurrentValues.SetValues(publisherMapper.ToModel(publisher, publisherId));
+        publisherMapper.UpdateModel(publisherToUpdate, publisherDto);
         await dBContext.SaveChangesAsync();
 
         return Ok(publisherMapper.ToDto(publisherToUpdate));

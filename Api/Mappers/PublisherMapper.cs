@@ -40,8 +40,8 @@ public class PublisherMapper : IPublisherMapper
         return new Publisher { Name = publisherDto.Name };
     }
 
-    public Publisher ToModel(UpdatePublisherDto publisherDto, int id)
+    public void UpdateModel(Publisher publisher, UpdatePublisherDto updateDto)
     {
-        return new Publisher { Id = id, Name = publisherDto.Name };
+        publisher.Name = updateDto.Name;
     }
 }

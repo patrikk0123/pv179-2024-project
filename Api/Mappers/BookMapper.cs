@@ -59,7 +59,7 @@ public class BookMapper : IBookMapper
         throw new NotImplementedException();
     }
 
-    public Book ToModel(UpdateBookDto bookDto, int id)
+    public void UpdateModel(Book book, UpdateBookDto bookDto)
     {
         // todo: not implemented
         throw new NotImplementedException();

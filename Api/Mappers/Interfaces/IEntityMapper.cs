@@ -14,5 +14,5 @@ public interface IEntityMapper<TModel, TDto, out TDetailDto, TCreateDto, TUpdate
 
     public TModel ToModel(TCreateDto dto);
 
-    public TModel ToModel(TUpdateDTo dto, int id);
+    public void UpdateModel(TModel dto, TUpdateDTo updateDto);
 }

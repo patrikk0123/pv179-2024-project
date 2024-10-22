@@ -1,4 +1,5 @@
 using Api.DTOs.Book;
+using Api.DTOs.Publisher;
 using Api.Mappers;
 using Api.Mappers.Interfaces;
 using Api.Middlewares;
@@ -58,7 +59,8 @@ builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
 
 builder.Services.AddDbContext<BookHubDBContext>();
 
-builder.Services.AddSingleton<IEntityMapper<Book, BookDto, BookDetailDto>, BookMapper>();
+builder.Services.AddSingleton<IBookMapper, BookMapper>();
+builder.Services.AddSingleton<IPublisherMapper, PublisherMapper>();
 
 var app = builder.Build();
 

@@ -37,11 +37,6 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
     [Route("")]
     public async Task<IActionResult> CreatePublisher([FromBody] PublisherCreateDto dto)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
         var createdPublisher = await dBContext.Publishers.AddAsync(publisherMapper.ToModel(dto));
         await dBContext.SaveChangesAsync();
         return CreatedAtAction(
@@ -58,11 +53,6 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
         [FromBody] PublisherUpdateDto dto
     )
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
         var publisherToUpdate = await dBContext.Publishers.FindAsync(publisherId);
         if (publisherToUpdate == null)
         {

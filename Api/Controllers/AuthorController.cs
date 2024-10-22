@@ -45,4 +45,23 @@ public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMa
 
         return Ok(authorMapper.ToDetailDto(author));
     }
+
+    [HttpPost]
+    [Route("")]
+    public async Task<IActionResult> CreateSingleAuthor([FromBody] AuthorDto authorDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var author = await dBContext.Authors.AddAsync(authorMapper.ToModel(authorDto));
+        await dBContext.SaveChangesAsync();
+
+        return CreatedAtAction(
+            nameof(GetSingleAuthor),
+            new { authorId = author.Entity.Id },
+            authorMapper.ToDto(author.Entity)
+        );
+    }
 }

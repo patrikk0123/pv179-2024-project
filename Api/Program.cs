@@ -1,5 +1,9 @@
+using Api.DTOs.Book;
+using Api.Mappers;
+using Api.Mappers.Interfaces;
 using Api.Middlewares;
 using DAL.Data;
+using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -40,6 +44,8 @@ builder.Services.AddSwaggerGen(c =>
         }
     );
 });
+builder.Services.AddSwaggerGen();
+builder.Services.AddLogging();
 
 var folder = Environment.SpecialFolder.LocalApplicationData;
 var dbPath = Path.Join(Environment.GetFolderPath(folder), "bookhub.db");
@@ -52,6 +58,8 @@ builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
 
 builder.Services.AddDbContext<BookHubDBContext>();
 
+builder.Services.AddSingleton<IEntityMapper<Book, BookDto, BookDetailDto>, BookMapper>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -59,8 +67,10 @@ if (app.Environment.IsDevelopment())
     _ = app.UseSwagger();
     _ = app.UseSwaggerUI();
 }
+
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<AuthorizationMiddleware>();
 app.Run();

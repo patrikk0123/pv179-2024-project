@@ -8,6 +8,6 @@ public interface IPublisherMapper
         Publisher,
         PublisherDto,
         PublisherDetailDto,
-        CreatePublisherDto,
-        UpdatePublisherDto
+        PublisherCreateDto,
+        PublisherUpdateDto
     > { }

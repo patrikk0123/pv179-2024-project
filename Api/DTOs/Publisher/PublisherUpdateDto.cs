@@ -1,6 +1,6 @@
 namespace Api.DTOs.Publisher;
 
-public class UpdatePublisherDto
+public class PublisherUpdateDto
 {
     public required string Name { get; init; }
 }

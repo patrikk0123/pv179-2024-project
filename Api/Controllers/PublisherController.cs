@@ -35,14 +35,17 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
 
     [HttpPost]
     [Route("")]
-    public async Task<IActionResult> CreatePublisher([FromBody] CreatePublisherDto publisherDto)
+    public async Task<IActionResult> CreatePublisher([FromBody] PublisherCreateDto dto)
     {
-        var createdPublisher = await dBContext.Publishers.AddAsync(
-            publisherMapper.ToModel(publisherDto)
-        );
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var createdPublisher = await dBContext.Publishers.AddAsync(publisherMapper.ToModel(dto));
         await dBContext.SaveChangesAsync();
         return CreatedAtAction(
-            nameof(CreatePublisher),
+            nameof(GetPublisherDetail),
             new { publisherId = createdPublisher.Entity.Id },
             publisherMapper.ToDto(createdPublisher.Entity)
         );
@@ -52,16 +55,21 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
     [Route("{publisherId}")]
     public async Task<IActionResult> UpdatePublisher(
         int publisherId,
-        [FromBody] UpdatePublisherDto publisherDto
+        [FromBody] PublisherUpdateDto dto
     )
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         var publisherToUpdate = await dBContext.Publishers.FindAsync(publisherId);
         if (publisherToUpdate == null)
         {
             return NotFound();
         }
 
-        publisherMapper.UpdateModel(publisherToUpdate, publisherDto);
+        publisherMapper.UpdateModel(publisherToUpdate, dto);
         await dBContext.SaveChangesAsync();
 
         return Ok(publisherMapper.ToDto(publisherToUpdate));

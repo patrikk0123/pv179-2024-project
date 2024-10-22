@@ -3,7 +3,7 @@ using DAL.Models;
 
 namespace Api.Mappers.Interfaces;
 
-public interface IEntityMapper<TModel, TDto, out TDetailDto, TCreateDto, TUpdateDTo>
+public interface IEntityMapper<TModel, TDto, out TDetailDto, in TCreateDto, in TUpdateDTo>
     where TModel : BaseEntity
     where TDto : BaseDto
     where TDetailDto : BaseDto
@@ -14,5 +14,5 @@ public interface IEntityMapper<TModel, TDto, out TDetailDto, TCreateDto, TUpdate
 
     public TModel ToModel(TCreateDto dto);
 
-    public void UpdateModel(TModel dto, TUpdateDTo updateDto);
+    public void UpdateModel(TModel model, TUpdateDTo updateDto);
 }

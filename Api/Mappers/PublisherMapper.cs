@@ -35,13 +35,13 @@ public class PublisherMapper : IPublisherMapper
         };
     }
 
-    public Publisher ToModel(CreatePublisherDto publisherDto)
+    public Publisher ToModel(PublisherCreateDto dto)
     {
-        return new Publisher { Name = publisherDto.Name };
+        return new Publisher { Name = dto.Name };
     }
 
-    public void UpdateModel(Publisher publisher, UpdatePublisherDto updateDto)
+    public void UpdateModel(Publisher publisher, PublisherUpdateDto publisherUpdateDto)
     {
-        publisher.Name = updateDto.Name;
+        publisher.Name = publisherUpdateDto.Name;
     }
 }

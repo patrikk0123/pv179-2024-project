@@ -13,6 +13,8 @@ dotnet restore
 ```sh
 dotnet run --project "API"
 ```
+- Swagger is available at `https://localhost:5174/swagger/index.html`
+- API is encrypted with hardcoded Bearer token (that need to be set up in swagger to test the API)
 
 ## Database
 - We are using SQLITE, may be changed in the future

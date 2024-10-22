@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
+[ApiController]
 [Route("/authors")]
 public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMapper) : Controller
 {
@@ -48,13 +49,8 @@ public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMa
 
     [HttpPost]
     [Route("")]
-    public async Task<IActionResult> CreateSingleAuthor([FromBody] AuthorDto authorDto)
+    public async Task<IActionResult> CreateSingleAuthor([FromBody] AuthorCreateDto authorDto)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
         var author = await dBContext.Authors.AddAsync(authorMapper.ToModel(authorDto));
         await dBContext.SaveChangesAsync();
 
@@ -63,6 +59,26 @@ public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMa
             new { authorId = author.Entity.Id },
             authorMapper.ToDto(author.Entity)
         );
+    }
+
+    [HttpPut]
+    [Route("{authorId}")]
+    public async Task<IActionResult> UpdateSingleAuthor(
+        int authorId,
+        [FromBody] AuthorUpdateDto authorDto
+    )
+    {
+        var authorToUpdate = await dBContext.Authors.FindAsync(authorId);
+        if (authorToUpdate == null)
+        {
+            return NotFound();
+        }
+
+        authorMapper.UpdateModel(authorToUpdate, authorDto);
+        dBContext.Authors.Update(authorToUpdate);
+        await dBContext.SaveChangesAsync();
+
+        return Ok(authorMapper.ToDto(authorToUpdate));
     }
 
     [HttpDelete]

@@ -61,6 +61,7 @@ builder.Services.AddDbContext<BookHubDBContext>();
 
 builder.Services.AddSingleton<IBookMapper, BookMapper>();
 builder.Services.AddSingleton<IPublisherMapper, PublisherMapper>();
+builder.Services.AddSingleton<IBookReviewMapper, BookReviewMapper>();
 
 var app = builder.Build();
 

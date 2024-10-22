@@ -1,18 +1,13 @@
-﻿using Api.DTOs.Book;
-using Api.Mappers.Interfaces;
+﻿using Api.Mappers.Interfaces;
 using DAL.Data;
 using DAL.Extensions;
-using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
 [Route("[controller]")]
-public class BooksController(
-    BookHubDBContext dBContext,
-    IEntityMapper<Book, BookDto, BookDetailDto> bookMapper
-) : Controller
+public class BooksController(BookHubDBContext dBContext, IBookMapper bookMapper) : Controller
 {
     [HttpGet]
     [Route("/books")]

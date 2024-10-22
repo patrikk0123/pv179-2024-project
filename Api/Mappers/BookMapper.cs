@@ -6,7 +6,7 @@ using DAL.Models;
 
 namespace Api.Mappers;
 
-public class BookMapper : IEntityMapper<Book, BookDto, BookDetailDto>
+public class BookMapper : IBookMapper
 {
     public BookDto ToDto(Book book)
     {
@@ -53,18 +53,15 @@ public class BookMapper : IEntityMapper<Book, BookDto, BookDetailDto>
         };
     }
 
-    public Book ToModel(BookDto bookDto)
+    public Book ToModel(CreateBookDto bookDto)
     {
-        return new Book
-        {
-            Id = bookDto.Id,
-            Name = bookDto.Name,
-            ISBN = bookDto.ISBN,
-            Description = bookDto.Description,
-            PublishDate = bookDto.PublishDate,
-            Pages = bookDto.Pages,
-            Rating = bookDto.Rating,
-            Price = bookDto.Price,
-        };
+        // todo: not implemented
+        throw new NotImplementedException();
+    }
+
+    public Book ToModel(UpdateBookDto bookDto, int id)
+    {
+        // todo: not implemented
+        throw new NotImplementedException();
     }
 }

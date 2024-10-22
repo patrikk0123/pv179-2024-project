@@ -57,11 +57,10 @@ builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
 builder.Services.AddDbContext<BookHubDBContext>();
 
 builder.Services.AddSingleton<IBookMapper, BookMapper>();
-builder.Services.AddSingleton<IPublisherMapper, PublisherMapper>();
 builder.Services.AddSingleton<IBookReviewMapper, BookReviewMapper>();
+builder.Services.AddSingleton<IPublisherMapper, PublisherMapper>();
 builder.Services.AddSingleton<IAuthorMapper, AuthorMapper>();
 builder.Services.AddSingleton<IGenreMapper, GenreMapper>();
-builder.Services.AddSingleton<IBookReviewMapper, BookReviewMapper>();
 
 var app = builder.Build();
 

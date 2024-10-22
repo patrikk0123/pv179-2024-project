@@ -45,7 +45,7 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         [FromBody] BookReviewCreateDto reviewDto
     )
     {
-        if (!ValidateReview(reviewDto))
+        if (!ValidateReview(reviewDto.Rating))
         {
             return BadRequest(ModelState);
         }
@@ -85,7 +85,7 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         [FromBody] BookReviewUpdateDto reviewDto
     )
     {
-        if (!ValidateReview(reviewDto))
+        if (!ValidateReview(reviewDto.Rating))
         {
             return BadRequest(ModelState);
         }
@@ -124,19 +124,9 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         return Ok(bookReviewMapper.ToDto(review));
     }
 
-    private bool ValidateReview(BookReviewCreateDto reviewDto)
+    private bool ValidateReview(int rating)
     {
-        if (reviewDto.Rating < 1 || reviewDto.Rating > 5)
-        {
-            ModelState.AddModelError("Rating", "Rating must be between 1 and 5");
-        }
-
-        return ModelState.IsValid;
-    }
-
-    private bool ValidateReview(BookReviewUpdateDto reviewDto)
-    {
-        if (reviewDto.Rating < 1 || reviewDto.Rating > 5)
+        if (rating < 1 || rating > 5)
         {
             ModelState.AddModelError("Rating", "Rating must be between 1 and 5");
         }

@@ -45,8 +45,12 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         [FromBody] BookReviewCreateDto reviewDto
     )
     {
-        var book = await dBContext.Books.FindAsync(bookId);
+        if (!ValidateReview(reviewDto))
+        {
+            return BadRequest(ModelState);
+        }
 
+        var book = await dBContext.Books.FindAsync(bookId);
         if (book == null)
         {
             return NotFound();
@@ -81,6 +85,11 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         [FromBody] BookReviewUpdateDto reviewDto
     )
     {
+        if (!ValidateReview(reviewDto))
+        {
+            return BadRequest(ModelState);
+        }
+
         var review = await dBContext.Reviews.FirstOrDefaultAsync(r =>
             r.Id == reviewId && r.BookId == bookId
         );
@@ -113,5 +122,25 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         await dBContext.SaveChangesAsync();
 
         return Ok(bookReviewMapper.ToDto(review));
+    }
+
+    private bool ValidateReview(BookReviewCreateDto reviewDto)
+    {
+        if (reviewDto.Rating < 1 || reviewDto.Rating > 5)
+        {
+            ModelState.AddModelError("Rating", "Rating must be between 1 and 5");
+        }
+
+        return ModelState.IsValid;
+    }
+
+    private bool ValidateReview(BookReviewUpdateDto reviewDto)
+    {
+        if (reviewDto.Rating < 1 || reviewDto.Rating > 5)
+        {
+            ModelState.AddModelError("Rating", "Rating must be between 1 and 5");
+        }
+
+        return ModelState.IsValid;
     }
 }

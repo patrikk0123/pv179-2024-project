@@ -170,6 +170,16 @@ public static class DataInitializer
                 BookId = 2,
                 Rating = 1,
                 Body = "I hated it.",
+                EditedAt = DateTime.Now - TimeSpan.FromDays(2),
+            },
+            new Review()
+            {
+                Id = 4,
+                UserId = 3,
+                BookId = 2,
+                Rating = 5,
+                Body = "Was great!",
+                DeletedAt = DateTime.Now - TimeSpan.FromDays(3),
             },
         };
     }

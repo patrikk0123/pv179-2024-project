@@ -1,11 +1,7 @@
-using Api.DTOs.Author;
-using Api.DTOs.Book;
-using Api.DTOs.Publisher;
 using Api.Mappers;
 using Api.Mappers.Interfaces;
 using Api.Middlewares;
 using DAL.Data;
-using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -63,6 +59,7 @@ builder.Services.AddDbContext<BookHubDBContext>();
 builder.Services.AddSingleton<IBookMapper, BookMapper>();
 builder.Services.AddSingleton<IPublisherMapper, PublisherMapper>();
 builder.Services.AddSingleton<IAuthorMapper, AuthorMapper>();
+builder.Services.AddSingleton<IGenreMapper, GenreMapper>();
 
 var app = builder.Build();
 

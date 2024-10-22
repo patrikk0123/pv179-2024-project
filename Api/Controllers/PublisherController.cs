@@ -41,7 +41,11 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
             publisherMapper.ToModel(publisherDto)
         );
         await dBContext.SaveChangesAsync();
-        return Ok(publisherMapper.ToDto(createdPublisher.Entity));
+        return CreatedAtAction(
+            nameof(CreatePublisher),
+            new { publisherId = createdPublisher.Entity.Id },
+            publisherMapper.ToDto(createdPublisher.Entity)
+        );
     }
 
     [HttpPut]

@@ -25,6 +25,8 @@ public class BookHubDBContext : DbContext
 
     public DbSet<User> Users { get; set; }
 
+    public DbSet<Order> Orders { get; set; }
+
     public BookHubDBContext(DbContextOptions<BookHubDBContext> options)
         : base(options) { }
 

@@ -19,4 +19,8 @@ public class User : BaseEntity
     public required UserRole Role { get; set; }
 
     public virtual IEnumerable<Review>? Reviews { get; set; }
+
+    public virtual IEnumerable<Order>? Orders { get; set; }
+
+    public virtual IEnumerable<WishListItem>? WishListItems { get; set; }
 }

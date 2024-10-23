@@ -207,8 +207,21 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
             return NotFound();
         }
 
-        book.DeletedAt = DateTime.Now;
-        await dBContext.SaveChangesAsync();
+        using var transaction = await dBContext.Database.BeginTransactionAsync();
+        try
+        {
+            book.DeletedAt = DateTime.Now;
+            await dBContext
+                .Reviews.Where(review => review.BookId == bookId)
+                .ForEachAsync(review => review.DeletedAt = DateTime.Now);
+            await dBContext.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
 
         return NoContent();
     }

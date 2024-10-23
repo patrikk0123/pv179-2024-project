@@ -1,5 +1,6 @@
 using Api.DTOs.Author;
 using Api.DTOs.Book;
+using Api.DTOs.BookReview;
 using Api.DTOs.Genre;
 using Api.Mappers.Interfaces;
 using DAL.Models;
@@ -50,18 +51,44 @@ public class BookMapper : IBookMapper
                     GenreType = bookGenre.Genre.GenreType,
                 })
                 .ToList(),
+            Reviews = book
+                .Reviews.Select(review => new BookReviewDto()
+                {
+                    Id = review.Id,
+                    Rating = review.Rating,
+                    Body = review.Body,
+                    CreatedAt = review.CreatedAt,
+                    ReviewerName = review.User.Username,
+                    BookName = book.Name,
+                })
+                .ToList(),
         };
     }
 
-    public Book ToModel(CreateBookDto bookDto)
+    public Book ToModel(BookCreateDto dto)
     {
-        // todo: not implemented
-        throw new NotImplementedException();
+        return new Book()
+        {
+            Name = dto.Name,
+            ISBN = dto.ISBN,
+            Description = dto.Description,
+            PublishDate = DateOnly.Parse(dto.PublishDate),
+            Pages = dto.Pages,
+            Rating = dto.Rating,
+            Price = dto.Price,
+            PublisherId = dto.PublisherId,
+        };
     }
 
-    public void UpdateModel(Book book, UpdateBookDto bookDto)
+    public void UpdateModel(Book book, BookUpdateDto dto)
     {
-        // todo: not implemented
-        throw new NotImplementedException();
+        book.Name = dto.Name;
+        book.ISBN = dto.ISBN;
+        book.Description = dto.Description;
+        book.PublishDate = DateOnly.Parse(dto.PublishDate);
+        book.Pages = dto.Pages;
+        book.Rating = dto.Rating;
+        book.Price = dto.Price;
+        book.PublisherId = dto.PublisherId;
     }
 }

@@ -15,6 +15,9 @@ public class BookHubDBContext : DbContext
 {
     public DbSet<Book> Books { get; set; }
 
+    public DbSet<BookGenre> BookGenres { get; set; }
+
+    public DbSet<BookAuthor> BookAuthors { get; set; }
     public DbSet<Author> Authors { get; set; }
 
     public DbSet<Publisher> Publishers { get; set; }

@@ -39,4 +39,6 @@ public class Book : BaseEntity
     public virtual IEnumerable<BookAuthor>? BookAuthors { get; set; }
 
     public virtual IEnumerable<BookGenre>? BookGenres { get; set; }
+
+    public virtual IEnumerable<Review>? Reviews { get; set; }
 }

@@ -88,24 +88,23 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
             return NotFound();
         }
 
-        using var transaction = await dBContext.Database.BeginTransactionAsync();
+        await using var transaction = await dBContext.Database.BeginTransactionAsync();
         try
         {
-            var book = bookMapper.ToModel(bookDto);
-            dBContext.Books.Add(book);
+            var book = dBContext.Books.Add(bookMapper.ToModel(bookDto));
             await dBContext.SaveChangesAsync();
 
             dBContext.BookGenres.AddRange(
                 bookDto.GenreIds.Select(genreId => new BookGenre()
                 {
-                    BookId = book.Id,
+                    BookId = book.Entity.Id,
                     GenreId = genreId,
                 })
             );
             dBContext.BookAuthors.AddRange(
                 bookDto.AuthorIds.Select(authorId => new BookAuthor()
                 {
-                    BookId = book.Id,
+                    BookId = book.Entity.Id,
                     AuthorId = authorId,
                 })
             );
@@ -114,14 +113,14 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
             await transaction.CommitAsync();
             return CreatedAtAction(
                 nameof(GetSingleBook),
-                new { bookId = book.Id },
-                bookMapper.ToDetailDto(book)
+                new { bookId = book.Entity.Id },
+                bookMapper.ToDetailDto(book.Entity)
             );
         }
-        catch
+        catch (Exception e)
         {
             await transaction.RollbackAsync();
-            throw;
+            throw e;
         }
     }
 
@@ -188,7 +187,7 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
             await transaction.CommitAsync();
             return Ok(bookMapper.ToDetailDto(book));
         }
-        catch
+        catch (Exception)
         {
             await transaction.RollbackAsync();
             throw;
@@ -215,7 +214,7 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
             await dBContext.SaveChangesAsync();
             await transaction.CommitAsync();
         }
-        catch
+        catch (Exception)
         {
             await transaction.RollbackAsync();
             throw;

@@ -51,17 +51,20 @@ public class BookMapper : IBookMapper
                     GenreType = bookGenre.Genre.GenreType,
                 })
                 .ToList(),
-            Reviews = book
-                .Reviews.Select(review => new BookReviewDto()
-                {
-                    Id = review.Id,
-                    Rating = review.Rating,
-                    Body = review.Body,
-                    CreatedAt = review.CreatedAt,
-                    ReviewerName = review.User.Username,
-                    BookName = book.Name,
-                })
-                .ToList(),
+            Reviews =
+                book.Reviews != null
+                    ? book
+                        .Reviews.Select(review => new BookReviewDto()
+                        {
+                            Id = review.Id,
+                            Rating = review.Rating,
+                            Body = review.Body,
+                            CreatedAt = review.CreatedAt,
+                            ReviewerName = review.User.Username,
+                            BookName = book.Name,
+                        })
+                        .ToList()
+                    : [],
         };
     }
 

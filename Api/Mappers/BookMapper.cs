@@ -1,5 +1,6 @@
 using Api.DTOs.Author;
 using Api.DTOs.Book;
+using Api.DTOs.BookReview;
 using Api.DTOs.Genre;
 using Api.Mappers.Interfaces;
 using DAL.Models;
@@ -48,6 +49,17 @@ public class BookMapper : IBookMapper
                 .BookGenres.Select(bookGenre => new GenreDto()
                 {
                     GenreType = bookGenre.Genre.GenreType,
+                })
+                .ToList(),
+            Reviews = book
+                .Reviews.Select(review => new BookReviewDto()
+                {
+                    Id = review.Id,
+                    Rating = review.Rating,
+                    Body = review.Body,
+                    CreatedAt = review.CreatedAt,
+                    ReviewerName = review.User.Username,
+                    BookName = book.Name,
                 })
                 .ToList(),
         };

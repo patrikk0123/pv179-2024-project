@@ -53,15 +53,30 @@ public class BookMapper : IBookMapper
         };
     }
 
-    public Book ToModel(CreateBookDto bookDto)
+    public Book ToModel(BookCreateDto dto)
     {
-        // todo: not implemented
-        throw new NotImplementedException();
+        return new Book()
+        {
+            Name = dto.Name,
+            ISBN = dto.ISBN,
+            Description = dto.Description,
+            PublishDate = new DateOnly(),
+            Pages = dto.Pages,
+            Rating = dto.Rating,
+            Price = dto.Price,
+            PublisherId = dto.PublisherId,
+        };
     }
 
-    public void UpdateModel(Book book, UpdateBookDto bookDto)
+    public void UpdateModel(Book book, BookUpdateDto dto)
     {
-        // todo: not implemented
-        throw new NotImplementedException();
+        book.Name = dto.Name;
+        book.ISBN = dto.ISBN;
+        book.Description = dto.Description;
+        book.PublishDate = new DateOnly();
+        book.Pages = dto.Pages;
+        book.Rating = dto.Rating;
+        book.Price = dto.Price;
+        book.PublisherId = dto.PublisherId;
     }
 }

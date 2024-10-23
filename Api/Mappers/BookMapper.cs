@@ -72,7 +72,7 @@ public class BookMapper : IBookMapper
             Name = dto.Name,
             ISBN = dto.ISBN,
             Description = dto.Description,
-            PublishDate = new DateOnly(),
+            PublishDate = DateOnly.Parse(dto.PublishDate),
             Pages = dto.Pages,
             Rating = dto.Rating,
             Price = dto.Price,
@@ -85,7 +85,7 @@ public class BookMapper : IBookMapper
         book.Name = dto.Name;
         book.ISBN = dto.ISBN;
         book.Description = dto.Description;
-        book.PublishDate = new DateOnly();
+        book.PublishDate = DateOnly.Parse(dto.PublishDate);
         book.Pages = dto.Pages;
         book.Rating = dto.Rating;
         book.Price = dto.Price;

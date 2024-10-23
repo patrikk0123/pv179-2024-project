@@ -41,6 +41,7 @@ public class BookMapper : IBookMapper
             Authors = book
                 .BookAuthors.Select(bookAuthor => new AuthorDto()
                 {
+                    Id = bookAuthor.Author.Id,
                     Name = bookAuthor.Author.Name,
                     Surname = bookAuthor.Author.Surname,
                 })
@@ -48,20 +49,24 @@ public class BookMapper : IBookMapper
             Genres = book
                 .BookGenres.Select(bookGenre => new GenreDto()
                 {
+                    Id = bookGenre.Genre.Id,
                     GenreType = bookGenre.Genre.GenreType,
                 })
                 .ToList(),
-            Reviews = book
-                .Reviews.Select(review => new BookReviewDto()
-                {
-                    Id = review.Id,
-                    Rating = review.Rating,
-                    Body = review.Body,
-                    CreatedAt = review.CreatedAt,
-                    ReviewerName = review.User.Username,
-                    BookName = book.Name,
-                })
-                .ToList(),
+            Reviews =
+                book.Reviews != null
+                    ? book
+                        .Reviews.Select(review => new BookReviewDto()
+                        {
+                            Id = review.Id,
+                            Rating = review.Rating,
+                            Body = review.Body,
+                            CreatedAt = review.CreatedAt,
+                            ReviewerName = review.User.Username,
+                            BookName = book.Name,
+                        })
+                        .ToList()
+                    : [],
         };
     }
 

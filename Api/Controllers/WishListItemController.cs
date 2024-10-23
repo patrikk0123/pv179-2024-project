@@ -56,7 +56,7 @@ public class WishListItemController(
     }
 
     [HttpDelete]
-    [Route("{wishlistItemId}")]
+    [Route("{wishListItemId}")]
     public async Task<IActionResult> DeleteWishListItem(int wishListItemId)
     {
         var wishListItem = await dBContext.WishListItems.FindAsync(wishListItemId);

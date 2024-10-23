@@ -161,7 +161,6 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
         try
         {
             bookMapper.UpdateModel(book, bookDto);
-            await dBContext.SaveChangesAsync();
 
             dBContext.BookGenres.RemoveRange(
                 dBContext.BookGenres.Where(bookGenre => bookGenre.BookId == book.Id)
@@ -169,7 +168,6 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
             dBContext.BookAuthors.RemoveRange(
                 dBContext.BookAuthors.Where(bookAuthor => bookAuthor.BookId == book.Id)
             );
-            await dBContext.SaveChangesAsync();
 
             dBContext.BookGenres.AddRange(
                 bookDto.GenreIds.Select(genreId => new BookGenre()

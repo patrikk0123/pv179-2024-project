@@ -61,6 +61,9 @@ builder.Services.AddSingleton<IBookReviewMapper, BookReviewMapper>();
 builder.Services.AddSingleton<IPublisherMapper, PublisherMapper>();
 builder.Services.AddSingleton<IAuthorMapper, AuthorMapper>();
 builder.Services.AddSingleton<IGenreMapper, GenreMapper>();
+builder.Services.AddSingleton<IUserMapper, UserMapper>();
+builder.Services.AddSingleton<IWishListItemMapper, WishListItemMapper>();
+builder.Services.AddSingleton<IOrderMapper, OrderMapper>();
 
 var app = builder.Build();
 

@@ -41,6 +41,7 @@ public class BookMapper : IBookMapper
             Authors = book
                 .BookAuthors.Select(bookAuthor => new AuthorDto()
                 {
+                    Id = bookAuthor.Author.Id,
                     Name = bookAuthor.Author.Name,
                     Surname = bookAuthor.Author.Surname,
                 })
@@ -48,6 +49,7 @@ public class BookMapper : IBookMapper
             Genres = book
                 .BookGenres.Select(bookGenre => new GenreDto()
                 {
+                    Id = bookGenre.Genre.Id,
                     GenreType = bookGenre.Genre.GenreType,
                 })
                 .ToList(),

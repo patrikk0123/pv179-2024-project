@@ -60,6 +60,7 @@ public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMa
     }
 
     [HttpPut]
+    [Route("{authorId}")]
     public async Task<IActionResult> UpdateSingleAuthor(
         int authorId,
         [FromBody] AuthorUpdateDto authorDto

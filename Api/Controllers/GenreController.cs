@@ -12,7 +12,6 @@ namespace Api.Controllers;
 public class GenreController(BookHubDBContext dBContext, IGenreMapper genreMapper) : Controller
 {
     [HttpGet]
-    [Route("")]
     public async Task<IActionResult> GetAllGenres([FromQuery] string? genreType)
     {
         var genres = await dBContext
@@ -40,7 +39,6 @@ public class GenreController(BookHubDBContext dBContext, IGenreMapper genreMappe
     }
 
     [HttpPost]
-    [Route("")]
     public async Task<IActionResult> CreateSingleGenre([FromBody] GenreCreateDto genreCreateDto)
     {
         var genre = await dBContext.Genres.AddAsync(genreMapper.ToModel(genreCreateDto));

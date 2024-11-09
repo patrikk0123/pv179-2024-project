@@ -12,7 +12,6 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
     : Controller
 {
     [HttpGet]
-    [Route("")]
     public async Task<IActionResult> GetAllPublisher()
     {
         var publishers = await dBContext.Publishers.ToListAsync();
@@ -34,7 +33,6 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
     }
 
     [HttpPost]
-    [Route("")]
     public async Task<IActionResult> CreatePublisher([FromBody] PublisherCreateDto dto)
     {
         var createdPublisher = await dBContext.Publishers.AddAsync(publisherMapper.ToModel(dto));

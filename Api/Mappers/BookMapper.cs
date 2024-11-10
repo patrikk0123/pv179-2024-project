@@ -1,3 +1,4 @@
+using System.Globalization;
 using Api.DTOs.Author;
 using Api.DTOs.Book;
 using Api.DTOs.BookReview;
@@ -77,7 +78,7 @@ public class BookMapper : IBookMapper
             Name = dto.Name,
             ISBN = dto.ISBN,
             Description = dto.Description,
-            PublishDate = DateOnly.Parse(dto.PublishDate),
+            PublishDate = DateOnly.Parse(dto.PublishDate, CultureInfo.InvariantCulture),
             Pages = dto.Pages,
             Rating = dto.Rating,
             Price = dto.Price,
@@ -90,7 +91,7 @@ public class BookMapper : IBookMapper
         book.Name = dto.Name;
         book.ISBN = dto.ISBN;
         book.Description = dto.Description;
-        book.PublishDate = DateOnly.Parse(dto.PublishDate);
+        book.PublishDate = DateOnly.Parse(dto.PublishDate, CultureInfo.InvariantCulture);
         book.Pages = dto.Pages;
         book.Rating = dto.Rating;
         book.Price = dto.Price;

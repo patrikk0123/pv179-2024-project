@@ -4,4 +4,4 @@ using DAL.Models;
 namespace Api.Mappers.Interfaces;
 
 public interface IBookMapper
-    : IEntityMapper<Book, BookDto, BookDetailDto, BookCreateDto, BookUpdateDto> { }
+    : IEntityMapper<Book, BookDto, BookDetailDto, BookCreateDto, BookUpdateDto>;

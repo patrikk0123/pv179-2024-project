@@ -4,4 +4,4 @@ using DAL.Models;
 namespace Api.Mappers.Interfaces;
 
 public interface IUserMapper
-    : IEntityMapper<User, UserDto, UserDetailDto, UserCreateDto, UserUpdateDto> { }
+    : IEntityMapper<User, UserDto, UserDetailDto, UserCreateDto, UserUpdateDto>;

@@ -10,4 +10,4 @@ public interface IPublisherMapper
         PublisherDetailDto,
         PublisherCreateDto,
         PublisherUpdateDto
-    > { }
+    >;

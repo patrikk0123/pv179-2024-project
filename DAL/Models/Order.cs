@@ -9,7 +9,7 @@ public class Order : BaseEntity
     public int UserId { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public virtual User? user { get; set; }
+    public virtual User? User { get; set; }
 
     public virtual IEnumerable<OrderItem>? OrderItems { get; set; }
 }

@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.Models;
+﻿using DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace DAL.Data;
 
-public class BookHubDBContext : DbContext
+public class BookHubDBContext(DbContextOptions<BookHubDBContext> options) : DbContext(options)
 {
     public DbSet<Book> Books { get; set; }
 
@@ -31,9 +23,6 @@ public class BookHubDBContext : DbContext
     public DbSet<WishListItem> WishListItems { get; set; }
 
     public DbSet<Order> Orders { get; set; }
-
-    public BookHubDBContext(DbContextOptions<BookHubDBContext> options)
-        : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

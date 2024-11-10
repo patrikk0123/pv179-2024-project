@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Api.DTOs.Order;
+﻿using Api.DTOs.Order;
 using Api.Mappers.Interfaces;
 using DAL.Data;
 using DAL.Models;
@@ -17,7 +16,7 @@ public class OrderController(BookHubDBContext dBContext, IOrderMapper orderMappe
     {
         var orders = await dBContext.Orders.ToListAsync();
 
-        return Ok(orders.Select(order => orderMapper.ToDto(order)));
+        return Ok(orders.Select(orderMapper.ToDto));
     }
 
     [HttpGet]
@@ -37,10 +36,10 @@ public class OrderController(BookHubDBContext dBContext, IOrderMapper orderMappe
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto orderDto)
     {
-        using var transaction = await dBContext.Database.BeginTransactionAsync();
+        await using var transaction = await dBContext.Database.BeginTransactionAsync();
         try
         {
-            var bookIds = orderDto.OrderItems.Select(oi => oi.BookId).ToList();
+            var bookIds = orderDto.OrderItems.ConvertAll(oi => oi.BookId);
 
             var anyMissing =
                 await dBContext.Books.Where(b => bookIds.Contains(b.Id)).CountAsync()
@@ -51,13 +50,11 @@ public class OrderController(BookHubDBContext dBContext, IOrderMapper orderMappe
                 return BadRequest("One or more books do not exist.");
             }
 
-            var totalPrice = orderDto
-                .OrderItems.Select(oi =>
-                    dBContext.Books.First(b => b.Id == oi.BookId).Price * oi.Quantity
-                )
-                .Sum();
+            var totalPrice = orderDto.OrderItems.Sum(oi =>
+                dBContext.Books.First(b => b.Id == oi.BookId).Price * oi.Quantity
+            );
 
-            var userId = 1; // TODO: Get the user ID from the JWT token
+            const int userId = 1; // TODO: Get the user ID from the JWT token
 
             var order = new Order { UserId = userId, TotalPrice = totalPrice };
 
@@ -65,15 +62,13 @@ public class OrderController(BookHubDBContext dBContext, IOrderMapper orderMappe
 
             await dBContext.SaveChangesAsync();
 
-            order.OrderItems = orderDto
-                .OrderItems.Select(oi => new OrderItem
-                {
-                    OrderId = order.Id,
-                    BookId = oi.BookId,
-                    Quantity = oi.Quantity,
-                    PricePerItem = dBContext.Books.First(b => b.Id == oi.BookId).Price,
-                })
-                .ToList();
+            order.OrderItems = orderDto.OrderItems.ConvertAll(oi => new OrderItem
+            {
+                OrderId = order.Id,
+                BookId = oi.BookId,
+                Quantity = oi.Quantity,
+                PricePerItem = dBContext.Books.First(b => b.Id == oi.BookId).Price,
+            });
 
             await dBContext.SaveChangesAsync();
 

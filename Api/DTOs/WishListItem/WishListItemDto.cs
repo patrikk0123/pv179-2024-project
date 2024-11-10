@@ -1,5 +1,4 @@
-﻿using Api.DTOs.Book;
-using Api.DTOs.Interfaces;
+﻿using Api.DTOs.Interfaces;
 
 namespace Api.DTOs.WishListItem;
 

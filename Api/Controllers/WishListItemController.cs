@@ -1,6 +1,4 @@
-﻿using Api.DTOs.Author;
-using Api.DTOs.WishListItem;
-using Api.Mappers;
+﻿using Api.DTOs.WishListItem;
 using Api.Mappers.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;

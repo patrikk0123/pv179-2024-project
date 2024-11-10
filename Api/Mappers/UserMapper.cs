@@ -29,11 +29,9 @@ public class UserMapper(
             Username = model.Username,
             Email = model.Email,
             Role = model.Role,
-            BookReviews = model.Reviews.Select(review => bookReviewMapper.ToDto(review)).ToList(),
-            Orders = model.Orders.Select(order => orderMapper.ToDto(order)).ToList(),
-            WishListItems = model
-                .WishListItems.Select(wli => wishListItemMapper.ToDto(wli))
-                .ToList(),
+            BookReviews = model.Reviews.Select(bookReviewMapper.ToDto).ToList(),
+            Orders = model.Orders.Select(orderMapper.ToDto).ToList(),
+            WishListItems = model.WishListItems.Select(wishListItemMapper.ToDto).ToList(),
         };
     }
 

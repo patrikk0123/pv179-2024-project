@@ -1,7 +1,6 @@
 ﻿using Api.DTOs.Order;
 using Api.DTOs.OrderItem;
 using Api.Mappers.Interfaces;
-using DAL.Data;
 using DAL.Models;
 
 namespace Api.Mappers;
@@ -42,8 +41,5 @@ public class OrderMapper(IBookMapper bookMapper) : IOrderMapper
         return new Order();
     }
 
-    public void UpdateModel(Order model, OrderUpdateDto updateDto)
-    {
-        return;
-    }
+    public void UpdateModel(Order model, OrderUpdateDto updateDto) { }
 }

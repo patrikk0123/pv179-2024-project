@@ -1,6 +1,4 @@
-﻿using Api.DTOs.BookReview;
-using Api.DTOs.User;
-using Api.Mappers;
+﻿using Api.DTOs.User;
 using Api.Mappers.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +15,7 @@ public class UserController(BookHubDBContext dBContext, IUserMapper userMapper) 
     {
         var reviews = await dBContext.Users.ToListAsync();
 
-        return Ok(reviews.Select(u => userMapper.ToDto(u)));
+        return Ok(reviews.Select(userMapper.ToDto));
     }
 
     [HttpGet]

@@ -1,4 +1,3 @@
-using Api.DTOs.Book;
 using Api.DTOs.BookReview;
 using DAL.Models;
 
@@ -11,4 +10,4 @@ public interface IBookReviewMapper
         BookReviewDetailDto,
         BookReviewCreateDto,
         BookReviewUpdateDto
-    > { }
+    >;

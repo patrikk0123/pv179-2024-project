@@ -12,6 +12,7 @@ public class UserUpdateDto
     public required string Password { get; init; }
 
     [Required]
+    [EmailAddress]
     public required string Email { get; init; }
 
     [Required]

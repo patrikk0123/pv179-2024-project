@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
+[ApiController]
 [Route("/books/{bookId}/reviews")]
 public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper bookReviewMapper)
     : Controller
 {
     [HttpGet]
-    [Route("")]
     public async Task<IActionResult> GetAllReviews([FromRoute] int bookId)
     {
         var reviews = await dBContext.Reviews.Where(r => r.BookId == bookId).ToListAsync();
@@ -39,17 +39,11 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
     }
 
     [HttpPost]
-    [Route("")]
     public async Task<IActionResult> AddReview(
         [FromRoute] int bookId,
         [FromBody] BookReviewCreateDto reviewDto
     )
     {
-        if (!ValidateReview(reviewDto.Rating))
-        {
-            return BadRequest(ModelState);
-        }
-
         var book = await dBContext.Books.FindAsync(bookId);
         if (book == null)
         {
@@ -85,11 +79,6 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         [FromBody] BookReviewUpdateDto reviewDto
     )
     {
-        if (!ValidateReview(reviewDto.Rating))
-        {
-            return BadRequest(ModelState);
-        }
-
         var review = await dBContext.Reviews.FirstOrDefaultAsync(r =>
             r.Id == reviewId && r.BookId == bookId
         );
@@ -122,15 +111,5 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         await dBContext.SaveChangesAsync();
 
         return Ok(bookReviewMapper.ToDto(review));
-    }
-
-    private bool ValidateReview(int rating)
-    {
-        if (rating < 1 || rating > 5)
-        {
-            ModelState.AddModelError("Rating", "Rating must be between 1 and 5");
-        }
-
-        return ModelState.IsValid;
     }
 }

@@ -13,7 +13,6 @@ namespace Api.Controllers;
 public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMapper) : Controller
 {
     [HttpGet]
-    [Route("")]
     public async Task<IActionResult> GetALlAuthors(
         [FromQuery] string? name,
         [FromQuery] string? surname
@@ -48,7 +47,6 @@ public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMa
     }
 
     [HttpPost]
-    [Route("")]
     public async Task<IActionResult> CreateSingleAuthor([FromBody] AuthorCreateDto authorDto)
     {
         var author = await dBContext.Authors.AddAsync(authorMapper.ToModel(authorDto));

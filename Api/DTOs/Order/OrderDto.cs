@@ -4,6 +4,6 @@ namespace Api.DTOs.Order;
 
 public class OrderDto : BaseDto
 {
-    public required int UserId { get; set; }
-    public required double TotalPrice { get; set; }
+    public required int UserId { get; init; }
+    public required double TotalPrice { get; init; }
 }

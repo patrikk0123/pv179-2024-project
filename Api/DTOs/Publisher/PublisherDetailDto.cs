@@ -4,5 +4,5 @@ namespace Api.DTOs.Publisher;
 
 public class PublisherDetailDto : PublisherDto
 {
-    public IEnumerable<BookDto> Books { get; init; } = [];
+    public required IEnumerable<BookDto> Books { get; init; } = [];
 }

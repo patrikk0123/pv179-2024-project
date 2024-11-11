@@ -5,7 +5,7 @@ namespace Api.DTOs.OrderItem;
 
 public class OrderItemDto : BaseDto
 {
-    public required BookDto Book { get; set; }
-    public required int Quantity { get; set; }
-    public required double Price { get; set; }
+    public required BookDto Book { get; init; }
+    public required int Quantity { get; init; }
+    public required double Price { get; init; }
 }

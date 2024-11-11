@@ -5,8 +5,8 @@ namespace Api.DTOs.BookReview;
 public class BookReviewCreateDto
 {
     [Required]
-    public String Body { get; set; }
+    public required String Body { get; init; }
 
     [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
-    public Int32 Rating { get; set; }
+    public required Int32 Rating { get; init; }
 }

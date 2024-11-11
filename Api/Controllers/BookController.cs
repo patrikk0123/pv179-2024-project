@@ -117,7 +117,7 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
                 bookMapper.ToDetailDto(book.Entity)
             );
         }
-        catch (Exception e)
+        catch (Exception)
         {
             await transaction.RollbackAsync();
             throw;

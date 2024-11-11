@@ -1,5 +1,4 @@
 using Api.DTOs.Author;
-using Api.DTOs.Book;
 using Api.Mappers.Interfaces;
 using DAL.Models;
 

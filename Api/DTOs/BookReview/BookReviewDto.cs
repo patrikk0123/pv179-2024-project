@@ -4,13 +4,13 @@ namespace Api.DTOs.BookReview;
 
 public class BookReviewDto : BaseDto
 {
-    public String BookName { get; set; }
+    public required String BookName { get; init; }
 
-    public String ReviewerName { get; set; }
+    public required String ReviewerName { get; init; }
 
-    public String Body { get; set; }
+    public required String Body { get; init; }
 
-    public Int32 Rating { get; set; }
+    public required Int32 Rating { get; init; }
 
-    public DateTime CreatedAt { get; set; }
+    public required DateTime CreatedAt { get; init; }
 }

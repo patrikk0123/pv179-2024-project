@@ -31,17 +31,14 @@ public static class DataInitializer
 
     private static List<Publisher> PreparePublisherModels()
     {
-        return new List<Publisher>()
-        {
-            new Publisher() { Id = 1, Name = "Booklord ABC" },
-        };
+        return [new() { Id = 1, Name = "Booklord ABC" }];
     }
 
     private static List<Book> PrepareBookModels()
     {
-        return new List<Book>()
-        {
-            new Book()
+        return
+        [
+            new()
             {
                 Id = 1,
                 Name = "Cesta do neznáma",
@@ -53,7 +50,7 @@ public static class DataInitializer
                 Price = 10.0,
                 PublisherId = 1,
             },
-            new Book()
+            new()
             {
                 Id = 2,
                 Name = "Hadí princezna a 102 psů",
@@ -65,20 +62,20 @@ public static class DataInitializer
                 Price = 30.0,
                 PublisherId = 1,
             },
-        };
+        ];
     }
 
     private static List<Author> PrepareAuthorModels()
     {
-        return new List<Author>()
-        {
-            new Author()
+        return
+        [
+            new()
             {
                 Id = 1,
                 Name = "Ronald",
                 Surname = "Kingson",
             },
-            new Author()
+            new()
             {
                 Id = 2,
                 Name = "Richard",
@@ -90,33 +87,33 @@ public static class DataInitializer
                 Name = "William",
                 Surname = "Jerk",
             },
-        };
+        ];
     }
 
     private static List<BookAuthor> PrepareBookAuthorModels()
     {
-        return new List<BookAuthor>()
-        {
-            new BookAuthor()
+        return
+        [
+            new()
             {
                 Id = 1,
                 BookId = 1,
                 AuthorId = 1,
             },
-            new BookAuthor()
+            new()
             {
                 Id = 2,
                 BookId = 2,
                 AuthorId = 2,
             },
-        };
+        ];
     }
 
     private static List<User> PrepareUserModels()
     {
-        return new List<User>()
-        {
-            new User()
+        return
+        [
+            new()
             {
                 Id = 1,
                 Username = "johnmotika335",
@@ -124,7 +121,7 @@ public static class DataInitializer
                 Email = "john335@muni.com",
                 Role = UserRole.Admin,
             },
-            new User()
+            new()
             {
                 Id = 2,
                 Username = "kvalitnipolevka90",
@@ -132,7 +129,7 @@ public static class DataInitializer
                 Email = "john335@muni.com",
                 Role = UserRole.User,
             },
-            new User()
+            new()
             {
                 Id = 3,
                 Username = "flameboi22",
@@ -140,14 +137,14 @@ public static class DataInitializer
                 Email = "john335@muni.com",
                 Role = UserRole.User,
             },
-        };
+        ];
     }
 
     private static List<Review> PrepareReviewModels()
     {
-        return new List<Review>()
-        {
-            new Review()
+        return
+        [
+            new()
             {
                 Id = 1,
                 UserId = 1,
@@ -155,7 +152,7 @@ public static class DataInitializer
                 Rating = 4,
                 Body = "Great book, I loved it!",
             },
-            new Review()
+            new()
             {
                 Id = 2,
                 UserId = 1,
@@ -163,7 +160,7 @@ public static class DataInitializer
                 Rating = 2,
                 Body = "I didn't like it at all.",
             },
-            new Review()
+            new()
             {
                 Id = 3,
                 UserId = 2,
@@ -172,7 +169,7 @@ public static class DataInitializer
                 Body = "I hated it.",
                 EditedAt = DateTime.Now - TimeSpan.FromDays(2),
             },
-            new Review()
+            new()
             {
                 Id = 4,
                 UserId = 3,
@@ -181,93 +178,93 @@ public static class DataInitializer
                 Body = "Was great!",
                 DeletedAt = DateTime.Now - TimeSpan.FromDays(3),
             },
-        };
+        ];
     }
 
     private static List<Genre> PrepareGenreModels()
     {
-        return new List<Genre>()
-        {
-            new Genre() { Id = 1, GenreType = "Fantasy" },
-            new Genre() { Id = 2, GenreType = "Horror" },
-            new Genre() { Id = 3, GenreType = "Sci-fi" },
-        };
+        return
+        [
+            new() { Id = 1, GenreType = "Fantasy" },
+            new() { Id = 2, GenreType = "Horror" },
+            new() { Id = 3, GenreType = "Sci-fi" },
+        ];
     }
 
     private static List<BookGenre> PrepareBookGenreModels()
     {
-        return new List<BookGenre>()
-        {
-            new BookGenre()
+        return
+        [
+            new()
             {
                 Id = 1,
                 BookId = 1,
                 GenreId = 1,
             },
-            new BookGenre()
+            new()
             {
                 Id = 2,
                 BookId = 2,
                 GenreId = 2,
             },
-            new BookGenre()
+            new()
             {
                 Id = 3,
                 BookId = 2,
                 GenreId = 3,
             },
-        };
+        ];
     }
 
     private static List<WishListItem> PrepareWishListItems()
     {
-        return new List<WishListItem>()
-        {
-            new WishListItem()
+        return
+        [
+            new()
             {
                 Id = 1,
                 UserId = 1,
                 BookId = 1,
             },
-            new WishListItem()
+            new()
             {
                 Id = 2,
                 UserId = 1,
                 BookId = 2,
             },
-            new WishListItem()
+            new()
             {
                 Id = 3,
                 UserId = 2,
                 BookId = 2,
             },
-        };
+        ];
     }
 
     private static List<Order> PrepareOrders()
     {
-        return new List<Order>()
-        {
-            new Order()
+        return
+        [
+            new()
             {
                 Id = 1,
                 TotalPrice = 40.0,
                 UserId = 1,
             },
-            new Order()
+            new()
             {
                 Id = 2,
                 TotalPrice = 30.0,
                 UserId = 2,
             },
-        };
+        ];
     }
 
     private static List<OrderItem> PrepareOrdersItem()
     {
-        return new List<OrderItem>()
-        {
-            new OrderItem()
+        return
+        [
+            new()
             {
                 Id = 1,
                 OrderId = 1,
@@ -275,7 +272,7 @@ public static class DataInitializer
                 Quantity = 4,
                 PricePerItem = 10.0,
             },
-            new OrderItem()
+            new()
             {
                 Id = 2,
                 OrderId = 2,
@@ -283,6 +280,6 @@ public static class DataInitializer
                 Quantity = 1,
                 PricePerItem = 30.0,
             },
-        };
+        ];
     }
 }

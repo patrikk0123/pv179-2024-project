@@ -1,3 +1,3 @@
 ﻿namespace Api.DTOs.WishListItem;
 
-public class WishListItemUpdateDto { }
+public class WishListItemUpdateDto;

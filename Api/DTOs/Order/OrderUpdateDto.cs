@@ -1,3 +1,3 @@
 ﻿namespace Api.DTOs.Order;
 
-public class OrderUpdateDto { }
+public class OrderUpdateDto;

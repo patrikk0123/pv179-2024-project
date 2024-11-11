@@ -4,5 +4,5 @@ namespace Api.DTOs.Order;
 
 public class OrderCreateDto
 {
-    public List<OrderItemCreateDto> OrderItems { get; set; }
+    public required List<OrderItemCreateDto> OrderItems { get; init; }
 }

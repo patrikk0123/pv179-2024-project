@@ -16,7 +16,7 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
     {
         var publishers = await dBContext.Publishers.ToListAsync();
 
-        return Ok(publishers.Select(publisher => publisherMapper.ToDto(publisher)));
+        return Ok(publishers.Select(publisherMapper.ToDto));
     }
 
     [HttpGet]

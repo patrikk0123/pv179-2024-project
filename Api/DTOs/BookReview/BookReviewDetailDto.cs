@@ -1,3 +1,3 @@
 namespace Api.DTOs.BookReview;
 
-public class BookReviewDetailDto : BookReviewDto { }
+public class BookReviewDetailDto : BookReviewDto;

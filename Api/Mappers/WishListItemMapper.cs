@@ -34,8 +34,5 @@ public class WishListItemMapper(IBookMapper bookMapper) : IWishListItemMapper
         return new WishListItem() { BookId = dto.BookId, UserId = dto.UserId };
     }
 
-    public void UpdateModel(WishListItem model, WishListItemUpdateDto updateDto)
-    {
-        return;
-    }
+    public void UpdateModel(WishListItem model, WishListItemUpdateDto updateDto) { }
 }

@@ -117,10 +117,10 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
                 bookMapper.ToDetailDto(book.Entity)
             );
         }
-        catch (Exception e)
+        catch (Exception)
         {
             await transaction.RollbackAsync();
-            throw e;
+            throw;
         }
     }
 
@@ -156,7 +156,7 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
             return NotFound();
         }
 
-        using var transaction = await dBContext.Database.BeginTransactionAsync();
+        await using var transaction = await dBContext.Database.BeginTransactionAsync();
         try
         {
             bookMapper.UpdateModel(book, bookDto);
@@ -204,7 +204,7 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
             return NotFound();
         }
 
-        using var transaction = await dBContext.Database.BeginTransactionAsync();
+        await using var transaction = await dBContext.Database.BeginTransactionAsync();
         try
         {
             book.DeletedAt = DateTime.Now;

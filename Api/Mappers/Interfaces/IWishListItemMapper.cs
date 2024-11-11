@@ -10,4 +10,4 @@ public interface IWishListItemMapper
         WishListItemDetailDto,
         WishListItemCreateDto,
         WishListItemUpdateDto
-    > { }
+    >;

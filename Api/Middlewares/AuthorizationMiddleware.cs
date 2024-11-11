@@ -46,15 +46,17 @@ public class AuthorizationMiddleware(
         var header = context.Request.Headers["Authorization"].ToString();
         if (!header.StartsWith("Bearer ", StringComparison.CurrentCulture))
         {
-            logger.LogError("wrong format: '{header}'", header);
+            logger.LogError("wrong format: '{Header}'", header);
             return false;
         }
         var token = header[7..];
-        var authenticated = token.Equals(configuration.GetSection("Authorization:Token").Value!);
+        var authenticated = String
+            .CompareOrdinal(token, configuration.GetSection("Authorization:Token").Value)
+            .Equals(0);
 
         if (!authenticated)
         {
-            logger.LogError("invalid token: '{token}'", token);
+            logger.LogError("invalid token: '{Token}'", token);
         }
 
         return authenticated;

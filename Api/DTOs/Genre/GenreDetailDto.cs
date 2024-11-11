@@ -4,5 +4,5 @@ namespace Api.DTOs.Genre;
 
 public class GenreDetailDto : GenreDto
 {
-    public IEnumerable<BookDto> Books { get; init; } = [];
+    public required IEnumerable<BookDto> Books { get; init; } = [];
 }

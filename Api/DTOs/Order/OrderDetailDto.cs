@@ -4,5 +4,5 @@ namespace Api.DTOs.Order;
 
 public class OrderDetailDto : OrderDto
 {
-    public required List<OrderItemDto> OrderItems { get; set; }
+    public required List<OrderItemDto> OrderItems { get; init; }
 }

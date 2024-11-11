@@ -2,7 +2,6 @@ using Api.DTOs.Author;
 using Api.Mappers.Interfaces;
 using DAL.Data;
 using DAL.Extensions;
-using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

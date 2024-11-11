@@ -16,7 +16,7 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
     {
         var reviews = await dBContext.Reviews.Where(r => r.BookId == bookId).ToListAsync();
 
-        return Ok(reviews.Select(r => bookReviewMapper.ToDto(r)));
+        return Ok(reviews.Select(bookReviewMapper.ToDto));
     }
 
     [HttpGet]
@@ -50,7 +50,7 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
             return NotFound();
         }
 
-        var userId = 1;
+        const int userId = 1;
         var user = await dBContext.Users.FindAsync(userId); // TODO: Get the user ID from the JWT token
         if (user == null)
         {
@@ -66,7 +66,7 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
 
         return CreatedAtAction(
             nameof(GetSingleReview),
-            new { bookId = bookId, reviewId = createdReview.Entity.Id },
+            new { bookId, reviewId = createdReview.Entity.Id },
             bookReviewMapper.ToDto(createdReview.Entity)
         );
     }

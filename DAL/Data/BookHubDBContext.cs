@@ -1,4 +1,5 @@
 ﻿using DAL.Models;
+using DAL.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Data;
@@ -19,6 +20,8 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options) : DbCo
     public DbSet<Genre> Genres { get; set; }
 
     public DbSet<User> Users { get; set; }
+
+    public DbSet<LocalIdentityUser> LocalIdentityUsers { get; set; }
 
     public DbSet<WishListItem> WishListItems { get; set; }
 

@@ -1,4 +1,6 @@
 using DAL.Data;
+using DAL.Models.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,23 @@ builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
 );
 
 builder.Services.AddDbContext<BookHubDBContext>();
+
+builder
+    .Services.AddIdentity<LocalIdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<BookHubDBContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+});
+
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
 
 var app = builder.Build();
 

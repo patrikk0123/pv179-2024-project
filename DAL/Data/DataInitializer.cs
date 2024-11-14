@@ -133,7 +133,6 @@ public static class DataInitializer
             {
                 Id = 1,
                 Username = "johnmotika335",
-                Password = "123456",
                 Email = "john335@muni.com",
                 Role = UserRole.Admin,
             },
@@ -141,7 +140,6 @@ public static class DataInitializer
             {
                 Id = 2,
                 Username = "kvalitnipolevka90",
-                Password = "212121",
                 Email = "john335@muni.com",
                 Role = UserRole.User,
             },
@@ -149,7 +147,6 @@ public static class DataInitializer
             {
                 Id = 3,
                 Username = "flameboi22",
-                Password = "432343",
                 Email = "john335@muni.com",
                 Role = UserRole.User,
             },

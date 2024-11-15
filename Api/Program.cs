@@ -93,4 +93,5 @@ app.MapControllers();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<AuthorizationMiddleware>();
+app.UseMiddleware<OutputFormatMiddleware>();
 app.Run();

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Bogus;
+﻿using Bogus;
 using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,10 +48,10 @@ public static class DataInitializer
     {
         var publisherIds = 1;
         var testPublisher = new Faker<Publisher>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => publisherIds++)
             .RuleFor(o => o.Name, f => f.Company.CompanyName())
-            // .RuleFor(o => o.Books, _ => [])
+            .RuleFor(o => o.Books, _ => [])
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -64,7 +63,7 @@ public static class DataInitializer
     {
         var bookId = 1;
         var testBooks = new Faker<Book>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => bookId++)
             .RuleFor(o => o.Name, f => f.Random.String(10, 40))
             .RuleFor(o => o.Description, f => f.Lorem.Random.String(10, 100))
@@ -74,11 +73,11 @@ public static class DataInitializer
             .RuleFor(o => o.Rating, f => f.Random.Double(1, 5))
             .RuleFor(o => o.Price, f => f.Random.Double(1, 100))
             .RuleFor(o => o.PublisherId, f => f.Random.Int(1, 2))
-            .RuleFor(o => o.PreviewImageId, (_, b) => b.Id == 1 ? "1849645247" : null)
-            // .RuleFor(o => o.Publisher, _ => null)
-            // .RuleFor(o => o.BookAuthors, _ => [])
-            // .RuleFor(o => o.BookGenres, _ => [])
-            // .RuleFor(o => o.Reviews, _ => [])
+            .RuleFor(o => o.PreviewImageId, (_, _) => "1849645247")
+            .RuleFor(o => o.Publisher, _ => null)
+            .RuleFor(o => o.BookAuthors, _ => [])
+            .RuleFor(o => o.BookGenres, _ => [])
+            .RuleFor(o => o.Reviews, _ => [])
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -103,11 +102,11 @@ public static class DataInitializer
     {
         var authorId = 1;
         var testAuthors = new Faker<Author>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => authorId++)
             .RuleFor(o => o.Name, f => f.Name.FirstName())
             .RuleFor(o => o.Surname, f => f.Name.LastName())
-            //.RuleFor(o => o.BookAuthors, _ => [])
+            .RuleFor(o => o.BookAuthors, _ => [])
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -120,12 +119,12 @@ public static class DataInitializer
         var bookAuthorId = 1;
         var bookId = 1;
         var testsBookAuthors = new Faker<BookAuthor>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => bookAuthorId++)
             .RuleFor(o => o.BookId, _ => bookId++)
             .RuleFor(o => o.AuthorId, f => f.Random.Int(1, AuthorCount))
-            //.RuleFor(o => o.Book, _ => null)
-            //.RuleFor(o => o.Author, _ => null)
+            .RuleFor(o => o.Book, _ => null)
+            .RuleFor(o => o.Author, _ => null)
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -137,15 +136,15 @@ public static class DataInitializer
     {
         var userId = 1;
         var testUsers = new Faker<User>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => userId++)
             .RuleFor(o => o.Username, f => f.Internet.UserName())
             .RuleFor(o => o.Password, _ => "heslo123")
             .RuleFor(o => o.Email, f => f.Internet.Email())
             .RuleFor(o => o.Role, f => f.PickRandom<UserRole>())
             .RuleFor(o => o.WishListItems, _ => [])
-            //.RuleFor(o => o.Orders, _ => [])
-            //.RuleFor(o => o.Reviews, _ => [])
+            .RuleFor(o => o.Orders, _ => [])
+            .RuleFor(o => o.Reviews, _ => [])
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -157,14 +156,14 @@ public static class DataInitializer
     {
         var reviewId = 1;
         var testReviews = new Faker<Review>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => reviewId++)
             .RuleFor(o => o.UserId, f => f.Random.Int(1, UserCount))
             .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
             .RuleFor(o => o.Rating, f => f.Random.Int(1, 5))
             .RuleFor(o => o.Body, f => f.Lorem.Random.String(10, 100))
-            //.RuleFor(o => o.User, _ => null)
-            //.RuleFor(o => o.Book, _ => null)
+            .RuleFor(o => o.User, _ => null)
+            .RuleFor(o => o.Book, _ => null)
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -176,10 +175,10 @@ public static class DataInitializer
     {
         var genreId = 1;
         var testGenres = new Faker<Genre>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => genreId++)
             .RuleFor(o => o.GenreType, f => f.PickRandom("Fantasy", "Horror", "Sci-fi", "Romance"))
-            //.RuleFor(o => o.BookGenres, _ => [])
+            .RuleFor(o => o.BookGenres, _ => [])
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -192,12 +191,12 @@ public static class DataInitializer
         var bookGenreId = 1;
         var bookId = 1;
         var testBookGenres = new Faker<BookGenre>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => bookGenreId++)
             .RuleFor(o => o.BookId, _ => bookId++)
             .RuleFor(o => o.GenreId, f => f.Random.Int(1, GenreCount))
-            //.RuleFor(o => o.Book, _ => null)
-            //.RuleFor(o => o.Genre, _ => null)
+            .RuleFor(o => o.Book, _ => null)
+            .RuleFor(o => o.Genre, _ => null)
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -209,12 +208,12 @@ public static class DataInitializer
     {
         var wishListItemId = 1;
         var testWishListItems = new Faker<WishListItem>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => wishListItemId++)
             .RuleFor(o => o.UserId, f => f.Random.Int(1, UserCount))
             .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
-            //.RuleFor(o => o.Book, _ => null!)
-            //.RuleFor(o => o.User, _ => null)
+            .RuleFor(o => o.Book, _ => null!)
+            .RuleFor(o => o.User, _ => null)
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -226,7 +225,7 @@ public static class DataInitializer
     {
         var orderId = 1;
         var testOrders = new Faker<Order>()
-            //.StrictMode(true)
+            .StrictMode(true)
             .RuleFor(o => o.Id, _ => orderId++)
             .RuleFor(
                 o => o.TotalPrice,
@@ -236,8 +235,8 @@ public static class DataInitializer
                         .Sum(oi => oi.PricePerItem * oi.Quantity)
             )
             .RuleFor(o => o.UserId, f => f.Random.Int(1, UserCount))
-            //.RuleFor(o => o.User, _ => null!)
-            //.RuleFor(o => o.OrderItems, _ => null!)
+            .RuleFor(o => o.User, _ => null!)
+            .RuleFor(o => o.OrderItems, _ => null!)
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -248,29 +247,25 @@ public static class DataInitializer
     private static List<OrderItem> PrepareOrdersItem(List<Book> books)
     {
         var orderItemId = 1;
-        var orderId = 1;
 
         List<OrderItem> orderItems = [];
 
         for (int i = 0; i < OrderCount; i++)
         {
-            var testOrders = new Faker<OrderItem>()
-                //.StrictMode(true)
+            var testOrdersItems = new Faker<OrderItem>()
                 .RuleFor(o => o.Id, _ => orderItemId++)
-                .RuleFor(o => o.OrderId, _ => orderId++)
+                .RuleFor(o => o.OrderId, _ => i)
                 .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
                 .RuleFor(o => o.Quantity, f => f.Random.Int(1, 5))
                 .RuleFor(
                     o => o.PricePerItem,
                     (_, o) => books.Find(b => b.Id == o.BookId)?.Price ?? 0.0
                 )
-                //.RuleFor(o => o.Book, _ => null!)
-                //.RuleFor(o => o.Order, _ => null!)
                 .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
                 .RuleFor(o => o.EditedAt, _ => null)
                 .RuleFor(o => o.DeletedAt, _ => null);
 
-            orderItems.AddRange(testOrders.Generate(2));
+            orderItems.AddRange(testOrdersItems.Generate(2));
         }
 
         return orderItems;

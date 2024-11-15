@@ -1,8 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using DAL.Models.Auth
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<LocalIdentityUser> UserManager
+
+
+@{
+    ViewData["Title"] = "Home";
+    string userName = @UserManager.GetUserName(User) ?? "Anon";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1 class="text-lg">Welcome to BookHub</h1>
+
+<p class="mt-2">
+You are logged as @userName
+</p>

@@ -15,9 +15,11 @@ public static class DataInitializer
         var genres = PrepareGenreModels();
         var bookGenres = PrepareBookGenreModels();
         var reviews = PrepareReviewModels();
+        var bookImages = PrepareBookImageModels();
 
         modelBuilder.Entity<Publisher>().HasData(publishers);
         modelBuilder.Entity<Book>().HasData(books);
+        modelBuilder.Entity<BookImage>().HasData(bookImages);
         modelBuilder.Entity<Author>().HasData(authors);
         modelBuilder.Entity<BookAuthor>().HasData(bookAuthors);
         modelBuilder.Entity<User>().HasData(users);
@@ -49,6 +51,7 @@ public static class DataInitializer
                 Rating = 4.0,
                 Price = 10.0,
                 PublisherId = 1,
+                PreviewImageId = "1849645247",
             },
             new()
             {
@@ -61,6 +64,19 @@ public static class DataInitializer
                 Rating = 3.2,
                 Price = 30.0,
                 PublisherId = 1,
+            },
+        ];
+    }
+
+    private static List<BookImage> PrepareBookImageModels()
+    {
+        return
+        [
+            new()
+            {
+                Id = 1,
+                BookId = 1,
+                ImageId = "1849645247",
             },
         ];
     }

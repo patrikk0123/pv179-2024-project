@@ -32,4 +32,6 @@ public class BookCreateDto
     public required List<int> GenreIds { get; init; } = [];
 
     public required List<int> AuthorIds { get; init; } = [];
+
+    public required List<IFormFile> Images { get; init; } = [];
 }

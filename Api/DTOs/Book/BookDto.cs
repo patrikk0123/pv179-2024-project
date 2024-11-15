@@ -1,4 +1,5 @@
 using Api.DTOs.Interfaces;
+using Infrastructure.Models;
 
 namespace Api.DTOs.Book;
 
@@ -19,4 +20,6 @@ public class BookDto : BaseDto
     public required double Price { get; init; }
 
     public required string PublisherName { get; init; }
+
+    public RepositoryImage PreviewImage { get; init; }
 }

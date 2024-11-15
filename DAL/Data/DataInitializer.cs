@@ -65,9 +65,9 @@ public static class DataInitializer
         var testBooks = new Faker<Book>()
             .StrictMode(true)
             .RuleFor(o => o.Id, _ => bookId++)
-            .RuleFor(o => o.Name, f => f.Random.String(10, 40))
-            .RuleFor(o => o.Description, f => f.Lorem.Random.String(10, 100))
-            .RuleFor(o => o.ISBN, f => f.Random.String(10))
+            .RuleFor(o => o.Name, f => f.Random.Words(1))
+            .RuleFor(o => o.Description, f => f.Lorem.Sentences(4))
+            .RuleFor(o => o.ISBN, f => f.Random.AlphaNumeric(10))
             .RuleFor(o => o.PublishDate, f => f.Date.PastDateOnly())
             .RuleFor(o => o.Pages, f => f.Random.Int(50, 500))
             .RuleFor(o => o.Rating, f => f.Random.Double(1, 5))
@@ -78,6 +78,7 @@ public static class DataInitializer
             .RuleFor(o => o.BookAuthors, _ => [])
             .RuleFor(o => o.BookGenres, _ => [])
             .RuleFor(o => o.Reviews, _ => [])
+            .RuleFor(o => o.Images, _ => [])
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
@@ -161,7 +162,7 @@ public static class DataInitializer
             .RuleFor(o => o.UserId, f => f.Random.Int(1, UserCount))
             .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
             .RuleFor(o => o.Rating, f => f.Random.Int(1, 5))
-            .RuleFor(o => o.Body, f => f.Lorem.Random.String(10, 100))
+            .RuleFor(o => o.Body, f => f.Lorem.Random.String2(10, 100))
             .RuleFor(o => o.User, _ => null)
             .RuleFor(o => o.Book, _ => null)
             .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
@@ -254,7 +255,7 @@ public static class DataInitializer
         {
             var testOrdersItems = new Faker<OrderItem>()
                 .RuleFor(o => o.Id, _ => orderItemId++)
-                .RuleFor(o => o.OrderId, _ => i)
+                .RuleFor(o => o.OrderId, _ => i + 1)
                 .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
                 .RuleFor(o => o.Quantity, f => f.Random.Int(1, 5))
                 .RuleFor(

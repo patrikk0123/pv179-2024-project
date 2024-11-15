@@ -139,6 +139,11 @@ $RECYCLE.BIN/
 
 _NCrunch*
 
+# Node
+node_modules/
+
+# Generated code
+WebMVC/wwwroot/css/output.css
 
 # Data
 api/data/

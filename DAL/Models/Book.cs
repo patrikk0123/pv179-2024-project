@@ -31,6 +31,8 @@ public class Book : BaseEntity
     [Range(0, double.MaxValue)]
     public required double Price { get; set; }
 
+    public string PreviewImageId { get; set; } = "0";
+
     public int PublisherId { get; set; }
 
     [ForeignKey(nameof(PublisherId))]
@@ -41,4 +43,6 @@ public class Book : BaseEntity
     public virtual IEnumerable<BookGenre>? BookGenres { get; set; }
 
     public virtual IEnumerable<Review>? Reviews { get; set; }
+
+    public virtual IEnumerable<BookImage>? Images { get; set; }
 }

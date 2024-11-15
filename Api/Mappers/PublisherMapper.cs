@@ -2,10 +2,11 @@ using Api.DTOs.Book;
 using Api.DTOs.Publisher;
 using Api.Mappers.Interfaces;
 using DAL.Models;
+using Infrastructure.UnitOfWork.Interfaces;
 
 namespace Api.Mappers;
 
-public class PublisherMapper : IPublisherMapper
+public class PublisherMapper(IServiceProvider serviceProvider) : IPublisherMapper
 {
     public PublisherDto ToDto(Publisher publisher)
     {
@@ -14,6 +15,8 @@ public class PublisherMapper : IPublisherMapper
 
     public PublisherDetailDto ToDetailDto(Publisher publisher)
     {
+        using var scope = serviceProvider.CreateScope();
+        var unitOfWork = scope.ServiceProvider.GetRequiredService<IImageUnitOfWork>();
         return new PublisherDetailDto()
         {
             Id = publisher.Id,
@@ -30,6 +33,7 @@ public class PublisherMapper : IPublisherMapper
                     Rating = book.Rating,
                     Price = book.Price,
                     PublisherName = publisher.Name,
+                    PreviewImage = unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId),
                 })
                 .ToList(),
         };

@@ -3,6 +3,9 @@ using Api.Mappers.Interfaces;
 using DAL.Data;
 using DAL.Extensions;
 using DAL.Models;
+using Infrastructure.Helpers;
+using Infrastructure.Models;
+using Infrastructure.UnitOfWork.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +13,11 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("/books")]
-public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) : Controller
+public class BookController(
+    BookHubDBContext dBContext,
+    IBookMapper bookMapper,
+    IImageUnitOfWork unitOfWork
+) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> GetAllBooks(
@@ -64,7 +71,7 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddBook([FromBody] BookCreateDto bookDto)
+    public async Task<IActionResult> AddBook([FromForm] BookCreateDto bookDto)
     {
         var publisher = await dBContext.Publishers.FindAsync(bookDto.PublisherId);
         if (publisher == null)
@@ -108,18 +115,51 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
                     AuthorId = authorId,
                 })
             );
+
+            List<string> createdImages = [];
+
+            foreach (var image in bookDto.Images)
+            {
+                string imageId = IdGenerator.GenerateUniqueId();
+                createdImages.Add(imageId);
+
+                await using var memoryStream = new MemoryStream();
+                image.CopyTo(memoryStream);
+                unitOfWork.ImageRepository.Add(
+                    new RepositoryImage { Id = imageId, Data = memoryStream.ToArray() }
+                );
+
+                var previewData = ImageService.CreateImagePreview(memoryStream.ToArray());
+                unitOfWork.ImagePreviewRepository.Add(
+                    new RepositoryImage { Id = imageId, Data = previewData }
+                );
+            }
+
+            dBContext.AddRange(
+                createdImages.Select(imageId => new BookImage()
+                {
+                    BookId = book.Entity.Id,
+                    ImageId = imageId,
+                })
+            );
+
+            var finalBook = await dBContext.Books.FindAsync(book.Entity.Id);
+
             await dBContext.SaveChangesAsync();
 
             await transaction.CommitAsync();
+            unitOfWork.Commit();
+
             return CreatedAtAction(
                 nameof(GetSingleBook),
                 new { bookId = book.Entity.Id },
-                bookMapper.ToDetailDto(book.Entity)
+                bookMapper.ToDetailDto(finalBook)
             );
         }
         catch (Exception)
         {
             await transaction.RollbackAsync();
+            unitOfWork.Rollback();
             throw;
         }
     }
@@ -160,6 +200,11 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
         try
         {
             bookMapper.UpdateModel(book, bookDto);
+
+            if (bookDto.PreviewImageId != null)
+            {
+                book.PreviewImageId = bookDto.PreviewImageId;
+            }
 
             dBContext.BookGenres.RemoveRange(
                 dBContext.BookGenres.Where(bookGenre => bookGenre.BookId == book.Id)

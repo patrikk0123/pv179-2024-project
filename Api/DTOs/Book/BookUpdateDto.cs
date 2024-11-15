@@ -29,6 +29,8 @@ public class BookUpdateDto
     [Required]
     public required int PublisherId { get; init; }
 
+    public string PreviewImageId { get; init; }
+
     public required List<int> GenreIds { get; init; } = [];
 
     public required List<int> AuthorIds { get; init; } = [];

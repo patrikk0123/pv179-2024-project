@@ -14,9 +14,13 @@ public static class DataInitializer
     private const int ReviewCount = 5;
     private const int WishListItemCount = 3;
     private const int OrderCount = 2;
+    private static readonly DateTime CreatedAt = new(2021, 1, 1, 10, 0, 0);
 
     public static void Seed(this ModelBuilder modelBuilder)
     {
+        // make Bogus generator, generate same output each time
+        Randomizer.Seed = new Random(12345);
+
         var publishers = PreparePublisherModels();
         var books = PrepareBookModels();
         var authors = PrepareAuthorModels();
@@ -52,7 +56,7 @@ public static class DataInitializer
             .RuleFor(o => o.Id, _ => publisherIds++)
             .RuleFor(o => o.Name, f => f.Company.CompanyName())
             .RuleFor(o => o.Books, _ => [])
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -71,7 +75,7 @@ public static class DataInitializer
             .RuleFor(o => o.PublishDate, f => f.Date.PastDateOnly())
             .RuleFor(o => o.Pages, f => f.Random.Int(50, 500))
             .RuleFor(o => o.Rating, f => f.Random.Double(1, 5))
-            .RuleFor(o => o.Price, f => f.Random.Double(1, 100))
+            .RuleFor(o => o.Price, f => (double)f.Finance.Amount(5, 100))
             .RuleFor(o => o.PublisherId, f => f.Random.Int(1, 2))
             .RuleFor(o => o.PreviewImageId, (_, _) => "1849645247")
             .RuleFor(o => o.Publisher, _ => null)
@@ -79,7 +83,7 @@ public static class DataInitializer
             .RuleFor(o => o.BookGenres, _ => [])
             .RuleFor(o => o.Reviews, _ => [])
             .RuleFor(o => o.Images, _ => [])
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -108,7 +112,7 @@ public static class DataInitializer
             .RuleFor(o => o.Name, f => f.Name.FirstName())
             .RuleFor(o => o.Surname, f => f.Name.LastName())
             .RuleFor(o => o.BookAuthors, _ => [])
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -126,7 +130,7 @@ public static class DataInitializer
             .RuleFor(o => o.AuthorId, f => f.Random.Int(1, AuthorCount))
             .RuleFor(o => o.Book, _ => null)
             .RuleFor(o => o.Author, _ => null)
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -146,7 +150,7 @@ public static class DataInitializer
             .RuleFor(o => o.WishListItems, _ => [])
             .RuleFor(o => o.Orders, _ => [])
             .RuleFor(o => o.Reviews, _ => [])
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -165,7 +169,7 @@ public static class DataInitializer
             .RuleFor(o => o.Body, f => f.Lorem.Random.String2(10, 100))
             .RuleFor(o => o.User, _ => null)
             .RuleFor(o => o.Book, _ => null)
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -180,7 +184,7 @@ public static class DataInitializer
             .RuleFor(o => o.Id, _ => genreId++)
             .RuleFor(o => o.GenreType, f => f.PickRandom("Fantasy", "Horror", "Sci-fi", "Romance"))
             .RuleFor(o => o.BookGenres, _ => [])
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -198,7 +202,7 @@ public static class DataInitializer
             .RuleFor(o => o.GenreId, f => f.Random.Int(1, GenreCount))
             .RuleFor(o => o.Book, _ => null)
             .RuleFor(o => o.Genre, _ => null)
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -215,7 +219,7 @@ public static class DataInitializer
             .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
             .RuleFor(o => o.Book, _ => null!)
             .RuleFor(o => o.User, _ => null)
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -238,7 +242,7 @@ public static class DataInitializer
             .RuleFor(o => o.UserId, f => f.Random.Int(1, UserCount))
             .RuleFor(o => o.User, _ => null!)
             .RuleFor(o => o.OrderItems, _ => null!)
-            .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
             .RuleFor(o => o.DeletedAt, _ => null);
 
@@ -262,7 +266,7 @@ public static class DataInitializer
                     o => o.PricePerItem,
                     (_, o) => books.Find(b => b.Id == o.BookId)?.Price ?? 0.0
                 )
-                .RuleFor(o => o.CreatedAt, _ => DateTime.Now)
+                .RuleFor(o => o.CreatedAt, _ => CreatedAt)
                 .RuleFor(o => o.EditedAt, _ => null)
                 .RuleFor(o => o.DeletedAt, _ => null);
 

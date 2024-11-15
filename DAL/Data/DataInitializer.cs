@@ -74,6 +74,7 @@ public static class DataInitializer
             .RuleFor(o => o.Rating, f => f.Random.Double(1, 5))
             .RuleFor(o => o.Price, f => f.Random.Double(1, 100))
             .RuleFor(o => o.PublisherId, f => f.Random.Int(1, 2))
+            .RuleFor(o => o.PreviewImageId, (_, b) => b.Id == 1 ? "1849645247" : null)
             // .RuleFor(o => o.Publisher, _ => null)
             // .RuleFor(o => o.BookAuthors, _ => [])
             // .RuleFor(o => o.BookGenres, _ => [])

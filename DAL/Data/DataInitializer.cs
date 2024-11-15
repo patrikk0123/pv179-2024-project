@@ -99,6 +99,7 @@ public static class DataInitializer
                 Id = 1,
                 BookId = 1,
                 ImageId = "1849645247",
+                CreatedAt = CreatedAt,
             },
         ];
     }

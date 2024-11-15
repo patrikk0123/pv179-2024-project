@@ -1,8 +1,12 @@
+using Api.Configuration;
 using Api.Mappers;
 using Api.Mappers.Interfaces;
 using Api.Middlewares;
 using DAL.Data;
+using Infrastructure.UnitOfWork;
+using Infrastructure.UnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,6 +59,17 @@ builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
 );
 
 builder.Services.AddDbContext<BookHubDBContext>();
+
+builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("Images"));
+
+builder.Services.AddScoped<IImageUnitOfWork>(provider =>
+{
+    var imageSettings = provider.GetRequiredService<IOptions<ImageSettings>>().Value;
+    return new ImageUnitOfWork(
+        imageSettings.ImagesFolderPath,
+        imageSettings.PreviewImagesFolderPath
+    );
+});
 
 builder.Services.AddSingleton<IBookMapper, BookMapper>();
 builder.Services.AddSingleton<IBookReviewMapper, BookReviewMapper>();

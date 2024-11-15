@@ -148,3 +148,12 @@ Api/fintechDB
 Api/fintechDB-shm
 Api/fintechDB-wal
 Api/appsettings.Development.json
+
+# Images
+images/*
+images/previewImages/*
+
+!images/1849645247.jpg
+!images/previewImages
+!images/previewImages/0.jpg
+!images/previewImages/1849645247.jpg

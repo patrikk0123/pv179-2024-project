@@ -24,6 +24,8 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options) : DbCo
 
     public DbSet<Order> Orders { get; set; }
 
+    public DbSet<BookImage> BookImages { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         foreach (
@@ -34,6 +36,14 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options) : DbCo
         {
             relationship.DeleteBehavior = DeleteBehavior.SetNull;
         }
+
+        modelBuilder
+            .Entity<BookImage>()
+            .HasOne(bookImage => bookImage.Book)
+            .WithMany(book => book.Images)
+            .HasForeignKey(bookImage => bookImage.BookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Seed();
 
         modelBuilder.Entity<Book>().HasQueryFilter(e => e.DeletedAt == null);

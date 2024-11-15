@@ -5,13 +5,16 @@ using Api.DTOs.BookReview;
 using Api.DTOs.Genre;
 using Api.Mappers.Interfaces;
 using DAL.Models;
+using Infrastructure.UnitOfWork.Interfaces;
 
 namespace Api.Mappers;
 
-public class BookMapper : IBookMapper
+public class BookMapper(IServiceProvider serviceProvider) : IBookMapper
 {
     public BookDto ToDto(Book book)
     {
+        using var scope = serviceProvider.CreateScope();
+        var unitOfWork = scope.ServiceProvider.GetRequiredService<IImageUnitOfWork>();
         return new BookDto()
         {
             Id = book.Id,
@@ -23,11 +26,14 @@ public class BookMapper : IBookMapper
             Rating = book.Rating,
             Price = book.Price,
             PublisherName = book.Publisher.Name,
+            PreviewImage = unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId),
         };
     }
 
     public BookDetailDto ToDetailDto(Book book)
     {
+        using var scope = serviceProvider.CreateScope();
+        var unitOfWork = scope.ServiceProvider.GetRequiredService<IImageUnitOfWork>();
         return new BookDetailDto()
         {
             Id = book.Id,
@@ -38,9 +44,9 @@ public class BookMapper : IBookMapper
             Pages = book.Pages,
             Rating = book.Rating,
             Price = book.Price,
-            PublisherName = book.Publisher.Name,
+            PublisherName = book.Publisher?.Name ?? "",
             Authors = book
-                .BookAuthors.Select(bookAuthor => new AuthorDto()
+                .BookAuthors?.Select(bookAuthor => new AuthorDto()
                 {
                     Id = bookAuthor.Author.Id,
                     Name = bookAuthor.Author.Name,
@@ -48,7 +54,7 @@ public class BookMapper : IBookMapper
                 })
                 .ToList(),
             Genres = book
-                .BookGenres.Select(bookGenre => new GenreDto()
+                .BookGenres?.Select(bookGenre => new GenreDto()
                 {
                     Id = bookGenre.Genre.Id,
                     GenreType = bookGenre.Genre.GenreType,
@@ -68,6 +74,12 @@ public class BookMapper : IBookMapper
                         })
                         .ToList()
                     : [],
+            PreviewImage = unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId),
+            Images =
+                book.Images?.Select(bookImage =>
+                        unitOfWork.ImageRepository.GetById(bookImage.ImageId)!
+                    )
+                    .ToList() ?? [],
         };
     }
 

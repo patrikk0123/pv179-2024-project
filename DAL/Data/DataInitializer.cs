@@ -26,12 +26,14 @@ public static class DataInitializer
         var genres = PrepareGenreModels();
         var bookGenres = PrepareBookGenreModels();
         var reviews = PrepareReviewModels();
+        var bookImages = PrepareBookImageModels();
         var wishListItems = PrepareWishListItems();
         var orderItems = PrepareOrdersItem(books);
         var orders = PrepareOrders(orderItems);
 
         modelBuilder.Entity<Publisher>().HasData(publishers);
         modelBuilder.Entity<Book>().HasData(books);
+        modelBuilder.Entity<BookImage>().HasData(bookImages);
         modelBuilder.Entity<Author>().HasData(authors);
         modelBuilder.Entity<BookAuthor>().HasData(bookAuthors);
         modelBuilder.Entity<User>().HasData(users);
@@ -81,6 +83,19 @@ public static class DataInitializer
             .RuleFor(o => o.DeletedAt, _ => null);
 
         return testBooks.Generate(BookCount);
+    }
+
+    private static List<BookImage> PrepareBookImageModels()
+    {
+        return
+        [
+            new()
+            {
+                Id = 1,
+                BookId = 1,
+                ImageId = "1849645247",
+            },
+        ];
     }
 
     private static List<Author> PrepareAuthorModels()

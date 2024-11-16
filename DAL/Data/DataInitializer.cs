@@ -14,12 +14,13 @@ public static class DataInitializer
     private const int ReviewCount = 5;
     private const int WishListItemCount = 3;
     private const int OrderCount = 2;
+    private const int RandomizerSeed = 12345;
     private static readonly DateTime CreatedAt = new(2021, 1, 1, 10, 0, 0);
 
     public static void Seed(this ModelBuilder modelBuilder)
     {
         // make Bogus generator, generate same output each time
-        Randomizer.Seed = new Random(12345);
+        Randomizer.Seed = new Random(RandomizerSeed);
 
         var publishers = PreparePublisherModels();
         var books = PrepareBookModels();

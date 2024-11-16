@@ -1,1 +1,9 @@
-<h2>Successfully logged in.</h2>
+@using DAL.Models.Auth
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<LocalIdentityUser> UserManager
+
+<p class="text-xl text-center">
+    Successfully logged in as
+    <span class="text-blue-500 font-bold">@UserManager.GetUserName(User)</span>
+</p>

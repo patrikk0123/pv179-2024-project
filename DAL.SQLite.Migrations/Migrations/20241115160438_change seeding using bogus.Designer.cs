@@ -3,6 +3,7 @@ using System;
 using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,85 +11,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.SQLite.Migrations.Migrations
 {
     [DbContext(typeof(BookHubDBContext))]
-    partial class BookHubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241115160438_change seeding using bogus")]
+    partial class changeseedingusingbogus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
-
-            modelBuilder.Entity("DAL.Models.Auth.LocalIdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
 
             modelBuilder.Entity("DAL.Models.Author", b =>
                 {
@@ -121,23 +55,23 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Ricky",
-                            Surname = "Franecki"
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 945, DateTimeKind.Local).AddTicks(5110),
+                            Name = "Dana",
+                            Surname = "Wiegand"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Rubie",
-                            Surname = "Wisozk"
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 945, DateTimeKind.Local).AddTicks(5180),
+                            Name = "Melyssa",
+                            Surname = "Mills"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Tom",
-                            Surname = "Abbott"
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 945, DateTimeKind.Local).AddTicks(5200),
+                            Name = "Davon",
+                            Surname = "Kshlerin"
                         });
                 });
 
@@ -197,72 +131,72 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Iure numquam voluptatem dolores.\nAdipisci rerum eos ea aut non ea impedit.\nDolorum minus placeat qui dolore nobis non.\nAtque magnam assumenda alias atque ducimus corrupti.",
-                            ISBN = "pg9amadu6u",
-                            Name = "Handmade Concrete Hat",
-                            Pages = 327,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 944, DateTimeKind.Local).AddTicks(4410),
+                            Description = "卒䆏㡓휼巻ᡵᤘ찴糧蟂톽䣷凿춓䷉냧䝟㰊䓍׈ꯐ鷸疩㫭䪳ｽꇧ翈윟綘俰",
+                            ISBN = "ᬭ舟䥖㮕�訮랞죔긋",
+                            Name = "묄览愵䬗Ꭵ뀅䚴棎旔柶걢臹ȑ䦻⹆瀘ஜ龡媖乨蔡蟹輮⏏쎻冃㿴潬�붳",
+                            Pages = 229,
                             PreviewImageId = "1849645247",
-                            Price = 52.189999999999998,
-                            PublishDate = new DateOnly(2024, 7, 8),
-                            PublisherId = 1,
-                            Rating = 2.7660833419142676
+                            Price = 64.037123422362953,
+                            PublishDate = new DateOnly(2023, 12, 2),
+                            PublisherId = 2,
+                            Rating = 2.4109048360168535
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Non dolor explicabo.\nLaboriosam perferendis qui sit accusamus qui.\nCommodi id quo odio autem est et quaerat architecto.\nQuis magnam aut.",
-                            ISBN = "kjl2r0gp2x",
-                            Name = "Oklahoma",
-                            Pages = 172,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 944, DateTimeKind.Local).AddTicks(4510),
+                            Description = "菟趵埧䜏䀺ふ✜䝎㾞̦",
+                            ISBN = "蓅﹧㏛졆�ႎ녕䛯ç",
+                            Name = "샱ꗑá広曶䕷탗딤鿃轙䊱ۚᦧ绂媔撄",
+                            Pages = 468,
                             PreviewImageId = "1849645247",
-                            Price = 32.880000000000003,
-                            PublishDate = new DateOnly(2024, 6, 5),
+                            Price = 38.166874590007453,
+                            PublishDate = new DateOnly(2023, 12, 4),
                             PublisherId = 1,
-                            Rating = 2.5665950689309254
+                            Rating = 3.9624567662645847
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Nihil rerum dicta vel fugit recusandae dolor.\nPariatur vel minima.\nAsperiores facilis molestiae numquam nulla quibusdam esse placeat.\nPariatur ad illo corporis et.",
-                            ISBN = "56zcj0mgum",
-                            Name = "high-level",
-                            Pages = 393,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 944, DateTimeKind.Local).AddTicks(4530),
+                            Description = "쇽䗿阭㉌柮ધ��ᡕïಟ",
+                            ISBN = "锓㐙㨇摼俅㸋닽啛",
+                            Name = "੃钦⺸खࡳ鄘ṋ櫍⚼뮻笮鶃䥐礛�",
+                            Pages = 313,
                             PreviewImageId = "1849645247",
-                            Price = 68.430000000000007,
-                            PublishDate = new DateOnly(2024, 9, 1),
-                            PublisherId = 2,
-                            Rating = 2.720410956870956
+                            Price = 27.241800476822036,
+                            PublishDate = new DateOnly(2024, 9, 26),
+                            PublisherId = 1,
+                            Rating = 2.4625310904366549
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Odio nihil earum.\nNisi quia ducimus ipsam voluptas quo commodi in commodi aperiam.\nEnim omnis aut vitae dolores quo enim.\nUt repellendus ipsam.",
-                            ISBN = "f3dqujo7mv",
-                            Name = "Colombian Peso",
-                            Pages = 162,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 944, DateTimeKind.Local).AddTicks(4560),
+                            Description = "辎�﫦ᴇ퀞秞⹩㻏⒊ढ懤ў쿤酸ヸኰ�﫷苔咎蚎롄嶶춹ꠗ䠮篣谗⎼㽢椳᠖맰嘟젭㚌쒴헀킅佑횁ᒓ憚묈븹低ߜ垓喖ㄘ삐힉錻鱕ꮇㄻ呃鞤ⴴ帮",
+                            ISBN = "뇁�榙↛睬僐ݽੰ䯤",
+                            Name = "洷즘飮揔굅둓荂⇦�♨嫱ූ暀ޔ֑㉃禿퉈徴㷂",
+                            Pages = 138,
                             PreviewImageId = "1849645247",
-                            Price = 81.599999999999994,
-                            PublishDate = new DateOnly(2024, 9, 26),
-                            PublisherId = 2,
-                            Rating = 4.2919113483707942
+                            Price = 38.729846111609511,
+                            PublishDate = new DateOnly(2024, 9, 27),
+                            PublisherId = 1,
+                            Rating = 3.8773468299359175
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Sunt veniam dolore omnis aliquam sed saepe rerum et cum.\nDolorem in ea quia.\nPossimus commodi hic.\nVero illum eveniet.",
-                            ISBN = "5fmgi69ll3",
-                            Name = "De-engineered",
-                            Pages = 251,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 944, DateTimeKind.Local).AddTicks(4590),
+                            Description = "圷늷	釆酪ꇨ䘤턾ₐ㊅䕻摥탅ᣜ扵䡕ᄭ閲ㅉ㺾욡졡ຩꍧ艡Ⰺﱕ퍨ҫ튼ᜩĎ섿؎괅䠧龆䆢㊯棵潵蹡抵ᙰꅴ毳ᾖ䭶꙳ﾑ憒㊹⌬侊闂埗䔗說놑",
+                            ISBN = "詌ﰟ탫郍◝䱙땸㢦",
+                            Name = "룯ଭ홳ﱜ휢ቄ렗ݑ蘗殒猪츓᧷ਘ覬䳍㏖㧌汰嫷단儞택訰ﵻ攑�苣ꩊ뎿㫞꞉",
+                            Pages = 93,
                             PreviewImageId = "1849645247",
-                            Price = 11.220000000000001,
-                            PublishDate = new DateOnly(2023, 12, 30),
-                            PublisherId = 2,
-                            Rating = 3.0013645393780268
+                            Price = 97.299318992521449,
+                            PublishDate = new DateOnly(2024, 1, 12),
+                            PublisherId = 1,
+                            Rating = 1.1782937004726741
                         });
                 });
 
@@ -299,37 +233,37 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            AuthorId = 3,
+                            AuthorId = 1,
                             BookId = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 946, DateTimeKind.Local).AddTicks(5340)
                         },
                         new
                         {
                             Id = 2,
-                            AuthorId = 2,
+                            AuthorId = 3,
                             BookId = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 946, DateTimeKind.Local).AddTicks(5380)
                         },
                         new
                         {
                             Id = 3,
                             AuthorId = 2,
                             BookId = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 946, DateTimeKind.Local).AddTicks(5390)
                         },
                         new
                         {
                             Id = 4,
-                            AuthorId = 2,
+                            AuthorId = 1,
                             BookId = 4,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 946, DateTimeKind.Local).AddTicks(5400)
                         },
                         new
                         {
                             Id = 5,
-                            AuthorId = 1,
+                            AuthorId = 3,
                             BookId = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 946, DateTimeKind.Local).AddTicks(5400)
                         });
                 });
 
@@ -367,35 +301,35 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 1,
                             BookId = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 2
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 949, DateTimeKind.Local).AddTicks(8770),
+                            GenreId = 3
                         },
                         new
                         {
                             Id = 2,
                             BookId = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 1
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 949, DateTimeKind.Local).AddTicks(8820),
+                            GenreId = 2
                         },
                         new
                         {
                             Id = 3,
                             BookId = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 1
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 949, DateTimeKind.Local).AddTicks(8830),
+                            GenreId = 3
                         },
                         new
                         {
                             Id = 4,
                             BookId = 4,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 2
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 949, DateTimeKind.Local).AddTicks(8830),
+                            GenreId = 1
                         },
                         new
                         {
                             Id = 5,
                             BookId = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 949, DateTimeKind.Local).AddTicks(8840),
                             GenreId = 1
                         });
                 });
@@ -433,7 +367,7 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 1,
                             BookId = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 950, DateTimeKind.Local).AddTicks(9580),
                             ImageId = "1849645247"
                         });
                 });
@@ -465,20 +399,20 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 948, DateTimeKind.Local).AddTicks(8250),
                             GenreType = "Fantasy"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 948, DateTimeKind.Local).AddTicks(8310),
                             GenreType = "Romance"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreType = "Horror"
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 948, DateTimeKind.Local).AddTicks(8320),
+                            GenreType = "Romance"
                         });
                 });
 
@@ -513,16 +447,16 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            TotalPrice = 317.05000000000001,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 955, DateTimeKind.Local).AddTicks(1550),
+                            TotalPrice = 580.03164892012308,
                             UserId = 3
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            TotalPrice = 464.10000000000002,
-                            UserId = 1
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 955, DateTimeKind.Local).AddTicks(1630),
+                            TotalPrice = 136.02916510413095,
+                            UserId = 2
                         });
                 });
 
@@ -565,38 +499,38 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            BookId = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            BookId = 2,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 953, DateTimeKind.Local).AddTicks(20),
                             OrderId = 1,
-                            PricePerItem = 11.220000000000001,
+                            PricePerItem = 38.166874590007453,
                             Quantity = 5
                         },
                         new
                         {
                             Id = 2,
-                            BookId = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            BookId = 5,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 953, DateTimeKind.Local).AddTicks(60),
                             OrderId = 1,
-                            PricePerItem = 52.189999999999998,
-                            Quantity = 5
+                            PricePerItem = 97.299318992521449,
+                            Quantity = 4
                         },
                         new
                         {
                             Id = 3,
-                            BookId = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            BookId = 4,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 954, DateTimeKind.Local).AddTicks(480),
                             OrderId = 2,
-                            PricePerItem = 11.220000000000001,
-                            Quantity = 5
+                            PricePerItem = 38.729846111609511,
+                            Quantity = 1
                         },
                         new
                         {
                             Id = 4,
-                            BookId = 4,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            BookId = 5,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 954, DateTimeKind.Local).AddTicks(530),
                             OrderId = 2,
-                            PricePerItem = 81.599999999999994,
-                            Quantity = 5
+                            PricePerItem = 97.299318992521449,
+                            Quantity = 1
                         });
                 });
 
@@ -627,14 +561,14 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Bernier Group"
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 943, DateTimeKind.Local).AddTicks(1810),
+                            Name = "Brekke, Schamberger and Harber"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Schmeler - Shields"
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 943, DateTimeKind.Local).AddTicks(2090),
+                            Name = "McClure, Ledner and Olson"
                         });
                 });
 
@@ -679,47 +613,47 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            Body = "ifomhpxikfnnvyaovdkmwjmrzhcbhaeunzuidtqhzwoymxohatfyuqcysxnzmwajaszverlbncnzuofbtvanugawwwpggqvcwfy",
-                            BookId = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 1,
-                            UserId = 1
+                            Body = "ྒྷ㶏朖꺎멀ὅ悑뒓ℍ놦휿㯎럡투腸㆔䏻泖塑謎䄂",
+                            BookId = 5,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 950, DateTimeKind.Local).AddTicks(9450),
+                            Rating = 5,
+                            UserId = 2
                         },
                         new
                         {
                             Id = 2,
-                            Body = "jidkrdddeslfqwmotscz",
-                            BookId = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 4,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Body = "whkdpqleasrfrwittsloulegjqebutugchnksznoghfyfhxxkjfpqrblceuzlkjgxkcjixauewhnfgabsgqlnf",
+                            Body = "밆얕솚ᅇ铷䅰᱄⿨岪ꃨ袏镚輻ﻀ�졮儻슭",
                             BookId = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 2,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 950, DateTimeKind.Local).AddTicks(9520),
+                            Rating = 4,
                             UserId = 1
                         },
                         new
                         {
+                            Id = 3,
+                            Body = "ㆡɌ蒿愤쥢밉➿궲ꌚ戂裹蚎툷쁇螂�펼ஂ搩ធ轛쩸掸ꃲ砡�灾礢祯滥涙渍㤞ᰁ贗뱪峍ᔨຠꤦ嘇ꛭ敃㱴ᎂ兊₲Д澹䵸յஉ뜴貢",
+                            BookId = 1,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 950, DateTimeKind.Local).AddTicks(9540),
+                            Rating = 1,
+                            UserId = 2
+                        },
+                        new
+                        {
                             Id = 4,
-                            Body = "iofocwxyavenpmi",
-                            BookId = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 2,
+                            Body = "椂캪륝ㆯዡ燚ݨ꧘㔞渵掘竟㿮ﶇ流谽痷丁☝೵굓ᗬ湶凃悄⧠ຑ굠覚螻Ᲊ갂켩撄�",
+                            BookId = 4,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 950, DateTimeKind.Local).AddTicks(9560),
+                            Rating = 5,
                             UserId = 2
                         },
                         new
                         {
                             Id = 5,
-                            Body = "ogvdsgftyssurdgpmpqtkpggfxereccuvbrvmlmhxdzgh",
+                            Body = "఑鲤ꊗ成뗬皎掅衶髗㧖በꔉ饩䶮౟꘵뗺繮�⬻痐쳧㣎綡䮴꧎ᾧ됓治份䐴㪎䪸墱㊑鿁⪾꒹䆞鶵킖췌襖迄鞈⋍逋데冩헓灁Ỳ﷝ﮣ桧ꖀ",
                             BookId = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 4,
-                            UserId = 2
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 950, DateTimeKind.Local).AddTicks(9570),
+                            Rating = 3,
+                            UserId = 3
                         });
                 });
 
@@ -742,6 +676,10 @@ namespace DAL.SQLite.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Role")
                         .HasColumnType("INTEGER");
 
@@ -757,29 +695,29 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Alivia.Gorczany@gmail.com",
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 947, DateTimeKind.Local).AddTicks(7120),
+                            Email = "Ramiro_Collins@gmail.com",
                             Password = "heslo123",
                             Role = 0,
-                            Username = "Pauline.Beatty"
+                            Username = "Jailyn46"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Asa27@yahoo.com",
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 947, DateTimeKind.Local).AddTicks(7330),
+                            Email = "Madelynn_Wolf9@yahoo.com",
                             Password = "heslo123",
-                            Role = 1,
-                            Username = "Lizeth_Osinski"
+                            Role = 0,
+                            Username = "Santiago43"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Dayna_Towne20@hotmail.com",
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 947, DateTimeKind.Local).AddTicks(7480),
+                            Email = "Cornelius_Nitzsche@yahoo.com",
                             Password = "heslo123",
-                            Role = 1,
-                            Username = "Lincoln53"
+                            Role = 0,
+                            Username = "Rita83"
                         });
                 });
 
@@ -817,162 +755,23 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 1,
                             BookId = 3,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 951, DateTimeKind.Local).AddTicks(9760),
+                            UserId = 2
                         },
                         new
                         {
                             Id = 2,
-                            BookId = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 2
+                            BookId = 4,
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 951, DateTimeKind.Local).AddTicks(9810),
+                            UserId = 1
                         },
                         new
                         {
                             Id = 3,
                             BookId = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 15, 17, 4, 37, 951, DateTimeKind.Local).AddTicks(9820),
                             UserId = 3
                         });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("DAL.Models.Auth.LocalIdentityUser", b =>
-                {
-                    b.HasOne("DAL.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DAL.Models.Book", b =>
@@ -1040,7 +839,7 @@ namespace DAL.SQLite.Migrations.Migrations
                     b.HasOne("DAL.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -1057,7 +856,7 @@ namespace DAL.SQLite.Migrations.Migrations
                     b.HasOne("DAL.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
@@ -1101,57 +900,6 @@ namespace DAL.SQLite.Migrations.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("DAL.Models.Auth.LocalIdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("DAL.Models.Auth.LocalIdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Models.Auth.LocalIdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("DAL.Models.Auth.LocalIdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("DAL.Models.Author", b =>

@@ -14,6 +14,7 @@ default:
 stages:
   - build
   - format
+  - test
 
 build:
   stage: build
@@ -24,3 +25,8 @@ format:csharpier:
   stage: format
   script:
     - dotnet csharpier --check .
+
+tests:
+  stage: test
+  script:
+    - dotnet test --no-build

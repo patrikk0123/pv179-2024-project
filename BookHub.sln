@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{7C73B795-461B-4B3B-8357-7E322AF23F84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer.Tests", "BusinessLayer.Tests\BusinessLayer.Tests.csproj", "{DF2620FD-F338-4EEF-9588-C3AFB150AB12}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMVC", "WebMVC\WebMVC.csproj", "{E992AD46-F7C1-497E-95DD-C41DFB23F048}"
 EndProject
 Global
@@ -41,6 +43,10 @@ Global
 		{7C73B795-461B-4B3B-8357-7E322AF23F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C73B795-461B-4B3B-8357-7E322AF23F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C73B795-461B-4B3B-8357-7E322AF23F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF2620FD-F338-4EEF-9588-C3AFB150AB12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF2620FD-F338-4EEF-9588-C3AFB150AB12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF2620FD-F338-4EEF-9588-C3AFB150AB12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF2620FD-F338-4EEF-9588-C3AFB150AB12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E992AD46-F7C1-497E-95DD-C41DFB23F048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E992AD46-F7C1-497E-95DD-C41DFB23F048}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E992AD46-F7C1-497E-95DD-C41DFB23F048}.Release|Any CPU.ActiveCfg = Release|Any CPU

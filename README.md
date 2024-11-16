@@ -35,6 +35,12 @@ dotnet ef migrations add <Migration-Name> --project "DAL.SQLite.Migrations" --st
 dotnet ef database update --project "DAL.SQLite.Migrations" --startup-project "Api"
 ```
 
+## Tests
+- Run tests
+```sh
+dotnet test
+```
+
 ## Code formatter
 The project uses [Csharpier](https://csharpier.com/docs/About).
 

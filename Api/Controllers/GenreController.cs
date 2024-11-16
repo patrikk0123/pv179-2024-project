@@ -1,5 +1,5 @@
-using Api.DTOs.Genre;
-using Api.Mappers.Interfaces;
+using BusinessLayer.DTOs.Genre;
+using BusinessLayer.Mappers.Interfaces;
 using DAL.Data;
 using DAL.Extensions;
 using Microsoft.AspNetCore.Mvc;

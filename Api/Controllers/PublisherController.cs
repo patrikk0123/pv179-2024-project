@@ -1,5 +1,5 @@
-using Api.DTOs.Publisher;
-using Api.Mappers.Interfaces;
+using BusinessLayer.DTOs.Publisher;
+using BusinessLayer.Mappers.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

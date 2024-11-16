@@ -1,7 +1,7 @@
 using Api.Configuration;
-using Api.Mappers;
-using Api.Mappers.Interfaces;
 using Api.Middlewares;
+using BusinessLayer.Mappers;
+using BusinessLayer.Mappers.Interfaces;
 using DAL.Data;
 using Infrastructure.UnitOfWork;
 using Infrastructure.UnitOfWork.Interfaces;
@@ -93,4 +93,5 @@ app.MapControllers();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<AuthorizationMiddleware>();
+app.UseMiddleware<OutputFormatMiddleware>();
 app.Run();

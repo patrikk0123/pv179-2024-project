@@ -23,11 +23,11 @@ public class AccountController(
         {
             var user = new LocalIdentityUser
             {
-                UserName = model.Email,
+                UserName = model.Username,
                 Email = model.Email,
                 User = new()
                 {
-                    Username = model.Email,
+                    Username = model.Username,
                     Email = model.Email,
                     Role = UserRole.User,
                 },
@@ -63,7 +63,7 @@ public class AccountController(
         if (ModelState.IsValid)
         {
             var result = await signInManager.PasswordSignInAsync(
-                model.Email,
+                model.Username,
                 model.Password,
                 model.RememberMe,
                 lockoutOnFailure: false

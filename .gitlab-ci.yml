@@ -6,6 +6,11 @@ variables:
 default:
   image: mcr.microsoft.com/dotnet/sdk:8.0
   before_script:
+    - apt-get update
+    - apt-get install -y curl
+    - curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+    - apt-get install -y nodejs
+    - npm --version
     - dotnet tool restore
     - dotnet restore --packages $NUGET_PACKAGES_DIRECTORY
   tags:

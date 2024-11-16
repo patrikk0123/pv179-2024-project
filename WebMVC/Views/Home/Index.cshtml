@@ -1,0 +1,17 @@
+﻿@using DAL.Models.Auth
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<LocalIdentityUser> UserManager
+
+
+@{
+    ViewData["Title"] = "Home";
+    string userName = @UserManager.GetUserName(User) ?? "Anon";
+}
+
+<h1 class="text-lg">Welcome to BookHub</h1>
+
+<p class="mt-2">
+    You are logged in as
+    <span class="text-blue-500 font-bold">@userName</span>.
+</p>

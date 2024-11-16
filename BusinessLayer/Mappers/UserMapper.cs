@@ -40,7 +40,6 @@ public class UserMapper(
         return new User()
         {
             Username = dto.Username,
-            Password = dto.Password,
             Email = dto.Email,
             Role = dto.Role,
         };
@@ -49,7 +48,6 @@ public class UserMapper(
     public void UpdateModel(User model, UserUpdateDto updateDto)
     {
         model.Username = updateDto.Username;
-        model.Password = updateDto.Password;
         model.Email = updateDto.Email;
         model.Role = updateDto.Role;
     }

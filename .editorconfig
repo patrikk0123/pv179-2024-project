@@ -11,4 +11,5 @@ dotnet_diagnostic.CA1725.severity = none
 dotnet_diagnostic.CA2254.severity = none
 dotnet_diagnostic.RCS1201.severity = warning
 dotnet_diagnostic.RCS1124.severity = none
+dotnet_diagnostic.RCS1168.severity= none
 dotnet_analyzer_diagnostic.category-roslynator.severity = error

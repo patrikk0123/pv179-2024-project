@@ -145,7 +145,6 @@ public static class DataInitializer
             .StrictMode(true)
             .RuleFor(o => o.Id, _ => userId++)
             .RuleFor(o => o.Username, f => f.Internet.UserName())
-            .RuleFor(o => o.Password, _ => "heslo123")
             .RuleFor(o => o.Email, f => f.Internet.Email())
             .RuleFor(o => o.Role, f => f.PickRandom<UserRole>())
             .RuleFor(o => o.WishListItems, _ => [])

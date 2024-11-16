@@ -1,5 +1,5 @@
-﻿using Api.DTOs.WishListItem;
-using Api.Mappers.Interfaces;
+﻿using BusinessLayer.DTOs.WishListItem;
+using BusinessLayer.Mappers.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

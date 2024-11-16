@@ -1,5 +1,5 @@
-﻿using Api.DTOs.Order;
-using Api.Mappers.Interfaces;
+﻿using BusinessLayer.DTOs.Order;
+using BusinessLayer.Mappers.Interfaces;
 using DAL.Data;
 using DAL.Models;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
-using Api.DTOs.BookReview;
-using Api.Mappers.Interfaces;
+using BusinessLayer.DTOs.BookReview;
+using BusinessLayer.Mappers.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

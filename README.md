@@ -14,7 +14,14 @@ dotnet restore
 dotnet run --project "API"
 ```
 - Swagger is available at `https://localhost:5174/swagger/index.html`
-- API is encrypted with hardcoded Bearer token (that need to be set up in swagger to test the API)
+- API is encrypted with hardcoded Bearer token (that needs to be set up in swagger to test the API)
+
+## Web MVC
+- Run the UI
+```sh
+dotnet run --project "WebMVC"
+```
+- UI is running at `http://localhost:5269/`
 
 ## Database
 - We are using SQLITE, may be changed in the future

@@ -2,6 +2,8 @@ using Api.Configuration;
 using Api.Middlewares;
 using BusinessLayer.Mappers;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Publisher;
+using BusinessLayer.Services.Publisher.Interfaces;
 using DAL.Data;
 using Infrastructure.UnitOfWork;
 using Infrastructure.UnitOfWork.Interfaces;
@@ -70,6 +72,8 @@ builder.Services.AddScoped<IImageUnitOfWork>(provider =>
         imageSettings.PreviewImagesFolderPath
     );
 });
+
+builder.Services.AddScoped<IPublisherService, PublisherService>();
 
 builder.Services.AddSingleton<IBookMapper, BookMapper>();
 builder.Services.AddSingleton<IBookReviewMapper, BookReviewMapper>();

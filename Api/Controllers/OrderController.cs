@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs.Order;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.User.Interfaces;
 using DAL.Data;
 using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,11 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("/orders")]
-public class OrderController(BookHubDBContext dBContext, IOrderMapper orderMapper) : Controller
+public class OrderController(
+    IUserService userService,
+    BookHubDBContext dBContext,
+    IOrderMapper orderMapper
+) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> GetALlOrders()
@@ -55,6 +60,10 @@ public class OrderController(BookHubDBContext dBContext, IOrderMapper orderMappe
             );
 
             const int userId = 1; // TODO: Get the user ID from the JWT token
+            if (!await userService.DoesUserExistAsync(userId))
+            {
+                return NotFound("User not found");
+            }
 
             var order = new Order { UserId = userId, TotalPrice = totalPrice };
 

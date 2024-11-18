@@ -106,7 +106,6 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
                 EntityId = entry
                     .Properties.FirstOrDefault(p => p.Metadata.IsPrimaryKey())
                     ?.CurrentValue.ToString(),
-                Timestamp = DateTime.UtcNow,
                 Action = action,
                 Changes = GetChanges(entry),
             };

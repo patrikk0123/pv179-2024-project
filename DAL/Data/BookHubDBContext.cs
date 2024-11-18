@@ -93,6 +93,12 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
 
         foreach (var entry in entries)
         {
+            var deletedAt = entry.Properties.FirstOrDefault(p => p.Metadata.Name == "DeletedAt");
+            var action =
+                deletedAt?.CurrentValue != null
+                    ? nameof(EntityState.Deleted)
+                    : entry.State.ToString();
+
             var auditLog = new AuditLog
             {
                 UserId = CurrentUserId,
@@ -101,7 +107,7 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
                     .Properties.FirstOrDefault(p => p.Metadata.IsPrimaryKey())
                     ?.CurrentValue.ToString(),
                 Timestamp = DateTime.UtcNow,
-                Action = entry.State.ToString(),
+                Action = action,
                 Changes = GetChanges(entry),
             };
 

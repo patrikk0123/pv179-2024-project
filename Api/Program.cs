@@ -1,7 +1,6 @@
 using Api.Configuration;
 using Api.Middlewares;
-using BusinessLayer.Mappers;
-using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Configuration;
 using DAL.Data;
 using Infrastructure.UnitOfWork;
 using Infrastructure.UnitOfWork.Interfaces;
@@ -71,14 +70,7 @@ builder.Services.AddScoped<IImageUnitOfWork>(provider =>
     );
 });
 
-builder.Services.AddSingleton<IBookMapper, BookMapper>();
-builder.Services.AddSingleton<IBookReviewMapper, BookReviewMapper>();
-builder.Services.AddSingleton<IPublisherMapper, PublisherMapper>();
-builder.Services.AddSingleton<IAuthorMapper, AuthorMapper>();
-builder.Services.AddSingleton<IGenreMapper, GenreMapper>();
-builder.Services.AddSingleton<IUserMapper, UserMapper>();
-builder.Services.AddSingleton<IWishListItemMapper, WishListItemMapper>();
-builder.Services.AddSingleton<IOrderMapper, OrderMapper>();
+builder.Services.RegisterBusinessLogicServices();
 
 var app = builder.Build();
 

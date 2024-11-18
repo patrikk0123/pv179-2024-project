@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs.Book;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Publisher.Interfaces;
 using DAL.Data;
 using DAL.Extensions;
 using DAL.Models;
@@ -14,6 +15,7 @@ namespace Api.Controllers;
 [ApiController]
 [Route("/books")]
 public class BookController(
+    IPublisherService publisherService,
     BookHubDBContext dBContext,
     IBookMapper bookMapper,
     IImageUnitOfWork unitOfWork
@@ -174,8 +176,7 @@ public class BookController(
             return NotFound();
         }
 
-        var publisher = await dBContext.Publishers.FindAsync(bookDto.PublisherId);
-        if (publisher == null)
+        if (!await publisherService.DoesPublisherExistAsync(bookDto.PublisherId))
         {
             return NotFound();
         }

@@ -9,28 +9,30 @@ namespace DAL.Data;
 public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
     : IdentityDbContext<LocalIdentityUser, IdentityRole, string>(options)
 {
-    public DbSet<Book> Books { get; set; }
+    public virtual DbSet<Book> Books { get; set; }
 
-    public DbSet<BookGenre> BookGenres { get; set; }
+    public virtual DbSet<BookGenre> BookGenres { get; set; }
 
-    public DbSet<BookAuthor> BookAuthors { get; set; }
-    public DbSet<Author> Authors { get; set; }
+    public virtual DbSet<BookAuthor> BookAuthors { get; set; }
+    public virtual DbSet<Author> Authors { get; set; }
 
-    public DbSet<Publisher> Publishers { get; set; }
+    public virtual DbSet<Publisher> Publishers { get; set; }
 
-    public DbSet<Review> Reviews { get; set; }
+    public virtual DbSet<Review> Reviews { get; set; }
 
-    public DbSet<Genre> Genres { get; set; }
+    public virtual DbSet<Genre> Genres { get; set; }
 
-    public DbSet<User> Users { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
-    public DbSet<LocalIdentityUser> LocalIdentityUsers { get; set; }
+    public virtual DbSet<LocalIdentityUser> LocalIdentityUsers { get; set; }
 
-    public DbSet<WishListItem> WishListItems { get; set; }
+    public virtual DbSet<WishListItem> WishListItems { get; set; }
 
-    public DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
 
-    public DbSet<BookImage> BookImages { get; set; }
+    public virtual DbSet<OrderItem> OrdersItems { get; set; }
+
+    public virtual DbSet<BookImage> BookImages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

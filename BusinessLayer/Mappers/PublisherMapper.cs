@@ -3,11 +3,10 @@ using BusinessLayer.DTOs.Publisher;
 using BusinessLayer.Mappers.Interfaces;
 using DAL.Models;
 using Infrastructure.UnitOfWork.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLayer.Mappers;
 
-public class PublisherMapper(IServiceProvider serviceProvider) : IPublisherMapper
+public class PublisherMapper(IImageUnitOfWork unitOfWork) : IPublisherMapper
 {
     public PublisherDto ToDto(Publisher publisher)
     {
@@ -16,14 +15,12 @@ public class PublisherMapper(IServiceProvider serviceProvider) : IPublisherMappe
 
     public PublisherDetailDto ToDetailDto(Publisher publisher)
     {
-        using var scope = serviceProvider.CreateScope();
-        var unitOfWork = scope.ServiceProvider.GetRequiredService<IImageUnitOfWork>();
         return new PublisherDetailDto()
         {
             Id = publisher.Id,
             Name = publisher.Name,
             Books = publisher
-                .Books.Select(book => new BookDto()
+                .Books?.Select(book => new BookDto()
                 {
                     Id = book.Id,
                     Name = book.Name,

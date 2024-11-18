@@ -20,10 +20,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
+        <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
     </ItemGroup>
-
 </Project>

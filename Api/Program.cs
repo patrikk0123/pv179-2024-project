@@ -61,7 +61,7 @@ builder.Services.AddDbContext<BookHubDBContext>();
 
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("Images"));
 
-builder.Services.AddScoped<IImageUnitOfWork>(provider =>
+builder.Services.AddSingleton<IImageUnitOfWork>(provider =>
 {
     var imageSettings = provider.GetRequiredService<IOptions<ImageSettings>>().Value;
     return new ImageUnitOfWork(

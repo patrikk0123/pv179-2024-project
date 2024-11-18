@@ -88,7 +88,7 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
     {
         var entries = ChangeTracker
             .Entries()
-            .Where(e => e.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
+            .Where(e => e.State is EntityState.Modified or EntityState.Deleted)
             .ToArray();
 
         foreach (var entry in entries)
@@ -125,13 +125,6 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
                         Current = property.CurrentValue,
                     };
                 }
-            }
-        }
-        else if (entry.State == EntityState.Added)
-        {
-            foreach (var property in entry.Properties)
-            {
-                changes[property.Metadata.Name] = property.CurrentValue;
             }
         }
 

@@ -1,5 +1,6 @@
 using BusinessLayer.DTOs.BookReview;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.User.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +9,11 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("/books/{bookId}/reviews")]
-public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper bookReviewMapper)
-    : Controller
+public class BookReviewController(
+    IUserService userService,
+    BookHubDBContext dBContext,
+    IBookReviewMapper bookReviewMapper
+) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> GetAllReviews([FromRoute] int bookId)
@@ -50,9 +54,8 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
             return NotFound();
         }
 
-        const int userId = 1;
-        var user = await dBContext.Users.FindAsync(userId); // TODO: Get the user ID from the JWT token
-        if (user == null)
+        const int userId = 1; // TODO: Get the user ID from the JWT token
+        if (!await userService.DoesUserExistAsync(userId))
         {
             return NotFound();
         }

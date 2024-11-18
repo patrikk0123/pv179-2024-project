@@ -4,6 +4,8 @@ using BusinessLayer.Services.Genre;
 using BusinessLayer.Services.Genre.Interfaces;
 using BusinessLayer.Services.Publisher;
 using BusinessLayer.Services.Publisher.Interfaces;
+using BusinessLayer.Services.User;
+using BusinessLayer.Services.User.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLayer.Configuration;
@@ -14,6 +16,7 @@ public static class BusinessLogicConfiguration
     {
         services.AddScoped<IGenreService, GenreService>();
         services.AddScoped<IPublisherService, PublisherService>();
+        services.AddScoped<IUserService, UserService>();
 
         services.RegisterBusinessLogicMappers();
 

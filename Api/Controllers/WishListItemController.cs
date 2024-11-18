@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs.WishListItem;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.User.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ namespace Api.Controllers;
 [ApiController]
 [Route("/wishlist")]
 public class WishListItemController(
+    IUserService userService,
     BookHubDBContext dBContext,
     IWishListItemMapper wishListItemMapper
 ) : Controller
@@ -29,9 +31,7 @@ public class WishListItemController(
         [FromBody] WishListItemCreateDto wishListDto
     )
     {
-        var user = await dBContext.Users.FindAsync(wishListDto.UserId);
-
-        if (user == null)
+        if (!await userService.DoesUserExistAsync(wishListDto.UserId))
         {
             return NotFound("User not found");
         }

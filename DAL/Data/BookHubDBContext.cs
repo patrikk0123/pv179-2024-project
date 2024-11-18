@@ -123,7 +123,10 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
         {
             foreach (var property in entry.Properties)
             {
-                if (property.IsModified)
+                if (
+                    property.IsModified
+                    && property.CurrentValue?.ToString() != property.OriginalValue?.ToString()
+                )
                 {
                     changes[property.Metadata.Name] = new
                     {

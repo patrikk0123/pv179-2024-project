@@ -9,9 +9,9 @@ namespace BusinessLayer.Tests;
 
 public class PublisherServiceTest
 {
-    private DbContextOptions<BookHubDBContext> _dbContextOptions;
-    private BookHubDBContext _dbContext;
-    private PublisherService _publisherService;
+    private readonly DbContextOptions<BookHubDBContext> _dbContextOptions;
+    private readonly BookHubDBContext _dbContext;
+    private readonly PublisherService _publisherService;
 
     public PublisherServiceTest()
     {
@@ -69,7 +69,7 @@ public class PublisherServiceTest
     }
 
     [Fact]
-    public async Task CreateSinglePublisherAsync_ExactMatch()
+    public async Task CreateSinglePublisherAsync_Created()
     {
         // Arrange
         var publisherCreateDto = new PublisherCreateDto { Name = "Publisher3" };
@@ -85,7 +85,7 @@ public class PublisherServiceTest
     }
 
     [Fact]
-    public async Task UpdateSinglePublisherAsync_ExactMatch()
+    public async Task UpdateSinglePublisherAsync_NameUpdated()
     {
         // Arrange
         var publisherUpdateDto = new PublisherUpdateDto { Name = "Publisher4" };
@@ -134,7 +134,7 @@ public class PublisherServiceTest
     }
 
     [Fact]
-    public async Task DeleteSinglePublisherAsync_ExactMatch()
+    public async Task DeleteSinglePublisherAsync_Deleted()
     {
         // Act
         var deletedPublisher = await _publisherService.DeleteSinglePublisherAsync(2);

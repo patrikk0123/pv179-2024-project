@@ -52,7 +52,8 @@ public static class MockedDBContext
         dbContext.BookImages.AddRange(TestDataHelper.GetFakeBookImage());
         dbContext.Genres.AddRange(TestDataHelper.GetFakeGenres());
         dbContext.BookGenres.AddRange(TestDataHelper.GetFakeBookGenres());
-        /*dbContext.Users.AddRange(TestDataHelper.GetFakeUsers());
+        // TODO: fix adding Users Entities
+        /* dbContext.Users.AddRange(TestDataHelper.GetFakeUsers());
         dbContext.Reviews.AddRange(TestDataHelper.GetFakeBookReviews());
         dbContext.WishListItems.AddRange(TestDataHelper.GetFakeWishListItems());
         dbContext.Orders.AddRange(TestDataHelper.GetFakeOrders());

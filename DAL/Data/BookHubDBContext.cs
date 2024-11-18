@@ -36,7 +36,7 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
 
     public virtual DbSet<BookImage> BookImages { get; set; }
 
-    public DbSet<AuditLog> AuditLogs { get; set; }
+    public virtual DbSet<AuditLog> AuditLogs { get; set; }
 
     public int? CurrentUserId { get; set; }
 

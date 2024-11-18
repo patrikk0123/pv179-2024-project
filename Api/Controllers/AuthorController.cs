@@ -14,14 +14,14 @@ public class AuthorController(IAuthorService authorService) : Controller
         [FromQuery] string? surname
     )
     {
-        return Ok(await authorService.GetAllAuthors(name, surname));
+        return Ok(await authorService.GetAllAuthorsAsync(name, surname));
     }
 
     [HttpGet]
     [Route("{authorId}")]
     public async Task<IActionResult> GetSingleAuthor(int authorId)
     {
-        var author = await authorService.GetSingleAuthor(authorId);
+        var author = await authorService.GetSingleAuthorAsync(authorId);
         if (author == null)
         {
             return NotFound();
@@ -33,7 +33,7 @@ public class AuthorController(IAuthorService authorService) : Controller
     [HttpPost]
     public async Task<IActionResult> CreateSingleAuthor([FromBody] AuthorCreateDto authorDto)
     {
-        var author = await authorService.CreateSingleAuthor(authorDto);
+        var author = await authorService.CreateSingleAuthorAsync(authorDto);
         return CreatedAtAction(nameof(GetSingleAuthor), new { authorId = author.Id }, author);
     }
 
@@ -44,7 +44,7 @@ public class AuthorController(IAuthorService authorService) : Controller
         [FromBody] AuthorUpdateDto authorDto
     )
     {
-        var author = await authorService.UpdateSingleAuthor(authorId, authorDto);
+        var author = await authorService.UpdateSingleAuthorAsync(authorId, authorDto);
         if (author == null)
         {
             return NotFound();
@@ -57,7 +57,7 @@ public class AuthorController(IAuthorService authorService) : Controller
     [Route("{authorId}")]
     public async Task<IActionResult> DeleteSingleAuthor(int authorId)
     {
-        var deletedAuthor = await authorService.DeleteSingleAuthor(authorId);
+        var deletedAuthor = await authorService.DeleteSingleAuthorAsync(authorId);
         if (deletedAuthor == null)
         {
             return NotFound();

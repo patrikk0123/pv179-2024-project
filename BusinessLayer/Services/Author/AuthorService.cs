@@ -11,7 +11,7 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
     : BaseService(dBContext),
         IAuthorService
 {
-    public async Task<List<AuthorDto>> GetAllAuthors(String? name, String? surname)
+    public async Task<List<AuthorDto>> GetAllAuthorsAsync(String? name, String? surname)
     {
         var authors = await dBContext
             .Authors.WhereIf(
@@ -27,7 +27,7 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
         return authors.ConvertAll(authorMapper.ToDto);
     }
 
-    public async Task<AuthorDetailDto?> GetSingleAuthor(int id)
+    public async Task<AuthorDetailDto?> GetSingleAuthorAsync(int id)
     {
         var author = await dBContext.Authors.FindAsync(id);
 
@@ -39,7 +39,7 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
         return authorMapper.ToDetailDto(author);
     }
 
-    public async Task<AuthorDto> CreateSingleAuthor(AuthorCreateDto authorCreateDto)
+    public async Task<AuthorDto> CreateSingleAuthorAsync(AuthorCreateDto authorCreateDto)
     {
         var author = await dBContext.Authors.AddAsync(authorMapper.ToModel(authorCreateDto));
         await dBContext.SaveChangesAsync();
@@ -47,7 +47,10 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
         return authorMapper.ToDto(author.Entity);
     }
 
-    public async Task<AuthorDto?> UpdateSingleAuthor(int authorId, AuthorUpdateDto authorUpdateDto)
+    public async Task<AuthorDto?> UpdateSingleAuthorAsync(
+        int authorId,
+        AuthorUpdateDto authorUpdateDto
+    )
     {
         var authorToUpdate = await dBContext.Authors.FindAsync(authorId);
         if (authorToUpdate == null)
@@ -62,7 +65,7 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
         return authorMapper.ToDto(authorToUpdate);
     }
 
-    public async Task<AuthorDto?> DeleteSingleAuthor(int authorId)
+    public async Task<AuthorDto?> DeleteSingleAuthorAsync(int authorId)
     {
         var author = await dBContext.Authors.FindAsync(authorId);
         if (author == null)
@@ -74,5 +77,14 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
         await dBContext.SaveChangesAsync();
 
         return authorMapper.ToDto(author);
+    }
+
+    public async Task<bool> DoAuthorsExistAsync(IEnumerable<int> authorsId)
+    {
+        var foundAuthorCount = await dBContext.Genres.CountAsync(genre =>
+            authorsId.Contains(genre.Id)
+        );
+
+        return foundAuthorCount == authorsId.Count();
     }
 }

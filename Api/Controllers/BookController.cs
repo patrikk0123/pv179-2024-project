@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs.Book;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Author.Interfaces;
 using BusinessLayer.Services.Genre.Interfaces;
 using BusinessLayer.Services.Publisher.Interfaces;
 using DAL.Data;
@@ -16,6 +17,7 @@ namespace Api.Controllers;
 [ApiController]
 [Route("/books")]
 public class BookController(
+    IAuthorService authorService,
     IGenreService genreService,
     IPublisherService publisherService,
     BookHubDBContext dBContext,
@@ -87,10 +89,7 @@ public class BookController(
             return NotFound();
         }
 
-        var authors = await dBContext
-            .Authors.Where(author => bookDto.AuthorIds.Contains(author.Id))
-            .ToListAsync();
-        if (authors.Count != bookDto.AuthorIds.Count)
+        if (!await authorService.DoAuthorsExistAsync(bookDto.AuthorIds))
         {
             return NotFound();
         }
@@ -184,10 +183,7 @@ public class BookController(
             return NotFound();
         }
 
-        var authors = await dBContext
-            .Authors.Where(author => bookDto.AuthorIds.Contains(author.Id))
-            .ToListAsync();
-        if (authors.Count != bookDto.AuthorIds.Count)
+        if (!await authorService.DoAuthorsExistAsync(bookDto.AuthorIds))
         {
             return NotFound();
         }

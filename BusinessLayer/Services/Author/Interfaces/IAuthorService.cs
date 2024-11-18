@@ -4,13 +4,15 @@ namespace BusinessLayer.Services.Author.Interfaces;
 
 public interface IAuthorService
 {
-    public Task<List<AuthorDto>> GetAllAuthors(String? name, String? surname);
+    public Task<List<AuthorDto>> GetAllAuthorsAsync(String? name, String? surname);
 
-    public Task<AuthorDetailDto?> GetSingleAuthor(int id);
+    public Task<AuthorDetailDto?> GetSingleAuthorAsync(int id);
 
-    public Task<AuthorDto> CreateSingleAuthor(AuthorCreateDto authorCreateDto);
+    public Task<AuthorDto> CreateSingleAuthorAsync(AuthorCreateDto authorCreateDto);
 
-    public Task<AuthorDto?> UpdateSingleAuthor(int id, AuthorUpdateDto authorUpdateDto);
+    public Task<AuthorDto?> UpdateSingleAuthorAsync(int id, AuthorUpdateDto authorUpdateDto);
 
-    public Task<AuthorDto?> DeleteSingleAuthor(int id);
+    public Task<AuthorDto?> DeleteSingleAuthorAsync(int id);
+
+    public Task<bool> DoAuthorsExistAsync(IEnumerable<int> authorsId);
 }

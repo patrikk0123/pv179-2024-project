@@ -1,61 +1,40 @@
 using BusinessLayer.DTOs.Author;
-using BusinessLayer.Mappers.Interfaces;
-using DAL.Data;
-using DAL.Extensions;
+using BusinessLayer.Services.Author.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("/authors")]
-public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMapper) : Controller
+public class AuthorController(IAuthorService authorService) : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> GetALlAuthors(
+    public async Task<IActionResult> GetAllAuthors(
         [FromQuery] string? name,
         [FromQuery] string? surname
     )
     {
-        var authors = await dBContext
-            .Authors.WhereIf(
-                !string.IsNullOrEmpty(name),
-                author => EF.Functions.Like(author.Name, $"%{name}%")
-            )
-            .WhereIf(
-                !string.IsNullOrEmpty(surname),
-                author => EF.Functions.Like(author.Surname, $"%{surname}%")
-            )
-            .Select(book => authorMapper.ToDto(book))
-            .ToListAsync();
-
-        return Ok(authors);
+        return Ok(await authorService.GetAllAuthors(name, surname));
     }
 
     [HttpGet]
     [Route("{authorId}")]
     public async Task<IActionResult> GetSingleAuthor(int authorId)
     {
-        var author = await dBContext.Authors.FindAsync(authorId);
+        var author = await authorService.GetSingleAuthor(authorId);
         if (author == null)
         {
             return NotFound();
         }
 
-        return Ok(authorMapper.ToDetailDto(author));
+        return Ok(author);
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateSingleAuthor([FromBody] AuthorCreateDto authorDto)
     {
-        var author = await dBContext.Authors.AddAsync(authorMapper.ToModel(authorDto));
-        await dBContext.SaveChangesAsync();
-
-        return CreatedAtAction(
-            nameof(GetSingleAuthor),
-            new { authorId = author.Entity.Id },
-            authorMapper.ToDto(author.Entity)
-        );
+        var author = await authorService.CreateSingleAuthor(authorDto);
+        return CreatedAtAction(nameof(GetSingleAuthor), new { authorId = author.Id }, author);
     }
 
     [HttpPut]
@@ -65,32 +44,25 @@ public class AuthorController(BookHubDBContext dBContext, IAuthorMapper authorMa
         [FromBody] AuthorUpdateDto authorDto
     )
     {
-        var authorToUpdate = await dBContext.Authors.FindAsync(authorId);
-        if (authorToUpdate == null)
+        var author = await authorService.UpdateSingleAuthor(authorId, authorDto);
+        if (author == null)
         {
             return NotFound();
         }
 
-        authorMapper.UpdateModel(authorToUpdate, authorDto);
-        dBContext.Authors.Update(authorToUpdate);
-        await dBContext.SaveChangesAsync();
-
-        return Ok(authorMapper.ToDto(authorToUpdate));
+        return Ok(author);
     }
 
     [HttpDelete]
     [Route("{authorId}")]
     public async Task<IActionResult> DeleteSingleAuthor(int authorId)
     {
-        var author = await dBContext.Authors.FindAsync(authorId);
-        if (author == null)
+        var deletedAuthor = await authorService.DeleteSingleAuthor(authorId);
+        if (deletedAuthor == null)
         {
             return NotFound();
         }
 
-        author.DeletedAt = DateTime.Now;
-        await dBContext.SaveChangesAsync();
-
-        return Ok(authorMapper.ToDto(author));
+        return Ok(deletedAuthor);
     }
 }

@@ -81,8 +81,8 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
 
     public async Task<bool> DoAuthorsExistAsync(IEnumerable<int> authorsId)
     {
-        var foundAuthorCount = await dBContext.Genres.CountAsync(genre =>
-            authorsId.Contains(genre.Id)
+        var foundAuthorCount = await dBContext.Authors.CountAsync(author =>
+            authorsId.Contains(author.Id)
         );
 
         return foundAuthorCount == authorsId.Count();

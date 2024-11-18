@@ -107,8 +107,7 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
         }
     }
 
-#pragma warning disable CA1822
-    private string GetChanges(EntityEntry entry)
+    private static string GetChanges(EntityEntry entry)
     {
         var changes = new Dictionary<string, object>();
 
@@ -136,8 +135,6 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
 
         return JsonSerializer.Serialize(changes);
     }
-
-#pragma warning restore CA1822
 
     private void UpdateEditedAt()
     {

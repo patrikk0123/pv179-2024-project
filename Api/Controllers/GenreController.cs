@@ -1,53 +1,41 @@
 using BusinessLayer.DTOs.Genre;
-using BusinessLayer.Mappers.Interfaces;
-using DAL.Data;
-using DAL.Extensions;
+using BusinessLayer.Services.Genre.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("/genres")]
-public class GenreController(BookHubDBContext dBContext, IGenreMapper genreMapper) : Controller
+public class GenreController(IGenreService genreService) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> GetAllGenres([FromQuery] string? genreType)
     {
-        var genres = await dBContext
-            .Genres.WhereIf(
-                !string.IsNullOrEmpty(genreType),
-                genre => EF.Functions.Like(genre.GenreType, $"%{genreType}%")
-            )
-            .Select(genre => genreMapper.ToDto(genre))
-            .ToListAsync();
-
-        return Ok(genres);
+        return Ok(await genreService.GetAllGenresAsync(genreType));
     }
 
     [HttpGet]
     [Route("{genreId}")]
     public async Task<IActionResult> GetSingleGenre(int genreId)
     {
-        var genre = await dBContext.Genres.FindAsync(genreId);
+        var genre = await genreService.GetSingleGenreAsync(genreId);
         if (genre == null)
         {
             return NotFound();
         }
 
-        return Ok(genreMapper.ToDetailDto(genre));
+        return Ok(genre);
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateSingleGenre([FromBody] GenreCreateDto genreCreateDto)
     {
-        var genre = await dBContext.Genres.AddAsync(genreMapper.ToModel(genreCreateDto));
-        await dBContext.SaveChangesAsync();
+        var createdGenre = await genreService.CreateSingleGenreAsync(genreCreateDto);
 
         return CreatedAtAction(
             nameof(GetSingleGenre),
-            new { genreId = genre.Entity.Id },
-            genreMapper.ToDto(genre.Entity)
+            new { genreId = createdGenre.Id },
+            createdGenre
         );
     }
 
@@ -58,32 +46,25 @@ public class GenreController(BookHubDBContext dBContext, IGenreMapper genreMappe
         [FromBody] GenreUpdateDto genreUpdateDto
     )
     {
-        var genreToUpdate = await dBContext.Genres.FindAsync(genreId);
-        if (genreToUpdate == null)
+        var updatedGenre = await genreService.UpdateSingleGenreAsync(genreId, genreUpdateDto);
+        if (updatedGenre == null)
         {
             return NotFound();
         }
 
-        genreMapper.UpdateModel(genreToUpdate, genreUpdateDto);
-        dBContext.Genres.Update(genreToUpdate);
-        await dBContext.SaveChangesAsync();
-
-        return Ok(genreMapper.ToDto(genreToUpdate));
+        return Ok(updatedGenre);
     }
 
     [HttpDelete]
     [Route("{genreId}")]
     public async Task<IActionResult> DeleteSingleGenre(int genreId)
     {
-        var genre = await dBContext.Genres.FindAsync(genreId);
-        if (genre == null)
+        var deletedGenre = await genreService.DeleteSingleGenreAsync(genreId);
+        if (deletedGenre == null)
         {
             return NotFound();
         }
 
-        genre.DeletedAt = DateTime.Now;
-        await dBContext.SaveChangesAsync();
-
-        return Ok(genreMapper.ToDto(genre));
+        return Ok(deletedGenre);
     }
 }

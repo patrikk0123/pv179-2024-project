@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs.Book;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Genre.Interfaces;
 using BusinessLayer.Services.Publisher.Interfaces;
 using DAL.Data;
 using DAL.Extensions;
@@ -15,6 +16,7 @@ namespace Api.Controllers;
 [ApiController]
 [Route("/books")]
 public class BookController(
+    IGenreService genreService,
     IPublisherService publisherService,
     BookHubDBContext dBContext,
     IBookMapper bookMapper,
@@ -75,16 +77,12 @@ public class BookController(
     [HttpPost]
     public async Task<IActionResult> AddBook([FromForm] BookCreateDto bookDto)
     {
-        var publisher = await dBContext.Publishers.FindAsync(bookDto.PublisherId);
-        if (publisher == null)
+        if (!await publisherService.DoesPublisherExistAsync(bookDto.PublisherId))
         {
             return NotFound();
         }
 
-        var genres = await dBContext
-            .Genres.Where(genre => bookDto.GenreIds.Contains(genre.Id))
-            .ToListAsync();
-        if (genres.Count != bookDto.GenreIds.Count)
+        if (!await genreService.DoGenresExistAsync(bookDto.GenreIds))
         {
             return NotFound();
         }
@@ -181,10 +179,7 @@ public class BookController(
             return NotFound();
         }
 
-        var genres = await dBContext
-            .Genres.Where(genre => bookDto.GenreIds.Contains(genre.Id))
-            .ToListAsync();
-        if (genres.Count != bookDto.GenreIds.Count)
+        if (!await genreService.DoGenresExistAsync(bookDto.GenreIds))
         {
             return NotFound();
         }

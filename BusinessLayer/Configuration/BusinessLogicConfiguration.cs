@@ -1,5 +1,7 @@
 using BusinessLayer.Mappers;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Genre;
+using BusinessLayer.Services.Genre.Interfaces;
 using BusinessLayer.Services.Publisher;
 using BusinessLayer.Services.Publisher.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +12,7 @@ public static class BusinessLogicConfiguration
 {
     public static IServiceCollection RegisterBusinessLogicServices(this IServiceCollection services)
     {
+        services.AddScoped<IGenreService, GenreService>();
         services.AddScoped<IPublisherService, PublisherService>();
 
         services.RegisterBusinessLogicMappers();

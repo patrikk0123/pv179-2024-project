@@ -57,6 +57,7 @@ public class PublisherService(BookHubDBContext dBContext, IPublisherMapper publi
         }
 
         publisherMapper.UpdateModel(publisherToUpdate, publisherUpdateDto);
+        dBContext.Publishers.Update(publisherToUpdate);
 
         await SaveAsync(true);
 

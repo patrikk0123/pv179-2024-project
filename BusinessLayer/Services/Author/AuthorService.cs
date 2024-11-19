@@ -42,7 +42,7 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
     public async Task<AuthorDto> CreateSingleAuthorAsync(AuthorCreateDto authorCreateDto)
     {
         var author = await dBContext.Authors.AddAsync(authorMapper.ToModel(authorCreateDto));
-        await dBContext.SaveChangesAsync();
+        await SaveAsync(true);
 
         return authorMapper.ToDto(author.Entity);
     }
@@ -60,7 +60,7 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
 
         authorMapper.UpdateModel(authorToUpdate, authorUpdateDto);
         dBContext.Authors.Update(authorToUpdate);
-        await dBContext.SaveChangesAsync();
+        await SaveAsync(true);
 
         return authorMapper.ToDto(authorToUpdate);
     }
@@ -74,7 +74,7 @@ public class AuthorService(BookHubDBContext dBContext, IAuthorMapper authorMappe
         }
 
         author.DeletedAt = DateTime.Now;
-        await dBContext.SaveChangesAsync();
+        await SaveAsync(true);
 
         return authorMapper.ToDto(author);
     }

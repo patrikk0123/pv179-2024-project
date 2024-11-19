@@ -5,7 +5,7 @@ using DAL.Data;
 using Infrastructure.UnitOfWork;
 using TestUtilities.MockedObjects;
 
-namespace BusinessLayer.Tests;
+namespace BusinessLayer.Tests.Services;
 
 public class PublisherServiceTest
 {

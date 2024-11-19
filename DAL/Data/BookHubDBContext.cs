@@ -40,10 +40,6 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
 
     public int? CurrentUserId { get; set; }
 
-    public DbSet<AuditLog> AuditLogs { get; set; }
-
-    public int? CurrentUserId { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         foreach (

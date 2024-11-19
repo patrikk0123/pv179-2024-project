@@ -6,16 +6,13 @@ using BusinessLayer.DTOs.Genre;
 using BusinessLayer.Mappers.Interfaces;
 using DAL.Models;
 using Infrastructure.UnitOfWork.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLayer.Mappers;
 
-public class BookMapper(IServiceProvider serviceProvider) : IBookMapper
+public class BookMapper(IImageUnitOfWork unitOfWork) : IBookMapper
 {
     public BookDto ToDto(Book book)
     {
-        using var scope = serviceProvider.CreateScope();
-        var unitOfWork = scope.ServiceProvider.GetRequiredService<IImageUnitOfWork>();
         return new BookDto()
         {
             Id = book.Id,
@@ -33,8 +30,6 @@ public class BookMapper(IServiceProvider serviceProvider) : IBookMapper
 
     public BookDetailDto ToDetailDto(Book book)
     {
-        using var scope = serviceProvider.CreateScope();
-        var unitOfWork = scope.ServiceProvider.GetRequiredService<IImageUnitOfWork>();
         return new BookDetailDto()
         {
             Id = book.Id,

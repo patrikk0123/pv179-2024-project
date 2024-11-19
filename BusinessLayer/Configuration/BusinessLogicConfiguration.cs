@@ -1,5 +1,7 @@
 using BusinessLayer.Mappers;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Author;
+using BusinessLayer.Services.Author.Interfaces;
 using BusinessLayer.Services.Genre;
 using BusinessLayer.Services.Genre.Interfaces;
 using BusinessLayer.Services.Publisher;
@@ -17,6 +19,7 @@ public static class BusinessLogicConfiguration
         services.AddScoped<IGenreService, GenreService>();
         services.AddScoped<IPublisherService, PublisherService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAuthorService, AuthorService>();
 
         services.RegisterBusinessLogicMappers();
 

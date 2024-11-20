@@ -10,6 +10,8 @@ using BusinessLayer.Services.Genre;
 using BusinessLayer.Services.Genre.Interfaces;
 using BusinessLayer.Services.Image;
 using BusinessLayer.Services.Image.Interfaces;
+using BusinessLayer.Services.Order;
+using BusinessLayer.Services.Order.Interfaces;
 using BusinessLayer.Services.Publisher;
 using BusinessLayer.Services.Publisher.Interfaces;
 using BusinessLayer.Services.User;
@@ -26,6 +28,7 @@ public static class BusinessLogicConfiguration
         services.AddScoped<IPublisherService, PublisherService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthorService, AuthorService>();
+        services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IBookFacade, BookFacade>();

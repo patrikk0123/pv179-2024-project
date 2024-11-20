@@ -2,6 +2,7 @@ using Api.Configuration;
 using Api.Middlewares;
 using BusinessLayer.Configuration;
 using DAL.Data;
+using Elastic.Clients.Elasticsearch;
 using Infrastructure.UnitOfWork;
 using Infrastructure.UnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -71,6 +72,19 @@ builder.Services.AddSingleton<IImageUnitOfWork>(provider =>
 });
 
 builder.Services.RegisterBusinessLogicServices();
+
+builder.Services.Configure<RequestLogsSettings>(builder.Configuration.GetSection("RequestLogs"));
+
+builder.Services.AddSingleton(provider =>
+{
+    var requestLogsSettings = provider.GetRequiredService<IOptions<RequestLogsSettings>>().Value;
+
+    var elasticsearchUri = new Uri(requestLogsSettings.ElasticsearchUri);
+    var settings = new ElasticsearchClientSettings(elasticsearchUri).DefaultIndex(
+        requestLogsSettings.IndexName
+    );
+    return new ElasticsearchClient(settings);
+});
 
 var app = builder.Build();
 

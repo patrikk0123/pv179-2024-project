@@ -1,0 +1,32 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "${ES_PORT}:9200"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    networks:
+      - es-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "${KIBANA_PORT}:5601"
+    networks:
+      - es-network
+
+volumes:
+  es-data:
+    driver: local
+
+networks:
+  es-network:
+    driver: bridge

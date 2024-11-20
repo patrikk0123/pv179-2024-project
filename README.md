@@ -41,6 +41,16 @@ dotnet ef database update --project "DAL.SQLite.Migrations" --startup-project "A
 dotnet test
 ```
 
+## Request Logging
+The project uses [ElasticSearch with Kibana](https://www.elastic.co/)
+
+### Console
+To run the logger localy:
+```sh
+docker-compose up -d
+```
+Kibana available at: http://localhost:5601/
+
 ## Code formatter
 The project uses [Csharpier](https://csharpier.com/docs/About).
 

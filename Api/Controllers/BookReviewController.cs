@@ -17,6 +17,11 @@ public class BookReviewController(
     [HttpGet]
     public async Task<IActionResult> GetAllReviews([FromRoute] int bookId)
     {
+        if (!await bookService.DoesBookExistAsync(bookId))
+        {
+            return NotFound();
+        }
+
         return Ok(await bookReviewService.GetAllReviewsAsync(bookId));
     }
 

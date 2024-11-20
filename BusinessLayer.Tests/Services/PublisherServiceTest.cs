@@ -20,7 +20,8 @@ public class PublisherServiceTest
         _publisherService = new PublisherService(
             _dbContext,
             new PublisherMapper(
-                new ImageUnitOfWork("../../../../images", "../../../../images/previewImages")
+                new ImageUnitOfWork("../../../../images", "../../../../images/previewImages"),
+                new ImageMapper()
             )
         );
     }

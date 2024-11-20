@@ -12,4 +12,6 @@ public interface IImageUnitOfWork
     void Commit();
 
     void Rollback();
+
+    void SaveChanges();
 }

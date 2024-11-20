@@ -1,9 +1,15 @@
+using BusinessLayer.Facades.BookFacades;
+using BusinessLayer.Facades.BookFacades.Interfaces;
 using BusinessLayer.Mappers;
 using BusinessLayer.Mappers.Interfaces;
 using BusinessLayer.Services.Author;
 using BusinessLayer.Services.Author.Interfaces;
+using BusinessLayer.Services.Book;
+using BusinessLayer.Services.Book.Interfaces;
 using BusinessLayer.Services.Genre;
 using BusinessLayer.Services.Genre.Interfaces;
+using BusinessLayer.Services.Image;
+using BusinessLayer.Services.Image.Interfaces;
 using BusinessLayer.Services.Publisher;
 using BusinessLayer.Services.Publisher.Interfaces;
 using BusinessLayer.Services.User;
@@ -20,6 +26,9 @@ public static class BusinessLogicConfiguration
         services.AddScoped<IPublisherService, PublisherService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthorService, AuthorService>();
+        services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IImageService, ImageService>();
+        services.AddScoped<IBookFacade, BookFacade>();
 
         services.RegisterBusinessLogicMappers();
 
@@ -36,5 +45,6 @@ public static class BusinessLogicConfiguration
         services.AddSingleton<IWishListItemMapper, WishListItemMapper>();
         services.AddSingleton<IOrderMapper, OrderMapper>();
         services.AddSingleton<IBookReviewMapper, BookReviewMapper>();
+        services.AddSingleton<IImageMapper, ImageMapper>();
     }
 }

@@ -158,6 +158,7 @@ Api/appsettings.Development.json
 images/*
 images/previewImages/*
 
+!images/0.jpg
 !images/1849645247.jpg
 !images/previewImages
 !images/previewImages/0.jpg

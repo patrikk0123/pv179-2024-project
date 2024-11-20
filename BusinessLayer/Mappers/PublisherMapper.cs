@@ -6,7 +6,8 @@ using Infrastructure.UnitOfWork.Interfaces;
 
 namespace BusinessLayer.Mappers;
 
-public class PublisherMapper(IImageUnitOfWork unitOfWork) : IPublisherMapper
+public class PublisherMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper)
+    : IPublisherMapper
 {
     public PublisherDto ToDto(Publisher publisher)
     {
@@ -31,7 +32,9 @@ public class PublisherMapper(IImageUnitOfWork unitOfWork) : IPublisherMapper
                     Rating = book.Rating,
                     Price = book.Price,
                     PublisherName = publisher.Name,
-                    PreviewImage = unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId),
+                    PreviewImage = imageMapper.ToDto(
+                        unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
+                    ),
                 })
                 .ToList(),
         };

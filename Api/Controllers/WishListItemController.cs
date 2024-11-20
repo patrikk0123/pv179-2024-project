@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs.WishListItem;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Book.Interfaces;
 using BusinessLayer.Services.User.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace Api.Controllers;
 [Route("/wishlist")]
 public class WishListItemController(
     IUserService userService,
+    IBookService bookService,
     BookHubDBContext dBContext,
     IWishListItemMapper wishListItemMapper
 ) : Controller
@@ -36,8 +38,7 @@ public class WishListItemController(
             return NotFound("User not found");
         }
 
-        var book = await dBContext.Books.FindAsync(wishListDto.BookId);
-        if (book == null)
+        if (!await bookService.DoesBookExistAsync(wishListDto.BookId))
         {
             return NotFound("Book not found");
         }

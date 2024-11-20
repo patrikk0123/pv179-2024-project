@@ -9,7 +9,7 @@ using Infrastructure.UnitOfWork.Interfaces;
 
 namespace BusinessLayer.Mappers;
 
-public class BookMapper(IImageUnitOfWork unitOfWork) : IBookMapper
+public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) : IBookMapper
 {
     public BookDto ToDto(Book book)
     {
@@ -24,7 +24,9 @@ public class BookMapper(IImageUnitOfWork unitOfWork) : IBookMapper
             Rating = book.Rating,
             Price = book.Price,
             PublisherName = book.Publisher.Name,
-            PreviewImage = unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId),
+            PreviewImage = imageMapper.ToDto(
+                unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
+            ),
         };
     }
 
@@ -70,10 +72,12 @@ public class BookMapper(IImageUnitOfWork unitOfWork) : IBookMapper
                         })
                         .ToList()
                     : [],
-            PreviewImage = unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId),
+            PreviewImage = imageMapper.ToDto(
+                unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
+            ),
             Images =
                 book.Images?.Select(bookImage =>
-                        unitOfWork.ImageRepository.GetById(bookImage.ImageId)!
+                        imageMapper.ToDto(unitOfWork.ImageRepository.GetById(bookImage.ImageId))!
                     )
                     .ToList() ?? [],
         };

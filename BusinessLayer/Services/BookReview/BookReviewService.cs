@@ -38,7 +38,9 @@ public class BookReviewService(BookHubDBContext dBContext, IBookReviewMapper boo
     {
         var review = bookReviewMapper.ToModel(reviewCreateDto);
         review.BookId = bookId;
+        review.Book = await dBContext.Books.FindAsync(bookId);
         review.UserId = userId;
+        review.User = await dBContext.Users.FindAsync(userId);
 
         var createdReview = await dBContext.Reviews.AddAsync(review);
         await SaveAsync(true);

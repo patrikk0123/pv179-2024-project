@@ -21,7 +21,8 @@ public class GenreServiceTest
             _dbContext,
             new GenreMapper(
                 new BookMapper(
-                    new ImageUnitOfWork("../../../../images", "../../../../images/previewImages")
+                    new ImageUnitOfWork("../../../../images", "../../../../images/previewImages"),
+                    new ImageMapper()
                 )
             )
         );

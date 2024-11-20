@@ -16,6 +16,8 @@ using BusinessLayer.Services.Publisher;
 using BusinessLayer.Services.Publisher.Interfaces;
 using BusinessLayer.Services.User;
 using BusinessLayer.Services.User.Interfaces;
+using BusinessLayer.Services.WishList;
+using BusinessLayer.Services.WishList.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLayer.Configuration;
@@ -24,6 +26,7 @@ public static class BusinessLogicConfiguration
 {
     public static IServiceCollection RegisterBusinessLogicServices(this IServiceCollection services)
     {
+        services.AddScoped<IWishlistService, WishlistService>();
         services.AddScoped<IGenreService, GenreService>();
         services.AddScoped<IPublisherService, PublisherService>();
         services.AddScoped<IUserService, UserService>();

@@ -32,7 +32,7 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
 
     public virtual DbSet<Order> Orders { get; set; }
 
-    public virtual DbSet<OrderItem> OrdersItems { get; set; }
+    public virtual DbSet<OrderItem> OrderItem { get; set; }
 
     public virtual DbSet<BookImage> BookImages { get; set; }
 

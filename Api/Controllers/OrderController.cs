@@ -1,11 +1,8 @@
 ﻿using BusinessLayer.DTOs.Order;
-using BusinessLayer.Mappers.Interfaces;
 using BusinessLayer.Services.Book.Interfaces;
+using BusinessLayer.Services.Order.Interfaces;
 using BusinessLayer.Services.User.Interfaces;
-using DAL.Data;
-using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
@@ -13,97 +10,48 @@ namespace Api.Controllers;
 [Route("/orders")]
 public class OrderController(
     IUserService userService,
-    BookHubDBContext dBContext,
     IBookService bookService,
-    IOrderMapper orderMapper
+    IOrderService orderService
 ) : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> GetALlOrders()
+    public async Task<IActionResult> GetAllOrders()
     {
-        var orders = await dBContext.Orders.ToListAsync();
-
-        return Ok(orders.Select(orderMapper.ToDto));
+        return Ok(await orderService.GetAllOrdersAsync());
     }
 
     [HttpGet]
     [Route("{orderId}")]
     public async Task<IActionResult> GetSingleOrder(int orderId)
     {
-        var order = await dBContext.Orders.FirstOrDefaultAsync(order => order.Id == orderId);
+        var order = await orderService.GetSingleOrderAsync(orderId);
 
         if (order == null)
         {
             return NotFound();
         }
 
-        return Ok(orderMapper.ToDetailDto(order));
+        return Ok(order);
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto orderDto)
     {
-        await using var transaction = await dBContext.Database.BeginTransactionAsync();
-        try
+        const int userId = 1; // TODO: Get the user ID from the JWT token
+        if (!await userService.DoesUserExistAsync(userId))
         {
-            var bookIds = orderDto.OrderItems.ConvertAll(oi => oi.BookId);
-
-            var anyMissing = await bookService.DoBooksExistAsync(bookIds);
-
-            if (anyMissing)
-            {
-                return BadRequest("One or more books do not exist.");
-            }
-
-            double totalPrice = 0;
-            foreach (var oi in orderDto.OrderItems)
-            {
-                var book = await bookService.GetSingleBookAsync(oi.BookId);
-                totalPrice += book.Price * oi.Quantity;
-            }
-
-            const int userId = 1; // TODO: Get the user ID from the JWT token
-            if (!await userService.DoesUserExistAsync(userId))
-            {
-                return NotFound("User not found");
-            }
-
-            var order = new Order { UserId = userId, TotalPrice = totalPrice };
-
-            await dBContext.Orders.AddAsync(order);
-
-            await dBContext.SaveChangesAsync();
-
-            var orderItems = new List<OrderItem>();
-            foreach (var oi in orderDto.OrderItems)
-            {
-                var book = await bookService.GetSingleBookAsync(oi.BookId);
-                orderItems.Add(
-                    new OrderItem
-                    {
-                        OrderId = order.Id,
-                        BookId = oi.BookId,
-                        Quantity = oi.Quantity,
-                        PricePerItem = book.Price,
-                    }
-                );
-            }
-            order.OrderItems = orderItems;
-
-            await dBContext.SaveChangesAsync();
-
-            await transaction.CommitAsync();
-
-            return CreatedAtAction(
-                nameof(GetSingleOrder),
-                new { orderId = order.Id },
-                orderMapper.ToDto(order)
-            );
+            return NotFound("User not found");
         }
-        catch (Exception)
+
+        var bookIds = orderDto.OrderItems.ConvertAll(oi => oi.BookId);
+
+        if (!await bookService.DoBooksExistAsync(bookIds))
         {
-            await transaction.RollbackAsync();
-            throw;
+            return BadRequest("One or more books do not exist.");
         }
+
+        var order = await orderService.CreateOrderAsync(orderDto, userId);
+
+        return CreatedAtAction(nameof(GetSingleOrder), new { orderId = order.Id }, order);
     }
 }

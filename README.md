@@ -3,6 +3,7 @@ Eshop for books, that will guess what book you want to read.
 
 ## Pre-requisites
 - .NET 8.0
+- Node.js v20
 
 ## API
 - Install dependencies
@@ -45,7 +46,7 @@ dotnet test
 The project uses [ElasticSearch with Kibana](https://www.elastic.co/)
 
 ### Console
-To run the logger localy:
+To run the logger locally:
 ```sh
 docker-compose up -d
 ```

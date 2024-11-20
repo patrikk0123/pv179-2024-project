@@ -3,7 +3,11 @@ using Elastic.Clients.Elasticsearch;
 
 namespace Api.Middlewares;
 
-public class RequestLoggingMiddleware(RequestDelegate next, ElasticsearchClient elasticClient)
+public class RequestLoggingMiddleware(
+    RequestDelegate next,
+    ElasticsearchClient elasticClient,
+    ILogger<RequestLoggingMiddleware> logger
+)
 {
     public async Task Invoke(HttpContext context)
     {
@@ -33,8 +37,14 @@ public class RequestLoggingMiddleware(RequestDelegate next, ElasticsearchClient 
             var duration = DateTime.UtcNow - startTime;
             logEntry.Response.StatusCode = context.Response.StatusCode;
             logEntry.DurationMilliseconds = duration.TotalMilliseconds;
-
-            await elasticClient.IndexAsync(logEntry, i => i.Index("logs"));
+            try
+            {
+                await elasticClient.IndexAsync(logEntry, i => i.Index("logs"));
+            }
+            catch (Exception e)
+            {
+                logger.LogWarning(e.Message);
+            }
         }
     }
 }

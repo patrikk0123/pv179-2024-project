@@ -21,7 +21,8 @@ public class AuthorServiceTest
             _dbContext,
             new AuthorMapper(
                 new BookMapper(
-                    new ImageUnitOfWork("../../../../images", "../../../../images/previewImages")
+                    new ImageUnitOfWork("../../../../images", "../../../../images/previewImages"),
+                    new ImageMapper()
                 )
             )
         );

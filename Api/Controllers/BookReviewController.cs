@@ -1,5 +1,6 @@
 using BusinessLayer.DTOs.BookReview;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Book.Interfaces;
 using BusinessLayer.Services.User.Interfaces;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ namespace Api.Controllers;
 public class BookReviewController(
     IUserService userService,
     BookHubDBContext dBContext,
+    IBookService bookService,
     IBookReviewMapper bookReviewMapper
 ) : Controller
 {
@@ -48,8 +50,7 @@ public class BookReviewController(
         [FromBody] BookReviewCreateDto reviewDto
     )
     {
-        var book = await dBContext.Books.FindAsync(bookId);
-        if (book == null)
+        if (!await bookService.DoesBookExistAsync(bookId))
         {
             return NotFound();
         }

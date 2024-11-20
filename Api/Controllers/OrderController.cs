@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs.Order;
 using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Book.Interfaces;
 using BusinessLayer.Services.User.Interfaces;
 using DAL.Data;
 using DAL.Models;
@@ -13,6 +14,7 @@ namespace Api.Controllers;
 public class OrderController(
     IUserService userService,
     BookHubDBContext dBContext,
+    IBookService bookService,
     IOrderMapper orderMapper
 ) : Controller
 {
@@ -46,18 +48,19 @@ public class OrderController(
         {
             var bookIds = orderDto.OrderItems.ConvertAll(oi => oi.BookId);
 
-            var anyMissing =
-                await dBContext.Books.Where(b => bookIds.Contains(b.Id)).CountAsync()
-                != bookIds.Count;
+            var anyMissing = await bookService.DoBooksExistAsync(bookIds);
 
             if (anyMissing)
             {
                 return BadRequest("One or more books do not exist.");
             }
 
-            var totalPrice = orderDto.OrderItems.Sum(oi =>
-                dBContext.Books.First(b => b.Id == oi.BookId).Price * oi.Quantity
-            );
+            double totalPrice = 0;
+            foreach (var oi in orderDto.OrderItems)
+            {
+                var book = await bookService.GetSingleBookAsync(oi.BookId);
+                totalPrice += book.Price * oi.Quantity;
+            }
 
             const int userId = 1; // TODO: Get the user ID from the JWT token
             if (!await userService.DoesUserExistAsync(userId))
@@ -71,13 +74,21 @@ public class OrderController(
 
             await dBContext.SaveChangesAsync();
 
-            order.OrderItems = orderDto.OrderItems.ConvertAll(oi => new OrderItem
+            var orderItems = new List<OrderItem>();
+            foreach (var oi in orderDto.OrderItems)
             {
-                OrderId = order.Id,
-                BookId = oi.BookId,
-                Quantity = oi.Quantity,
-                PricePerItem = dBContext.Books.First(b => b.Id == oi.BookId).Price,
-            });
+                var book = await bookService.GetSingleBookAsync(oi.BookId);
+                orderItems.Add(
+                    new OrderItem
+                    {
+                        OrderId = order.Id,
+                        BookId = oi.BookId,
+                        Quantity = oi.Quantity,
+                        PricePerItem = book.Price,
+                    }
+                );
+            }
+            order.OrderItems = orderItems;
 
             await dBContext.SaveChangesAsync();
 

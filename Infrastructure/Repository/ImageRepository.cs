@@ -28,7 +28,10 @@ public class ImageRepository(string parentPath) : IRepository<RepositoryImage>
     {
         var persistedImagePath = Directory
             .GetFiles(parentPath)
-            .FirstOrDefault(filePath => GetImageIdFromFilePath(filePath) == id, "0.jpg");
+            .FirstOrDefault(
+                filePath => GetImageIdFromFilePath(filePath) == id,
+                GetFilePathFromImageId("0")
+            );
 
         var data = File.ReadAllBytes(persistedImagePath);
         return new RepositoryImage { Id = GetImageIdFromFilePath(persistedImagePath), Data = data };

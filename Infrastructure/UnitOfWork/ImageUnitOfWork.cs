@@ -22,8 +22,7 @@ public class ImageUnitOfWork(string imageParentPath, string previewImagesParentP
     {
         try
         {
-            _imageRepository?.SaveChanges();
-            _imagePreviewRepository?.SaveChanges();
+            SaveChanges();
         }
         catch (Exception)
         {
@@ -38,5 +37,11 @@ public class ImageUnitOfWork(string imageParentPath, string previewImagesParentP
     {
         _imageRepository?.Rollback();
         _imagePreviewRepository?.Rollback();
+    }
+
+    public void SaveChanges()
+    {
+        _imageRepository?.SaveChanges();
+        _imagePreviewRepository?.SaveChanges();
     }
 }

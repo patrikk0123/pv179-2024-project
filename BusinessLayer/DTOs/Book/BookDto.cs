@@ -1,5 +1,5 @@
+using BusinessLayer.DTOs.Image;
 using BusinessLayer.DTOs.Interfaces;
-using Infrastructure.Models;
 
 namespace BusinessLayer.DTOs.Book;
 
@@ -21,5 +21,5 @@ public class BookDto : BaseDto
 
     public required string PublisherName { get; init; }
 
-    public RepositoryImage PreviewImage { get; init; }
+    public ImageDto PreviewImage { get; init; }
 }

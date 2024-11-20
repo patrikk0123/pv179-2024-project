@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace Infrastructure.Helpers;
 
-public static class ImageService
+public static class ImageHelpers
 {
     public static byte[] CreateImagePreview(
         byte[] imageBytes,

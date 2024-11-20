@@ -3,7 +3,11 @@ using Elastic.Clients.Elasticsearch;
 
 namespace Api.Middlewares;
 
-public class RequestLoggingMiddleware(RequestDelegate next, ElasticsearchClient elasticClient, ILogger<RequestLoggingMiddleware> logger)
+public class RequestLoggingMiddleware(
+    RequestDelegate next,
+    ElasticsearchClient elasticClient,
+    ILogger<RequestLoggingMiddleware> logger
+)
 {
     public async Task Invoke(HttpContext context)
     {

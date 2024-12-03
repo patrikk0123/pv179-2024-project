@@ -1,6 +1,11 @@
 # BookHub I guess
 Eshop for books, that will guess what book you want to read.
 
+## Members
+- Marcel Lukčo (Team-lead) he/him
+- Patrik Korytár (Lead developer) he/him
+- Oldřich Machal (QA engineer) he/him 
+
 ## Pre-requisites
 - .NET 8.0
 - Node.js v20

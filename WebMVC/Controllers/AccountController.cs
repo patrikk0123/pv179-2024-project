@@ -29,10 +29,19 @@ public class AccountController(
                 {
                     Username = model.Username,
                     Email = model.Email,
-                    Role = UserRole.User,
+                    Role = model.IsAdmin ? UserRole.Admin : UserRole.User,
                 },
             };
             var result = await userManager.CreateAsync(user, model.Password);
+
+            if (model.IsAdmin)
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
+            else
+            {
+                await userManager.AddToRoleAsync(user, "User");
+            }
 
             if (result.Succeeded)
             {

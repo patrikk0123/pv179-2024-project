@@ -23,9 +23,22 @@
     </nav>
 </header>
 
-<main role="main" class="mt-4 px-2">
-    @RenderBody()
-</main>
+
+<div class="grid grid-cols-12 gap-4 p-4">
+    <aside class="col-span-2">
+        <nav class="border border-solid border-gray-800 rounded-md">
+            <ul>
+                <li>
+                    <a asp-area="Admin" asp-controller="Home" asp-action="Index"
+                       class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200 rounded-md">Home</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="col-span-10">
+        @RenderBody()
+    </main>
+</div>
 
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)

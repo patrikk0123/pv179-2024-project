@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.ViewModels;
 
-namespace WebMVC.Area.Admin.Controllers;
+namespace WebMVC.Areas.Admin.Controllers;
 
 public class PublishersController(ILogger<PublishersController> logger) : AdminController
 {

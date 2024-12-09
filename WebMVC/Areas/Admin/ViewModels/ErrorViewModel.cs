@@ -1,4 +1,4 @@
-namespace WebMVC.Area.Admin.ViewModels;
+namespace WebMVC.Areas.Admin.ViewModels;
 
 public class ErrorViewModel
 {

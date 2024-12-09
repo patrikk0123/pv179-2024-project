@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.ViewModels;
 
-namespace WebMVC.Area.Admin.Controllers;
+namespace WebMVC.Areas.Admin.Controllers;
 
 public class CouponsController(ILogger<CouponsController> logger) : AdminController
 {

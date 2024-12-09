@@ -24,9 +24,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Presentation.Common\Presentation.Common.csproj" />
+        <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
         <ProjectReference Include="..\DAL.SQLite.Migrations\DAL.SQLite.Migrations.csproj" />
         <ProjectReference Include="..\DAL\DAL.csproj" />
-        <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
     </ItemGroup>
 
     <ItemGroup>

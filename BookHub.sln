@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMVC", "WebMVC\WebMVC.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{3BB7A60E-E376-4037-94B2-8B7042060D72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Shared", "Presentation.Shared\Presentation.Shared.csproj", "{C93E3DFB-35EF-45B5-9667-B5988D989533}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Common", "Presentation.Common\Presentation.Common.csproj", "{C93E3DFB-35EF-45B5-9667-B5988D989533}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

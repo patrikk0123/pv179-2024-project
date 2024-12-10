@@ -1,4 +1,5 @@
 using BusinessLayer.DTOs.BookReview;
+using BusinessLayer.DTOs.Common;
 using BusinessLayer.Services.Book.Interfaces;
 using BusinessLayer.Services.BookReview.Interfaces;
 using DAL.Models.Auth;
@@ -17,11 +18,19 @@ public class BooksController(
 ) : Controller
 {
     [HttpGet("")]
-    public async Task<IActionResult> GetAllBooks()
+    public async Task<IActionResult> GetAllBooks([FromQuery] Pagination pagination)
     {
-        var books = await bookService.GetAllBooksAsync(null, null, null, null, null, null);
+        var bookPage = await bookService.GetAllBooksAsync(
+            pagination,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
 
-        var model = books.ConvertAll(book => book.Adapt<BookViewModel>());
+        var model = bookPage.Adapt<BookPageViewModel>();
 
         return View(model);
     }

@@ -1,10 +1,12 @@
-@model List<WebMVC.ViewModels.Book.BookViewModel>
+@using WebMVC.ViewModels.Book;
+
+@model BookPageViewModel
 
 <div class="container mx-auto p-4">
-    @if (Model != null && Model.Any())
+    @if (Model != null && Model.Content.Any())
     {
-        <div class="flex flex-wrap gap-6 justify-center">
-            @foreach (var book in Model)
+        <div class="flex flex-wrap gap-6 justify-center mb-4">
+            @foreach (var book in Model.Content)
             {
                 <a class="block flex flex-col gap-2 bg-white shadow-md rounded-lg w-64 p-4" asp-area="" asp-controller="Books" asp-action="GetDetailBook" asp-route-bookId="@book.Id">
                     <img
@@ -46,6 +48,14 @@
                     <p class="text-sm text-gray-800 text-right font-bold">@book.Price.ToString("0.0")€</p>
                 </a>
             }
+        </div>
+        
+        <div class="flex justify-center">
+            <div class="join">
+                <a class="join-item btn @((Model.PageIndex <= 0) ? "pointer-events-none" : "")" asp-action="GetAllBooks" asp-route-pageIndex="@(Model.PageIndex - 1)">«</a>
+                <button class="join-item btn">@($"Page {Model.PageIndex + 1}")</button>
+                <a class="join-item btn @((Model.PageIndex >= Model.TotalPages - 1) ? "pointer-events-none" : "")" asp-action="GetAllBooks" asp-route-pageIndex="@(Model.PageIndex + 1)">»</a>
+            </div>
         </div>
     }
     else

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.DTOs.Book;
+using BusinessLayer.DTOs.Common;
 using BusinessLayer.Facades.BookFacades.Interfaces;
 using BusinessLayer.Mappers.Interfaces;
 using BusinessLayer.Services.Author.Interfaces;
@@ -22,6 +23,7 @@ public class BookController(
 {
     [HttpGet]
     public async Task<IActionResult> GetAllBooks(
+        [FromQuery] Pagination pagination,
         [FromQuery] string? name,
         [FromQuery] string? description,
         [FromQuery] double? minPrice,
@@ -31,6 +33,7 @@ public class BookController(
     )
     {
         var books = await bookService.GetAllBooksAsync(
+            pagination,
             name,
             description,
             minPrice,

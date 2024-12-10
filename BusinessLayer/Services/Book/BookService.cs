@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.DTOs.Book;
+using BusinessLayer.DTOs.Common;
 using BusinessLayer.Mappers.Interfaces;
 using BusinessLayer.Services.Book.Interfaces;
 using DAL.Data;
@@ -12,7 +13,8 @@ public class BookService(BookHubDBContext dBContext, IBookMapper bookMapper)
     : BaseService(dBContext),
         IBookService
 {
-    public async Task<List<BookDto>> GetAllBooksAsync(
+    public async Task<BookPage> GetAllBooksAsync(
+        Pagination pagination,
         string? name,
         string? description,
         double? minPrice,
@@ -21,7 +23,7 @@ public class BookService(BookHubDBContext dBContext, IBookMapper bookMapper)
         string? genreType
     )
     {
-        var books = await dBContext
+        var baseQuery = dBContext
             .Books.WhereIf(
                 !string.IsNullOrEmpty(name),
                 book => EF.Functions.Like(book.Name, $"%{name}%")
@@ -42,11 +44,28 @@ public class BookService(BookHubDBContext dBContext, IBookMapper bookMapper)
                     book.BookGenres.Any(bookGenre =>
                         EF.Functions.Like(bookGenre.Genre.GenreType, $"%{genreType}%")
                     )
-            )
+            );
+
+        var books = await baseQuery
             .Select(book => bookMapper.ToDto(book))
+            .Skip(pagination.PageIndex * pagination.PageSize)
+            .Take(pagination.PageSize)
             .ToListAsync();
 
-        return books ?? [];
+        var totalCount = await baseQuery.CountAsync();
+
+        var totalPages = (int)Math.Ceiling((double)totalCount / pagination.PageSize);
+
+        var bookPage = new BookPage
+        {
+            PageIndex = pagination.PageIndex,
+            PageSize = pagination.PageSize,
+            TotalCount = totalCount,
+            TotalPages = totalPages,
+            Content = books ?? [],
+        };
+
+        return bookPage;
     }
 
     public async Task<BookDetailDto?> GetSingleBookAsync(int bookId)

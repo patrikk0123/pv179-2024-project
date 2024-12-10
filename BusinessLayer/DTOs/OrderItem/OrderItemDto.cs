@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.DTOs.Book;
-using BusinessLayer.DTOs.Interfaces;
+using BusinessLayer.DTOs.Common;
 
 namespace BusinessLayer.DTOs.OrderItem;
 

@@ -8,6 +8,12 @@ public static class MapsterConfig
 {
     public static void Setup()
     {
-        TypeAdapterConfig<BookDto, BookViewModel>.NewConfig();
+        TypeAdapterConfig<BookDto, BookViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Authors,
+                src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
+            )
+            .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
     }
 }

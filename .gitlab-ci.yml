@@ -11,9 +11,10 @@ default:
     - curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
     - apt-get install -y nodejs
     - npm --version
-    - npm i
     - dotnet tool restore
     - dotnet restore --packages $NUGET_PACKAGES_DIRECTORY
+    - cd WebMVC
+    - npm i
   tags:
     - shared-fi
 

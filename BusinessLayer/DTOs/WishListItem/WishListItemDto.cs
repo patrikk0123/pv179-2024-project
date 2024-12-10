@@ -1,4 +1,4 @@
-﻿using BusinessLayer.DTOs.Interfaces;
+﻿using BusinessLayer.DTOs.Common;
 
 namespace BusinessLayer.DTOs.WishListItem;
 

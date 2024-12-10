@@ -1,6 +1,6 @@
 using BusinessLayer.DTOs.Author;
+using BusinessLayer.DTOs.Common;
 using BusinessLayer.DTOs.Image;
-using BusinessLayer.DTOs.Interfaces;
 
 namespace BusinessLayer.DTOs.Book;
 

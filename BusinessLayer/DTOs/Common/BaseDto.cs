@@ -1,4 +1,4 @@
-namespace BusinessLayer.DTOs.Interfaces;
+namespace BusinessLayer.DTOs.Common;
 
 public class BaseDto
 {

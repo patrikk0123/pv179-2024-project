@@ -1,4 +1,4 @@
-﻿namespace Api.Configuration;
+﻿namespace Presentation.Common.Configuration;
 
 public class ImageSettings
 {

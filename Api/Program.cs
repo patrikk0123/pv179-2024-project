@@ -8,6 +8,7 @@ using Infrastructure.UnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Presentation.Common.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

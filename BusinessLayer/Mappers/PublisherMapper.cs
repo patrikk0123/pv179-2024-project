@@ -1,3 +1,4 @@
+using BusinessLayer.DTOs.Author;
 using BusinessLayer.DTOs.Book;
 using BusinessLayer.DTOs.Publisher;
 using BusinessLayer.Mappers.Interfaces;
@@ -35,6 +36,14 @@ public class PublisherMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapp
                     PreviewImage = imageMapper.ToDto(
                         unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
                     ),
+                    Authors = book
+                        .BookAuthors?.Select(bookAuthor => new AuthorDto()
+                        {
+                            Id = bookAuthor.Author.Id,
+                            Name = bookAuthor.Author.Name,
+                            Surname = bookAuthor.Author.Surname,
+                        })
+                        .ToList(),
                 })
                 .ToList(),
         };

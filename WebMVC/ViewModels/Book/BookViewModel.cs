@@ -1,0 +1,16 @@
+namespace WebMVC.ViewModels.Book;
+
+public class BookViewModel
+{
+    public required string Name { get; init; }
+
+    public required int Pages { get; init; }
+
+    public required double Rating { get; init; }
+
+    public required double Price { get; init; }
+
+    public byte[] PreviewImage { get; init; }
+
+    public required List<String> Authors { get; init; } = [];
+}

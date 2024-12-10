@@ -1,3 +1,4 @@
+using BusinessLayer.DTOs.Author;
 using BusinessLayer.DTOs.Image;
 using BusinessLayer.DTOs.Interfaces;
 
@@ -22,4 +23,6 @@ public class BookDto : BaseDto
     public required string PublisherName { get; init; }
 
     public ImageDto PreviewImage { get; init; }
+
+    public required List<AuthorDto> Authors { get; init; } = [];
 }

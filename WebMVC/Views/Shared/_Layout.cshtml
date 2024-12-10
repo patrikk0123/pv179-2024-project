@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - BookHub</title>
     <link rel="stylesheet" href="~/css/output.css" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -15,13 +16,25 @@
                class="text-2xl font-bold text-gray-800 hover:text-blue-500 transition duration-200">
                 BookHub
             </a>
-            <div class="flex space-x-2">
-                <a asp-area="" asp-controller="Account" asp-action="Login"
-                   class="text-gray-800 font-medium py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-200">Login</a>
-                <a asp-area="" asp-controller="Account" asp-action="Register"
-                   class="text-gray-800 font-medium py-2 px-4 rounded hover:bg-green-500 hover:text-white transition duration-200">Register</a>
-                <a asp-area="" asp-controller="Account" asp-action="Logout"
-                   class="text-gray-800 font-medium py-2 px-4 rounded hover:bg-rose-500 hover:text-white transition duration-200">Logout</a>
+             <div class="flex space-x-2">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <details class="dropdown dropdown-end">
+                        <summary class="btn btn-outline m-1"><i class="fas fa-user"></i>@User.Identity.Name</summary>
+                        <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                            <li><a asp-area="" asp-controller="Account" asp-action="GetAllUserOrders"><i class="fa-solid fa-bag-shopping"></i>Orders</a></li>
+                            <li><a asp-area="" asp-controller="Account" asp-action="GetAllUserWishListItems"><i class="fa-solid fa-heart"></i> Wishlist</a></li>
+                            <li><a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-right-from-bracket"></i>Log out</a></li>
+                        </ul>
+                    </details>
+                }
+                else
+                {
+                    <a asp-area="" asp-controller="Account" asp-action="Login"
+                       class="text-gray-800 font-medium py-2 px-4 rounded hover:bg-green-500 hover:text-white transition duration-200">Login</a>
+                    <a asp-area="" asp-controller="Account" asp-action="Register"
+                       class="text-gray-800 font-medium py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-200">Register</a>
+                }
             </div>
         </div>
     </nav>

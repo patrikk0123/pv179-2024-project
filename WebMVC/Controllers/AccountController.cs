@@ -105,4 +105,16 @@ public class AccountController(
     {
         return View();
     }
+
+    [HttpGet("/account/wishlist")]
+    public async Task<IActionResult> GetAllUserWishListItems()
+    {
+        return View();
+    }
+
+    [HttpGet("/account/orders")]
+    public async Task<IActionResult> GetAllUserOrders()
+    {
+        return View();
+    }
 }

@@ -12,6 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +24,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Presentation.Common\Presentation.Common.csproj" />
+        <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
         <ProjectReference Include="..\DAL.SQLite.Migrations\DAL.SQLite.Migrations.csproj" />
         <ProjectReference Include="..\DAL\DAL.csproj" />
     </ItemGroup>

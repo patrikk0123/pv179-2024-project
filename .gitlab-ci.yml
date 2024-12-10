@@ -13,6 +13,8 @@ default:
     - npm --version
     - dotnet tool restore
     - dotnet restore --packages $NUGET_PACKAGES_DIRECTORY
+    - cd WebMVC
+    - npm i
   tags:
     - shared-fi
 

@@ -8,7 +8,7 @@
         <div class="flex flex-wrap gap-6 justify-center mb-4">
             @foreach (var book in Model.Content)
             {
-                <a class="block flex flex-col gap-2 bg-white shadow-md rounded-lg w-64 p-4" asp-area="" asp-controller="Books" asp-action="Detail" asp-route-bookId="@book.Id">
+                <a class="block flex flex-col gap-2 bg-white shadow-md rounded-lg w-64 p-4" asp-area="" asp-controller="Books" asp-action="GetDetailBook" asp-route-bookId="@book.Id">
                     <img
                         src="data:image/png;base64,@Convert.ToBase64String(book.PreviewImage)"
                         alt="@book.Name"
@@ -52,9 +52,9 @@
         
         <div class="flex justify-center">
             <div class="join">
-                <a class="join-item btn @((Model.PageIndex <= 0) ? "pointer-events-none" : "")" asp-action="List" asp-route-pageIndex="@(Model.PageIndex - 1)">«</a>
+                <a class="join-item btn @((Model.PageIndex <= 0) ? "pointer-events-none" : "")" asp-action="GetAllBooks" asp-route-pageIndex="@(Model.PageIndex - 1)">«</a>
                 <button class="join-item btn">@($"Page {Model.PageIndex + 1}")</button>
-                <a class="join-item btn @((Model.PageIndex >= Model.TotalPages - 1) ? "pointer-events-none" : "")" asp-action="List" asp-route-pageIndex="@(Model.PageIndex + 1)">»</a>
+                <a class="join-item btn @((Model.PageIndex >= Model.TotalPages - 1) ? "pointer-events-none" : "")" asp-action="GetAllBooks" asp-route-pageIndex="@(Model.PageIndex + 1)">»</a>
             </div>
         </div>
     }

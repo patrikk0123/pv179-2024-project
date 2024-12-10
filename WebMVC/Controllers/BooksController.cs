@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.ViewModels.Book;
-using WebMVC.ViewModels.Review;
 
 namespace WebMVC.Controllers;
 
@@ -19,7 +18,7 @@ public class BooksController(
 ) : Controller
 {
     [HttpGet("")]
-    public async Task<IActionResult> List([FromQuery] Pagination pagination)
+    public async Task<IActionResult> GetAllBooks([FromQuery] Pagination pagination)
     {
         var bookPage = await bookService.GetAllBooksAsync(
             pagination,
@@ -37,7 +36,7 @@ public class BooksController(
     }
 
     [HttpGet("detail/{bookId}")]
-    public async Task<IActionResult> Detail(int bookId)
+    public async Task<IActionResult> GetDetailBook(int bookId)
     {
         var book = await bookService.GetSingleBookAsync(bookId);
 
@@ -53,7 +52,7 @@ public class BooksController(
 
     [HttpPost("detail/{bookId}")]
     [Authorize]
-    public async Task<IActionResult> Detail(int bookId, BookReviewViewModel viewModelReviewView)
+    public async Task<IActionResult> GetDetailBook(int bookId, BookReviewModel modelReview)
     {
         var book = await bookService.GetSingleBookAsync(bookId);
 
@@ -78,8 +77,8 @@ public class BooksController(
                     user.UserId,
                     new BookReviewCreateDto()
                     {
-                        Rating = viewModelReviewView.Rating,
-                        Body = viewModelReviewView.Body,
+                        Rating = modelReview.Rating,
+                        Body = modelReview.Body,
                     }
                 );
 

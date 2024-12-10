@@ -1,4 +1,4 @@
-using WebMVC.ViewModels.Review;
+using BusinessLayer.DTOs.BookReview;
 
 namespace WebMVC.ViewModels.Book;
 
@@ -20,7 +20,7 @@ public class BookDetailViewModel
 
     public required List<String> Genres { get; init; } = [];
 
-    public required List<BookReviewDetailViewModel> Reviews { get; init; } = [];
+    public required List<BookReviewDto> Reviews { get; init; } = [];
 
     public required double Rating { get; init; }
 

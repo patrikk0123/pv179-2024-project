@@ -1,4 +1,4 @@
-using BusinessLayer.DTOs.Interfaces;
+using BusinessLayer.DTOs.Common;
 using DAL.Models;
 
 namespace BusinessLayer.DTOs.User;

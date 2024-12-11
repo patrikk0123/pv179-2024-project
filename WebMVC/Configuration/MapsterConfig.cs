@@ -23,6 +23,10 @@ public static class MapsterConfig
                 src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
             )
             .Map(dest => dest.Genres, src => src.Genres.ConvertAll(genre => genre.GenreType))
+            .Map(
+                dest => dest.Reviews,
+                src => src.Reviews.ConvertAll(review => review.Adapt<BookReviewDetailModel>())
+            )
             .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
     }
 }

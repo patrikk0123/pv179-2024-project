@@ -8,7 +8,7 @@
         <div class="flex flex-wrap gap-6 justify-center mb-4">
             @foreach (var book in Model.Content)
             {
-                <a class="block flex flex-col gap-2 bg-white shadow-md rounded-lg w-64 p-4" asp-area="" asp-controller="Books" asp-action="GetDetailBook" asp-route-bookId="@book.Id">
+                <a class="block flex flex-col gap-2 bg-white shadow-md rounded-lg w-64 p-4" asp-area="" asp-controller="Books" asp-action="DetailBook" asp-route-bookId="@book.Id">
                     <img
                         src="data:image/png;base64,@Convert.ToBase64String(book.PreviewImage)"
                         alt="@book.Name"

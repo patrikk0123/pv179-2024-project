@@ -28,7 +28,7 @@ public class GenreService(BookHubDBContext dBContext, IGenreMapper genreMapper)
         return genres.ConvertAll(genreMapper.ToDto);
     }
 
-    public async Task<GenreDetailDto> GetSingleGenreAsync(int genreId)
+    public async Task<GenreDetailDto?> GetSingleGenreAsync(int genreId)
     {
         var genre = await dBContext.Genres.FindAsync(genreId);
         if (genre == null)
@@ -39,7 +39,7 @@ public class GenreService(BookHubDBContext dBContext, IGenreMapper genreMapper)
         return genreMapper.ToDetailDto(genre);
     }
 
-    public async Task<GenreDto> CreateSingleGenreAsync(GenreCreateDto genreCreateDto)
+    public async Task<GenreDto?> CreateSingleGenreAsync(GenreCreateDto genreCreateDto)
     {
         var createdGenre = await dBContext.Genres.AddAsync(genreMapper.ToModel(genreCreateDto));
 
@@ -48,7 +48,7 @@ public class GenreService(BookHubDBContext dBContext, IGenreMapper genreMapper)
         return genreMapper.ToDto(createdGenre.Entity);
     }
 
-    public async Task<GenreDto> UpdateSingleGenreAsync(int genreId, GenreUpdateDto genreUpdateDto)
+    public async Task<GenreDto?> UpdateSingleGenreAsync(int genreId, GenreUpdateDto genreUpdateDto)
     {
         var genreToUpdate = await dBContext.Genres.FindAsync(genreId);
         if (genreToUpdate == null)
@@ -64,7 +64,7 @@ public class GenreService(BookHubDBContext dBContext, IGenreMapper genreMapper)
         return genreMapper.ToDto(genreToUpdate);
     }
 
-    public async Task<GenreDto> DeleteSingleGenreAsync(int genreId)
+    public async Task<GenreDto?> DeleteSingleGenreAsync(int genreId)
     {
         var genre = await dBContext.Genres.FindAsync(genreId);
         if (genre == null)

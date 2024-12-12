@@ -1,7 +1,9 @@
 using BusinessLayer.DTOs.Book;
+using BusinessLayer.DTOs.Genre;
 using BusinessLayer.DTOs.Publisher;
 using BusinessLayer.DTOs.WishListItem;
 using Mapster;
+using WebMVC.Areas.Admin.ViewModels.Genres;
 using WebMVC.Areas.Admin.ViewModels.Publisher;
 using WebMVC.ViewModels.Book;
 using WebMVC.ViewModels.WishListItem;
@@ -49,6 +51,25 @@ public static class MapsterConfig
             .Map(
                 dest => dest.Publishers,
                 src => src.ConvertAll(input => input.Adapt<PublisherDetailViewModel>())
+            );
+        TypeAdapterConfig<List<GenreDto>, GenreListPageViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Genres,
+                src => src.ConvertAll(input => input.Adapt<GenreDetailViewModel>())
+            );
+
+        TypeAdapterConfig<List<PublisherDto>, PublisherListPageViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Publishers,
+                src => src.ConvertAll(input => input.Adapt<PublisherDetailViewModel>())
+            );
+        TypeAdapterConfig<List<GenreDto>, GenreListPageViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Genres,
+                src => src.ConvertAll(input => input.Adapt<GenreDetailViewModel>())
             );
     }
 }

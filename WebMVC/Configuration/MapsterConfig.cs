@@ -33,6 +33,13 @@ public static class MapsterConfig
 
     private static void SetupAdminViewModel()
     {
+        TypeAdapterConfig<List<GenreDto>, GenreListPageViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Genres,
+                src => src.ConvertAll(input => input.Adapt<GenreDetailViewModel>())
+            );
+
         TypeAdapterConfig<List<PublisherDto>, PublisherListPageViewModel>
             .NewConfig()
             .Map(

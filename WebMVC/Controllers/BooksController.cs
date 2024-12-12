@@ -2,6 +2,7 @@ using BusinessLayer.DTOs.BookReview;
 using BusinessLayer.DTOs.Common;
 using BusinessLayer.Services.Book.Interfaces;
 using BusinessLayer.Services.BookReview.Interfaces;
+using BusinessLayer.Services.WishList.Interfaces;
 using DAL.Models.Auth;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -12,9 +13,10 @@ using WebMVC.ViewModels.Book;
 namespace WebMVC.Controllers;
 
 public class BooksController(
+    UserManager<LocalIdentityUser> userManager,
     IBookService bookService,
-    IBookReviewService bookReviewService,
-    UserManager<LocalIdentityUser> userManager
+    IWishlistService wishlistService,
+    IBookReviewService bookReviewService
 ) : Controller
 {
     [HttpGet("")]
@@ -39,13 +41,29 @@ public class BooksController(
     public async Task<IActionResult> Detail(int bookId)
     {
         var book = await bookService.GetSingleBookAsync(bookId);
-
         if (book == null)
         {
             return NotFound();
         }
 
-        var model = book.Adapt<BookDetailViewModel>();
+        var isInUserWishList = false;
+
+        var user = await userManager.GetUserAsync(User);
+        if (user != null)
+        {
+            var wishlistItem = await wishlistService.GetSingleWishlistItemAsync(
+                user.UserId,
+                bookId
+            );
+
+            if (wishlistItem != null)
+            {
+                isInUserWishList = true;
+            }
+        }
+
+        var bookModel = book.Adapt<BookDetailViewModel>();
+        var model = new UserBookViewModel { Book = bookModel, IsInUserWishList = isInUserWishList };
 
         return View(model);
     }
@@ -55,14 +73,12 @@ public class BooksController(
     public async Task<IActionResult> Detail(int bookId, BookReviewModel modelReview)
     {
         var book = await bookService.GetSingleBookAsync(bookId);
-
         if (book == null)
         {
             return NotFound();
         }
 
         var user = await userManager.GetUserAsync(User);
-
         if (user == null)
         {
             return NotFound();
@@ -91,8 +107,6 @@ public class BooksController(
             }
         }
 
-        var model = book.Adapt<BookDetailViewModel>();
-
-        return View(model);
+        return RedirectToAction(nameof(Detail));
     }
 }

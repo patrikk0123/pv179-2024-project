@@ -18,15 +18,15 @@ public class BookDetailViewModel
 
     public required string PublisherName { get; init; }
 
-    public required List<String> Genres { get; init; } = [];
-
-    public required List<BookReviewDto> Reviews { get; init; } = [];
-
     public required double Rating { get; init; }
 
     public required double Price { get; init; }
 
     public byte[] PreviewImage { get; init; }
+
+    public required List<String> Genres { get; init; } = [];
+
+    public required List<BookReviewDto> Reviews { get; init; } = [];
 
     public required List<String> Authors { get; init; } = [];
 }

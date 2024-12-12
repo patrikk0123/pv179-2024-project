@@ -53,20 +53,20 @@ public class GenresController(ILogger<GenresController> logger, IGenreService ge
     [HttpPost("admin/genres/update/{id}")]
     public async Task<IActionResult> Update(int id, GenreUpdatePageViewModel model)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(model);
+            var genreDto = model.Adapt<GenreUpdateDto>();
+            var updatedGenre = await genreService.UpdateSingleGenreAsync(id, genreDto);
+
+            if (updatedGenre == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Index");
         }
 
-        var genreDto = model.Adapt<GenreUpdateDto>();
-        var updatedGenre = await genreService.UpdateSingleGenreAsync(id, genreDto);
-
-        if (updatedGenre == null)
-        {
-            return NotFound();
-        }
-
-        return RedirectToAction("Index");
+        return View(model);
     }
 
     [HttpGet("admin/genres/delete/{id}")]

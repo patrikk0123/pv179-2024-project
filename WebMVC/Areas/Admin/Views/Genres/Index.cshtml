@@ -1,6 +1,8 @@
 @model WebMVC.Areas.Admin.ViewModels.Genres.GenreListPageViewModel;
 @{
-    var counter = 1;
+    var genreIndex = 1;
+    
+    ViewData["Title"] = "Genre list";
 }
 
 <div class="flex flex-row justify-between mb-3">
@@ -14,7 +16,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th></th>
+            <th>#</th>
             <th>Name</th>
             <th>Action</th>
         </tr>
@@ -23,7 +25,7 @@
         @foreach (var genre in Model.Genres)
         {
             <tr>
-                <td>@counter</td>
+                <td>@genreIndex</td>
                 <td>@genre.GenreType</td>
                 <td>
                     <a class="link-primary text-lg" asp-area="Admin" asp-controller="Genres" asp-action="Update" asp-route-id="@genre.Id">
@@ -36,7 +38,7 @@
                 </td>
             </tr>
             {
-                counter++;
+                genreIndex++;
             }
         }
         </tbody>

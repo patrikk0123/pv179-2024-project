@@ -37,7 +37,7 @@ public static class MapsterConfig
                 dest => dest.Publishers,
                 src => src.ConvertAll(input => input.Adapt<PublisherDetailViewModel>())
             );
-        TypeAdapterConfig<PublisherDto, PublisherViewModel>.NewConfig();
+        TypeAdapterConfig<PublisherDto, PublisherFormViewModel>.NewConfig();
         TypeAdapterConfig<PublisherDto, PublisherUpdatePageViewModel>.NewConfig();
     }
 }

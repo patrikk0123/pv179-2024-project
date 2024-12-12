@@ -25,12 +25,12 @@ public class PublishersController(
     }
 
     [HttpPost("admin/publisher/create")]
-    public async Task<IActionResult> Create(PublisherViewModel publisher)
+    public async Task<IActionResult> Create(PublisherFormViewModel publisherForm)
     {
         try
         {
             await publisherService.CreateSinglePublisherAsync(
-                new PublisherCreateDto() { Name = publisher.Name }
+                new PublisherCreateDto() { Name = publisherForm.Name }
             );
             return RedirectToAction("Index");
         }
@@ -58,7 +58,7 @@ public class PublishersController(
     }
 
     [HttpPost("admin/publisher/update/{id}")]
-    public async Task<IActionResult> Update(int id, PublisherViewModel publisherViewModel)
+    public async Task<IActionResult> Update(int id, PublisherFormViewModel publisherFormViewModel)
     {
         var publisher = await publisherService.GetSinglePublisherAsync(id);
 
@@ -71,7 +71,7 @@ public class PublishersController(
         {
             await publisherService.UpdateSinglePublisherAsync(
                 id,
-                new PublisherUpdateDto() { Name = publisherViewModel.Name }
+                new PublisherUpdateDto() { Name = publisherFormViewModel.Name }
             );
             return RedirectToAction("Index");
         }

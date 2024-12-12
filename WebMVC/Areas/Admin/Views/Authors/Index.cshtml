@@ -1,1 +1,46 @@
-<h1>Authors list</h1>
+@model WebMVC.Areas.Admin.ViewModels.Authors.AuthorListPageViewModel;
+@{
+    var counter = 1;
+}
+
+<div class="flex flex-row justify-between mb-3">
+    <h1 class="text-3xl">Authors list</h1>
+    <a class="btn btn-primary text-white" asp-area="Admin" asp-controller="Authors" asp-action="Create">
+        Create <i class="fa-solid fa-plus"></i>
+    </a>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var author in Model.Authors)
+        {
+            <tr>
+                <td>@counter</td>
+                <td>@author.Name</td>
+                <td>@author.Surname</td>
+                <td>
+                    <a class="link-primary text-lg" asp-area="Admin" asp-controller="Authors" asp-action="Update" asp-route-id="@author.Id">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                    &nbsp;
+                    <a class="link-error text-lg" asp-area="Admin" asp-controller="Authors" asp-action="Delete" asp-route-id="@author.Id">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {
+                counter++;
+            }
+        }
+        </tbody>
+    </table>
+</div>

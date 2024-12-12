@@ -1,0 +1,23 @@
+@model WebMVC.Areas.Admin.ViewModels.Publisher.PublisherFormViewModel;
+
+@{
+    ViewData["Title"] = "Create publisher";
+}
+
+
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl">Create publisher</h1>
+    @Html.ValidationSummary(false, "", new { @class = "text-red-500 text-sm mt-4" })
+
+    <form asp-action="Create" method="post">
+        
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Publisher name</span>
+            </div>
+            <input id="name" name="name" class="input input-bordered w-full max-w-xs" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </label>
+        <button type="submit" class="btn btn-primary text-white">Create</button>
+    </form>
+</div>

@@ -6,7 +6,7 @@ public interface IPublisherService
 {
     public Task<List<PublisherDto>> GetAllPublishersAsync();
 
-    public Task<PublisherDetailDto> GetSinglePublisherAsync(int publisherId);
+    public Task<PublisherDetailDto?> GetSinglePublisherAsync(int publisherId);
 
     public Task<PublisherDto> CreateSinglePublisherAsync(PublisherCreateDto publisherCreateDto);
 
@@ -15,7 +15,7 @@ public interface IPublisherService
         PublisherUpdateDto publisherUpdateDto
     );
 
-    public Task<PublisherDto> DeleteSinglePublisherAsync(int publisherId);
+    public Task<PublisherDto?> DeleteSinglePublisherAsync(int publisherId);
 
     public Task<bool> DoesPublisherExistAsync(int publisherId);
 }

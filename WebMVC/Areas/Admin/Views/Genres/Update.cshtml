@@ -1,0 +1,23 @@
+@model WebMVC.Areas.Admin.ViewModels.Genres.GenreUpdatePageViewModel;
+@using WebMVC.Areas.Admin.ViewModels.Genres;
+
+@{
+    ViewData["Title"] = "Update genre";
+}
+
+
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl">Update genre</h1>
+    @Html.ValidationSummary(false, "", new { @class = "text-red-500 text-sm mt-4" })
+
+    <form asp-action="Update" method="post">
+        <label class="form-control mb-2">
+            <div class="label"  asp-for="GenreType">
+                <span class="label-text">Genre type</span>
+            </div>
+            <input id="name" asp-for="GenreType" class="input input-bordered w-full max-w-xs" value="@Model.GenreType" />
+            <span asp-validation-for="GenreType" class="text-danger"></span>
+        </label>
+        <button type="submit" class="btn btn-primary text-white">Update</button>
+    </form>
+</div>

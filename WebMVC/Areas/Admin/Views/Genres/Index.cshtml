@@ -1,1 +1,44 @@
-<h1>Genres list</h1>
+@model WebMVC.Areas.Admin.ViewModels.Genres.GenreListPageViewModel;
+@{
+    var counter = 1;
+}
+
+<div class="flex flex-row justify-between mb-3">
+    <h1 class="text-3xl">Genre list</h1>
+    <a class="btn btn-primary text-white" asp-area="Admin" asp-controller="Genres" asp-action="Create">
+        Create <i class="fa-solid fa-plus"></i>
+    </a>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var genre in Model.Genres)
+        {
+            <tr>
+                <td>@counter</td>
+                <td>@genre.GenreType</td>
+                <td>
+                    <a class="link-primary text-lg" asp-area="Admin" asp-controller="Genres" asp-action="Update" asp-route-id="@genre.Id">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                    &nbsp;
+                    <a class="link-error text-lg" asp-area="Admin" asp-controller="Genres" asp-action="Delete" asp-route-id="@genre.Id">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {
+                counter++;
+            }
+        }
+        </tbody>
+    </table>
+</div>

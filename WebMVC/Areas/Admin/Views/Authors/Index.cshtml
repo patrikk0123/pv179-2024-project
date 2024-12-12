@@ -1,6 +1,7 @@
 @model WebMVC.Areas.Admin.ViewModels.Authors.AuthorListPageViewModel;
 @{
-    var counter = 1;
+    var authorsIndex = 1;
+    ViewData["Title"] = "Authors list";
 }
 
 <div class="flex flex-row justify-between mb-3">
@@ -24,7 +25,7 @@
         @foreach (var author in Model.Authors)
         {
             <tr>
-                <td>@counter</td>
+                <td>@authorsIndex</td>
                 <td>@author.Name</td>
                 <td>@author.Surname</td>
                 <td>
@@ -38,7 +39,7 @@
                 </td>
             </tr>
             {
-                counter++;
+                authorsIndex++;
             }
         }
         </tbody>

@@ -28,15 +28,14 @@ public class AuthorsController(ILogger<AuthorsController> logger, IAuthorService
     [HttpPost("admin/authors/create")]
     public async Task<IActionResult> Create(AuthorFormViewModel model)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(model);
+            var authorDto = model.Adapt<AuthorCreateDto>();
+            await authorService.CreateSingleAuthorAsync(authorDto);
+
+            return RedirectToAction("Index");
         }
-
-        var authorDto = model.Adapt<AuthorCreateDto>();
-        await authorService.CreateSingleAuthorAsync(authorDto);
-
-        return RedirectToAction("Index");
+        return View(model);
     }
 
     [HttpGet("admin/authors/update/{id}")]
@@ -56,15 +55,14 @@ public class AuthorsController(ILogger<AuthorsController> logger, IAuthorService
     [HttpPost("admin/authors/update/{id}")]
     public async Task<IActionResult> Update(int id, AuthorUpdatePageViewModel model)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(model);
+            var authorDto = model.Adapt<AuthorUpdateDto>();
+            await authorService.UpdateSingleAuthorAsync(id, authorDto);
+
+            return RedirectToAction("Index");
         }
-
-        var authorDto = model.Adapt<AuthorUpdateDto>();
-        await authorService.UpdateSingleAuthorAsync(id, authorDto);
-
-        return RedirectToAction("Index");
+        return View(model);
     }
 
     [HttpGet("admin/authors/delete/{id}")]

@@ -21,7 +21,7 @@ public class PublisherService(BookHubDBContext dBContext, IPublisherMapper publi
         return publishers.ConvertAll(publisherMapper.ToDto);
     }
 
-    public async Task<PublisherDetailDto> GetSinglePublisherAsync(int publisherId)
+    public async Task<PublisherDetailDto?> GetSinglePublisherAsync(int publisherId)
     {
         var publisher = await dBContext.Publishers.FindAsync(publisherId);
         if (publisher == null)
@@ -64,7 +64,7 @@ public class PublisherService(BookHubDBContext dBContext, IPublisherMapper publi
         return publisherMapper.ToDto(publisherToUpdate);
     }
 
-    public async Task<PublisherDto> DeleteSinglePublisherAsync(int publisherId)
+    public async Task<PublisherDto?> DeleteSinglePublisherAsync(int publisherId)
     {
         var publisher = await dBContext.Publishers.FindAsync(publisherId);
         if (publisher == null)

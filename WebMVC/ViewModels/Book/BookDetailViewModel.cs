@@ -18,7 +18,7 @@ public class BookDetailViewModel
 
     public required List<String> Genres { get; init; } = [];
 
-    public required List<BookReviewDetailModel> Reviews { get; init; } = [];
+    public required List<BookReviewDetailViewModel> Reviews { get; init; } = [];
 
     public required double Rating { get; init; }
 

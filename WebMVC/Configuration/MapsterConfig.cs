@@ -25,7 +25,7 @@ public static class MapsterConfig
             .Map(dest => dest.Genres, src => src.Genres.ConvertAll(genre => genre.GenreType))
             .Map(
                 dest => dest.Reviews,
-                src => src.Reviews.ConvertAll(review => review.Adapt<BookReviewDetailModel>())
+                src => src.Reviews.ConvertAll(review => review.Adapt<BookReviewDetailViewModel>())
             )
             .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
     }

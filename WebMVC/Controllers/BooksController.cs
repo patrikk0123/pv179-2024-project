@@ -18,7 +18,7 @@ public class BooksController(
 ) : Controller
 {
     [HttpGet("")]
-    public async Task<IActionResult> ListBooks([FromQuery] Pagination pagination)
+    public async Task<IActionResult> List([FromQuery] Pagination pagination)
     {
         var bookPage = await bookService.GetAllBooksAsync(
             pagination,
@@ -36,7 +36,7 @@ public class BooksController(
     }
 
     [HttpGet("detail/{bookId}")]
-    public async Task<IActionResult> DetailBook(int bookId)
+    public async Task<IActionResult> Detail(int bookId)
     {
         var book = await bookService.GetSingleBookAsync(bookId);
 
@@ -52,7 +52,7 @@ public class BooksController(
 
     [HttpPost("detail/{bookId}")]
     [Authorize]
-    public async Task<IActionResult> DetailBook(int bookId, BookReviewModel modelReview)
+    public async Task<IActionResult> Detail(int bookId, BookReviewViewModel viewModelReviewView)
     {
         var book = await bookService.GetSingleBookAsync(bookId);
 
@@ -77,8 +77,8 @@ public class BooksController(
                     user.UserId,
                     new BookReviewCreateDto()
                     {
-                        Rating = modelReview.Rating,
-                        Body = modelReview.Body,
+                        Rating = viewModelReviewView.Rating,
+                        Body = viewModelReviewView.Body,
                     }
                 );
 

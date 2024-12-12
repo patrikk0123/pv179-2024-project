@@ -1,6 +1,6 @@
 namespace WebMVC.ViewModels.Book;
 
-public class BookReviewDetailModel
+public class BookReviewDetailViewModel
 {
     public required int Rating { get; init; }
 

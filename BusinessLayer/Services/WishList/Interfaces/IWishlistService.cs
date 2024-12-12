@@ -8,6 +8,8 @@ public interface IWishlistService
 
     public Task<WishListItemDetailDto?> GetSingleWishlistItemAsync(int wishListItemId);
 
+    public Task<WishListItemDetailDto?> GetSingleWishlistItemAsync(int userId, int bookId);
+
     public Task<WishListItemDto> CreateWishListItem(int userId, int bookId);
 
     public Task DeleteWishListItem(int wishListItemId);

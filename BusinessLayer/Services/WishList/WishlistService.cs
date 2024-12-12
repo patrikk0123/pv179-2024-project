@@ -27,17 +27,29 @@ public class WishlistService(BookHubDBContext dBContext, IWishListItemMapper wis
         {
             return null;
         }
+
+        return wishListItemMapper.ToDetailDto(wishListItem);
+    }
+
+    public async Task<WishListItemDetailDto?> GetSingleWishlistItemAsync(int userId, int bookId)
+    {
+        var wishListItem = await dBContext.WishListItems.FirstOrDefaultAsync(wishListItem =>
+            wishListItem.UserId == userId && wishListItem.BookId == bookId
+        );
+        if (wishListItem == null)
+        {
+            return null;
+        }
+
         return wishListItemMapper.ToDetailDto(wishListItem);
     }
 
     public async Task<WishListItemDto> CreateWishListItem(int userId, int bookId)
     {
-        var bookInWishList = await dBContext.WishListItems.FirstOrDefaultAsync(wishListItem =>
-            wishListItem.UserId == userId && wishListItem.BookId == bookId
-        );
+        var bookInWishList = await GetSingleWishlistItemAsync(userId, bookId);
         if (bookInWishList is not null)
         {
-            return wishListItemMapper.ToDto(bookInWishList);
+            return bookInWishList;
         }
 
         var createdWishListItem = await dBContext.WishListItems.AddAsync(

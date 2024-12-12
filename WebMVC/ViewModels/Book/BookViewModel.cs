@@ -2,6 +2,8 @@ namespace WebMVC.ViewModels.Book;
 
 public class BookViewModel
 {
+    public required int Id { get; init; }
+
     public required string Name { get; init; }
 
     public required int Pages { get; init; }

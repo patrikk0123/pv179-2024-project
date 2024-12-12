@@ -1,6 +1,7 @@
 using BusinessLayer.DTOs.Book;
 using Mapster;
 using WebMVC.ViewModels.Book;
+using WebMVC.ViewModels.Review;
 
 namespace WebMVC.Configuration;
 

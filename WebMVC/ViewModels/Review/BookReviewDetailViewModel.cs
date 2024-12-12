@@ -1,4 +1,4 @@
-namespace WebMVC.ViewModels.Book;
+namespace WebMVC.ViewModels.Review;
 
 public class BookReviewDetailViewModel
 {

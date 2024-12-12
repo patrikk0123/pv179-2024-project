@@ -1,3 +1,5 @@
+using WebMVC.ViewModels.Review;
+
 namespace WebMVC.ViewModels.Book;
 
 public class BookDetailViewModel

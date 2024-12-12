@@ -1,6 +1,6 @@
 namespace WebMVC.Areas.Admin.ViewModels.Publisher;
 
-public class PublisherViewModel
+public class PublisherFormViewModel
 {
     public string Name { get; set; }
 }

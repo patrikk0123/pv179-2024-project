@@ -18,6 +18,13 @@ public class OrderService(BookHubDBContext dBContext, IOrderMapper orderMapper)
         return orders.ConvertAll(orderMapper.ToDto);
     }
 
+    public async Task<List<OrderDto>> GetAllOrdersAsync(int userId)
+    {
+        var orders = await dBContext.Orders.Where(item => item.UserId == userId).ToListAsync();
+
+        return orders.ConvertAll(orderMapper.ToDto);
+    }
+
     public async Task<OrderDetailDto?> GetSingleOrderAsync(int orderId)
     {
         var order = await dBContext.Orders.FindAsync(orderId);

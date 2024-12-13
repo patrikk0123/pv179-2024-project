@@ -1,0 +1,55 @@
+@using WebMVC.ViewModels.Order;
+
+@model OrderDetailViewModel
+
+@{
+    ViewData["Title"] = $"Order #{Model.Id} | {User.Identity.Name}";
+}
+
+
+<div class="container mx-auto p-4">
+    <p class="text-2xl mb-6">Order #@Model.Id</p>
+
+    <div class="text-lg mb-6">
+        Order status: WIP
+    </div>
+    
+    @if (Model.OrderItems != null && Model.OrderItems.Any())
+    {
+        <div class="overflow-x-auto">
+            <table class="table table-zebra">
+                <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Quantity</th>
+                    <th>Price per One</th>
+                    <th>Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var orderItem in Model.OrderItems)
+                {
+                    <tr>
+                        <td><a asp-area="" asp-controller="Books" asp-action="Detail" asp-route-bookId="@orderItem.Book.Id">@orderItem.Book.Name</a></td>
+                        <td>@orderItem.Quantity</td>
+                        <td>@orderItem.Price€</td>
+                        <td>@(orderItem.Quantity * orderItem.Price)€</td>
+                    </tr>
+                }
+                <tr class="font-bold">
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td>@Model.TotalPrice€</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h2 class="text-lg font-semibold text-gray-800">Empty order.</h2>
+        </div>
+    }
+</div>

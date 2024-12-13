@@ -1,11 +1,13 @@
 using BusinessLayer.DTOs.Book;
 using BusinessLayer.DTOs.Genre;
+using BusinessLayer.DTOs.Order;
 using BusinessLayer.DTOs.Publisher;
 using BusinessLayer.DTOs.WishListItem;
 using Mapster;
 using WebMVC.Areas.Admin.ViewModels.Genres;
 using WebMVC.Areas.Admin.ViewModels.Publisher;
 using WebMVC.ViewModels.Book;
+using WebMVC.ViewModels.Order;
 using WebMVC.ViewModels.WishListItem;
 
 namespace WebMVC.Configuration;
@@ -42,23 +44,17 @@ public static class MapsterConfig
                         wishListItem.Adapt<WishListItemDetailViewModel>()
                     )
             );
+
+        TypeAdapterConfig<List<OrderDto>, OrderListViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Orders,
+                src => src.ConvertAll(order => order.Adapt<OrderViewModel>())
+            );
     }
 
     private static void SetupAdminViewModel()
     {
-        TypeAdapterConfig<List<PublisherDto>, PublisherListPageViewModel>
-            .NewConfig()
-            .Map(
-                dest => dest.Publishers,
-                src => src.ConvertAll(input => input.Adapt<PublisherDetailViewModel>())
-            );
-        TypeAdapterConfig<List<GenreDto>, GenreListPageViewModel>
-            .NewConfig()
-            .Map(
-                dest => dest.Genres,
-                src => src.ConvertAll(input => input.Adapt<GenreDetailViewModel>())
-            );
-
         TypeAdapterConfig<List<PublisherDto>, PublisherListPageViewModel>
             .NewConfig()
             .Map(

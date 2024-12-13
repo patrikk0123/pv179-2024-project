@@ -13,7 +13,7 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
 {
     public BookDto ToDto(Book book)
     {
-        return new BookDto()
+        return new BookDto
         {
             Id = book.Id,
             Name = book.Name,
@@ -23,7 +23,7 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
             Pages = book.Pages,
             Rating = book.Rating,
             Price = book.Price,
-            PublisherName = book.Publisher.Name,
+            PublisherName = book.Publisher?.Name ?? "",
             PreviewImage = imageMapper.ToDto(
                 unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
             ),

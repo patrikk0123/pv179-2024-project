@@ -1,16 +1,19 @@
+using BusinessLayer.Services.Order.Interfaces;
 using BusinessLayer.Services.WishList.Interfaces;
 using DAL.Models.Auth;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebMVC.ViewModels.Order;
 using WebMVC.ViewModels.WishListItem;
 
 namespace WebMVC.Controllers;
 
 public class ProfileController(
     UserManager<LocalIdentityUser> userManager,
-    IWishlistService wishlistService
+    IWishlistService wishlistService,
+    IOrderService orderService
 ) : Controller
 {
     [HttpGet("/profile/wishlist")]
@@ -55,12 +58,36 @@ public class ProfileController(
 
         await wishlistService.DeleteWishListItem(wishListItemId);
 
-        return RedirectToAction(nameof(ProfileController.WishList), "Profile");
+        return RedirectToAction(nameof(WishList));
     }
 
     [HttpGet("/profile/orders")]
+    [Authorize]
     public async Task<IActionResult> OrdersList()
     {
-        return View();
+        var user = await userManager.GetUserAsync(User);
+
+        var orders = await orderService.GetAllOrdersAsync(user.UserId);
+
+        var model = orders.Adapt<OrderListViewModel>();
+
+        return View(model);
+    }
+
+    [HttpGet("/profile/orders/{orderId}")]
+    [Authorize]
+    public async Task<IActionResult> OrderDetail(int orderId)
+    {
+        var user = await userManager.GetUserAsync(User);
+
+        var order = await orderService.GetSingleOrderAsync(orderId);
+        if (order == null || order.UserId != user.UserId)
+        {
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
+
+        var model = order.Adapt<OrderDetailViewModel>();
+
+        return View(model);
     }
 }

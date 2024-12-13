@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.DTOs.User;
+using BusinessLayer.Services.Order.Interfaces;
 using BusinessLayer.Services.User.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("/users")]
-public class UserController(IUserService userService) : Controller
+public class UserController(IUserService userService, IOrderService orderService) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
@@ -62,5 +63,12 @@ public class UserController(IUserService userService) : Controller
         }
 
         return Ok(deletedUser);
+    }
+
+    [HttpGet]
+    [Route("{userId}/orders")]
+    public async Task<IActionResult> GetAllUserOrders(int userId)
+    {
+        return Ok(await orderService.GetAllOrdersAsync(userId));
     }
 }

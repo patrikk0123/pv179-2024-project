@@ -29,6 +29,7 @@
                     <details class="dropdown dropdown-end">
                         <summary class="btn btn-outline m-1"><i class="fas fa-user"></i>@User.Identity.Name</summary>
                         <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                            <li><a asp-area="" asp-controller="Profile" asp-action="ProfileDetail"><i class="fa-solid fa-user"></i>Profile</a></li>
                             <li><a asp-area="" asp-controller="Profile" asp-action="OrdersList"><i class="fa-solid fa-bag-shopping"></i>Orders</a></li>
                             <li><a asp-area="" asp-controller="Profile" asp-action="WishList"><i class="fa-solid fa-heart"></i> Wishlist</a></li>
                             <li><a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-right-from-bracket"></i>Log out</a></li>

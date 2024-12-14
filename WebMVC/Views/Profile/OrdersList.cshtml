@@ -17,6 +17,7 @@
                 <thead>
                 <tr>
                     <th>Order</th>
+                    <th>Order Status</th>
                     <th>Total Price</th>
                 </tr>
                 </thead>
@@ -25,6 +26,7 @@
                 {
                     <tr>
                         <td>#<a asp-area="" asp-controller="Profile" asp-action="OrderDetail" asp-route-orderId="@order.Id">@order.Id</a></td>
+                        <td>@order.OrderStatus</td>
                         <td>@order.TotalPrice€</td>
                     </tr>
                 }

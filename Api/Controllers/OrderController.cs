@@ -54,4 +54,20 @@ public class OrderController(
 
         return CreatedAtAction(nameof(GetSingleOrder), new { orderId = order.Id }, order);
     }
+
+    [HttpPut]
+    [Route("{orderId}")]
+    public async Task<IActionResult> UpdateOrder(
+        int orderId,
+        [FromBody] OrderUpdateDto orderUpdateDto
+    )
+    {
+        var updatedOrder = await orderService.UpdateSingleOrderAsync(orderId, orderUpdateDto);
+        if (updatedOrder == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(updatedOrder);
+    }
 }

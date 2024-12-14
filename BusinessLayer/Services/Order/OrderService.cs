@@ -89,6 +89,22 @@ public class OrderService(BookHubDBContext dBContext, IOrderMapper orderMapper)
         }
     }
 
+    public async Task<OrderDto> UpdateSingleOrderAsync(int orderId, OrderUpdateDto orderUpdateDto)
+    {
+        var orderToUpdate = await dBContext.Orders.FindAsync(orderId);
+        if (orderToUpdate == null)
+        {
+            return null;
+        }
+
+        orderMapper.UpdateModel(orderToUpdate, orderUpdateDto);
+        dBContext.Orders.Update(orderToUpdate);
+
+        await SaveAsync(true);
+
+        return orderMapper.ToDto(orderToUpdate);
+    }
+
     private async Task<double> GetBookPrice(int bookId)
     {
         var book =

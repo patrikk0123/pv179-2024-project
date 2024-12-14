@@ -13,6 +13,7 @@ public class OrderMapper(IBookMapper bookMapper) : IOrderMapper
         {
             Id = order.Id,
             UserId = order.UserId,
+            Username = order.User?.Username ?? "",
             TotalPrice = order.TotalPrice,
         };
     }
@@ -23,6 +24,7 @@ public class OrderMapper(IBookMapper bookMapper) : IOrderMapper
         {
             Id = order.Id,
             UserId = order.UserId,
+            Username = order.User?.Username ?? "",
             TotalPrice = order.TotalPrice,
             OrderItems = order
                 .OrderItems.Select(oi => new OrderItemDto

@@ -159,6 +159,7 @@ public static class TestDataHelper
                 Id = 1,
                 UserId = 2,
                 TotalPrice = 20.5,
+                OrderStatus = OrderStatus.Shipped,
             },
         ];
     }

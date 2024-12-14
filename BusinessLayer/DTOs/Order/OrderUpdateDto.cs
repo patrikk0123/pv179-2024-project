@@ -1,3 +1,10 @@
-﻿namespace BusinessLayer.DTOs.Order;
+﻿using System.ComponentModel.DataAnnotations;
+using DAL.Models;
 
-public class OrderUpdateDto;
+namespace BusinessLayer.DTOs.Order;
+
+public class OrderUpdateDto
+{
+    [Required]
+    public required OrderStatus OrderStatus { get; init; }
+}

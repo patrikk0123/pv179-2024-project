@@ -233,6 +233,7 @@ public static class DataInitializer
         var testOrders = new Faker<Order>()
             .StrictMode(true)
             .RuleFor(o => o.Id, _ => orderId++)
+            .RuleFor(o => o.OrderStatus, (o, _) => o.PickRandom<OrderStatus>())
             .RuleFor(
                 o => o.TotalPrice,
                 (_, o) =>

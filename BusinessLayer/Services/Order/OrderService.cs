@@ -48,7 +48,12 @@ public class OrderService(BookHubDBContext dBContext, IOrderMapper orderMapper)
                 totalPrice += bookPrice * oi.Quantity;
             }
 
-            var order = new DAL.Models.Order { UserId = userId, TotalPrice = totalPrice };
+            var order = new DAL.Models.Order
+            {
+                UserId = userId,
+                TotalPrice = totalPrice,
+                OrderStatus = OrderStatus.AwaitingPayment,
+            };
 
             await dBContext.Orders.AddAsync(order);
 

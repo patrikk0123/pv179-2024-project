@@ -1,12 +1,14 @@
-@model WebMVC.Areas.Admin.ViewModels.Genres.GenreListPageViewModel;
+@using WebMVC.Areas.Admin.ViewModels.Genres;
+
+@model GenreListPageViewModel;
+
 @{
+    ViewData["Title"] = "Genres List";
     var genreIndex = 1;
-    
-    ViewData["Title"] = "Genre list";
 }
 
 <div class="flex flex-row justify-between mb-3">
-    <h1 class="text-3xl">Genre list</h1>
+    <h1 class="text-3xl">Genres List</h1>
     <a class="btn btn-primary text-white" asp-area="Admin" asp-controller="Genres" asp-action="Create">
         Create <i class="fa-solid fa-plus"></i>
     </a>

@@ -1,12 +1,14 @@
-@model WebMVC.Areas.Admin.ViewModels.Authors.AuthorFormViewModel;
+@using WebMVC.Areas.Admin.ViewModels.Authors;
+
+@model AuthorFormViewModel;
 
 @{
-    ViewData["Title"] = "Create author";
+    ViewData["Title"] = "Create Author";
 }
 
 
 <div class="container mx-auto p-4">
-    <h1 class="text-3xl">Create author</h1>
+    <h1 class="text-3xl">Create Author</h1>
     @Html.ValidationSummary(false, "", new { @class = "text-red-500 text-sm mt-4" })
 
     <form asp-action="Create" method="post">

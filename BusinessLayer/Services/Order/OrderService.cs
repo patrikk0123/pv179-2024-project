@@ -48,7 +48,12 @@ public class OrderService(BookHubDBContext dBContext, IOrderMapper orderMapper)
                 totalPrice += bookPrice * oi.Quantity;
             }
 
-            var order = new DAL.Models.Order { UserId = userId, TotalPrice = totalPrice };
+            var order = new DAL.Models.Order
+            {
+                UserId = userId,
+                TotalPrice = totalPrice,
+                OrderStatus = OrderStatus.AwaitingPayment,
+            };
 
             await dBContext.Orders.AddAsync(order);
 
@@ -82,6 +87,22 @@ public class OrderService(BookHubDBContext dBContext, IOrderMapper orderMapper)
             await transaction.RollbackAsync();
             throw;
         }
+    }
+
+    public async Task<OrderDto> UpdateSingleOrderAsync(int orderId, OrderUpdateDto orderUpdateDto)
+    {
+        var orderToUpdate = await dBContext.Orders.FindAsync(orderId);
+        if (orderToUpdate == null)
+        {
+            return null;
+        }
+
+        orderMapper.UpdateModel(orderToUpdate, orderUpdateDto);
+        dBContext.Orders.Update(orderToUpdate);
+
+        await SaveAsync(true);
+
+        return orderMapper.ToDto(orderToUpdate);
     }
 
     private async Task<double> GetBookPrice(int bookId)

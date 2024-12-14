@@ -11,4 +11,6 @@ public interface IOrderService
     public Task<OrderDetailDto?> GetSingleOrderAsync(int orderId);
 
     public Task<OrderDto?> CreateOrderAsync(OrderCreateDto orderCreateDto, int userId);
+
+    public Task<OrderDto?> UpdateSingleOrderAsync(int orderId, OrderUpdateDto orderUpdateDto);
 }

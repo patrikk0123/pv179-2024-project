@@ -3,12 +3,12 @@
 @model AuthorUpdatePageViewModel;
 
 @{
-    ViewData["Title"] = "Update author";
+    ViewData["Title"] = "Update Author";
 }
 
 
 <div class="container mx-auto p-4">
-    <h1 class="text-3xl">Update author</h1>
+    <h1 class="text-3xl">Update Author</h1>
     @Html.ValidationSummary(false, "", new { @class = "text-red-500 text-sm mt-4" })
 
     <form asp-action="Update" method="post">

@@ -1,11 +1,14 @@
-@model WebMVC.Areas.Admin.ViewModels.Authors.AuthorListPageViewModel;
+@using WebMVC.Areas.Admin.ViewModels.Authors;
+
+@model AuthorListPageViewModel;
+
 @{
     var authorsIndex = 1;
-    ViewData["Title"] = "Authors list";
+    ViewData["Title"] = "Authors List";
 }
 
 <div class="flex flex-row justify-between mb-3">
-    <h1 class="text-3xl">Authors list</h1>
+    <h1 class="text-3xl">Authors List</h1>
     <a class="btn btn-primary text-white" asp-area="Admin" asp-controller="Authors" asp-action="Create">
         Create <i class="fa-solid fa-plus"></i>
     </a>

@@ -1,10 +1,14 @@
-@model WebMVC.Areas.Admin.ViewModels.Publisher.PublisherListPageViewModel;
+@using WebMVC.Areas.Admin.ViewModels.Publisher;
+
+@model PublisherListPageViewModel;
+
 @{
-    var counter = 1;
+    ViewData["Title"] = "Publishers List";
+    var publisherIndex = 1;
 }
 
 <div class="flex flex-row justify-between mb-3">
-    <h1 class="text-3xl">Publishers list</h1>
+    <h1 class="text-3xl">Publishers List</h1>
     <a class="btn btn-primary text-white" asp-area="Admin" asp-controller="Publishers" asp-action="Create">
         Create <i class="fa-solid fa-plus"></i>
     </a>
@@ -23,7 +27,7 @@
         @foreach (var publisher in Model.Publishers)
         {
             <tr>
-                <td>@counter</td>
+                <td>@publisherIndex</td>
                 <td>@publisher.Name</td>
                 <td>
                     <a class="link-primary text-lg" asp-area="Admin" asp-controller="Publishers" asp-action="Update" asp-route-id="@publisher.Id">
@@ -36,7 +40,7 @@
                 </td>
             </tr>
             {
-                counter++;
+                publisherIndex++;
             }
         }
         </tbody>

@@ -3,6 +3,7 @@ using System;
 using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.SQLite.Migrations.Migrations
 {
     [DbContext(typeof(BookHubDBContext))]
-    partial class BookHubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241127192849_AddPrimaryGenreToBook")]
+    partial class AddPrimaryGenreToBook
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -539,9 +542,6 @@ namespace DAL.SQLite.Migrations.Migrations
 
                     b.Property<DateTime?>("EditedAt")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("INTEGER");
 
                     b.Property<double>("TotalPrice")
                         .HasColumnType("REAL");

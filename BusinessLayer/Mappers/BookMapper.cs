@@ -24,6 +24,11 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
             Rating = book.Rating,
             Price = book.Price,
             PublisherName = book.Publisher?.Name ?? "",
+            PrimaryGenre = new GenreDto()
+            {
+                Id = book.PrimaryGenre.Id,
+                GenreType = book.PrimaryGenre.GenreType,
+            },
             PreviewImage = imageMapper.ToDto(
                 unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
             ),
@@ -51,6 +56,11 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
             Rating = book.Rating,
             Price = book.Price,
             PublisherName = book.Publisher?.Name ?? "",
+            PrimaryGenre = new GenreDto()
+            {
+                Id = book.PrimaryGenre.Id,
+                GenreType = book.PrimaryGenre.GenreType,
+            },
             Authors = book
                 .BookAuthors?.Select(bookAuthor => new AuthorDto()
                 {
@@ -103,6 +113,7 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
             Rating = dto.Rating,
             Price = dto.Price,
             PublisherId = dto.PublisherId,
+            PrimaryGenreId = dto.PrimaryGenreId,
         };
     }
 
@@ -116,5 +127,6 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
         book.Rating = dto.Rating;
         book.Price = dto.Price;
         book.PublisherId = dto.PublisherId;
+        book.PrimaryGenreId = dto.PrimaryGenreId;
     }
 }

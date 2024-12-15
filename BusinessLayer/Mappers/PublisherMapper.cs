@@ -1,5 +1,6 @@
 using BusinessLayer.DTOs.Author;
 using BusinessLayer.DTOs.Book;
+using BusinessLayer.DTOs.Genre;
 using BusinessLayer.DTOs.Publisher;
 using BusinessLayer.Mappers.Interfaces;
 using DAL.Models;
@@ -33,6 +34,11 @@ public class PublisherMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapp
                     Rating = book.Rating,
                     Price = book.Price,
                     PublisherName = publisher.Name,
+                    PrimaryGenre = new GenreDto()
+                    {
+                        Id = book.PrimaryGenre.Id,
+                        GenreType = book.PrimaryGenre.GenreType,
+                    },
                     PreviewImage = imageMapper.ToDto(
                         unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
                     ),

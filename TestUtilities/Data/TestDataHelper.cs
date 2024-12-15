@@ -52,6 +52,7 @@ public static class TestDataHelper
                 Price = 20.5,
                 PublishDate = new DateOnly(2021, 1, 1),
                 PreviewImageId = "1849645247",
+                PrimaryGenreId = 1,
                 Rating = 3,
             },
             new Book
@@ -64,6 +65,7 @@ public static class TestDataHelper
                 Price = 25.5,
                 PublishDate = new DateOnly(2021, 2, 2),
                 PreviewImageId = "1849645247",
+                PrimaryGenreId = 2,
                 Rating = 4,
             },
             new Book
@@ -76,6 +78,7 @@ public static class TestDataHelper
                 Price = 30.5,
                 PublishDate = new DateOnly(2021, 3, 3),
                 PreviewImageId = "1849645247",
+                PrimaryGenreId = 2,
                 Rating = 5.0,
             },
         ];

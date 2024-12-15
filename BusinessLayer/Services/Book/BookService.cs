@@ -205,11 +205,14 @@ public class BookService(BookHubDBContext dBContext, IBookMapper bookMapper)
                 })
             );
 
-            var finalBook = await dBContext.Books.FindAsync(book.Entity.Id);
-
             await SaveAsync(true);
 
             await transaction.CommitAsync();
+
+            var finalBook = await dBContext
+                .Books.Include(x => x.Publisher)
+                .Include(x => x.PrimaryGenre)
+                .FirstOrDefaultAsync(x => x.Id == book.Entity.Id);
 
             return bookMapper.ToDetailDto(finalBook);
         }

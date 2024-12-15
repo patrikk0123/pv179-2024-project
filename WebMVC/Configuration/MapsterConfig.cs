@@ -2,12 +2,15 @@ using BusinessLayer.DTOs.Book;
 using BusinessLayer.DTOs.Genre;
 using BusinessLayer.DTOs.Order;
 using BusinessLayer.DTOs.Publisher;
+using BusinessLayer.DTOs.User;
 using BusinessLayer.DTOs.WishListItem;
 using Mapster;
 using WebMVC.Areas.Admin.ViewModels.Genres;
 using WebMVC.Areas.Admin.ViewModels.Publisher;
+using WebMVC.Areas.Admin.ViewModels.Users;
 using WebMVC.ViewModels.Book;
 using WebMVC.ViewModels.Order;
+using WebMVC.ViewModels.User;
 using WebMVC.ViewModels.WishListItem;
 
 namespace WebMVC.Configuration;
@@ -67,5 +70,8 @@ public static class MapsterConfig
                 dest => dest.Genres,
                 src => src.ConvertAll(input => input.Adapt<GenreDetailViewModel>())
             );
+        TypeAdapterConfig<List<UserDto>, UserListViewModel>
+            .NewConfig()
+            .Map(dest => dest.Users, src => src.ConvertAll(input => input.Adapt<UserViewModel>()));
     }
 }

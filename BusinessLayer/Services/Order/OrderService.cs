@@ -59,6 +59,30 @@ public class OrderService(BookHubDBContext dBContext, IOrderMapper orderMapper)
 
             await SaveAsync(true);
 
+            if (orderCreateDto.CouponCode != null)
+            {
+                var coupon = await dBContext
+                    .Coupons.Where(coupon =>
+                        coupon.Code == orderCreateDto.CouponCode
+                        && coupon.OrderId == null
+                        && coupon.GiftCard != null
+                        && coupon.GiftCard.StartDate <= DateTime.UtcNow
+                        && DateTime.UtcNow <= coupon.GiftCard.ExpiryDate
+                    )
+                    .FirstOrDefaultAsync();
+
+                if (coupon == null)
+                {
+                    return null;
+                }
+
+                totalPrice = Math.Max(0, totalPrice - coupon.GiftCard!.PriceReduction);
+                order.TotalPrice = totalPrice;
+                order.Coupon = coupon;
+                coupon.Order = order;
+                await SaveAsync(true);
+            }
+
             var orderItems = new List<OrderItem>();
             foreach (var oi in orderCreateDto.OrderItems)
             {
@@ -78,9 +102,13 @@ public class OrderService(BookHubDBContext dBContext, IOrderMapper orderMapper)
 
             await SaveAsync(true);
 
+            var resOrder =
+                await dBContext.Orders.FindAsync(order.Id)
+                ?? throw new InvalidOperationException("Added order not found");
+
             await transaction.CommitAsync();
 
-            return orderMapper.ToDto(order);
+            return orderMapper.ToDto(resOrder);
         }
         catch (Exception)
         {

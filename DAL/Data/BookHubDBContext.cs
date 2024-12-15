@@ -38,6 +38,10 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
 
     public virtual DbSet<AuditLog> AuditLogs { get; set; }
 
+    public virtual DbSet<Coupon> Coupons { get; set; }
+
+    public virtual DbSet<GiftCard> GiftCards { get; set; }
+
     public int? CurrentUserId { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -66,6 +70,7 @@ public class BookHubDBContext(DbContextOptions<BookHubDBContext> options)
         modelBuilder.Entity<Review>().HasQueryFilter(e => e.DeletedAt == null);
         modelBuilder.Entity<Genre>().HasQueryFilter(e => e.DeletedAt == null);
         modelBuilder.Entity<User>().HasQueryFilter(e => e.DeletedAt == null);
+        modelBuilder.Entity<GiftCard>().HasQueryFilter(e => e.DeletedAt == null);
 
         base.OnModelCreating(modelBuilder);
     }

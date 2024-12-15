@@ -16,4 +16,9 @@ public class Order : BaseEntity
     public virtual User? User { get; set; }
 
     public virtual IEnumerable<OrderItem>? OrderItems { get; set; }
+
+    public int? CouponId { get; set; }
+
+    [ForeignKey(nameof(CouponId))]
+    public virtual Coupon? Coupon { get; set; }
 }

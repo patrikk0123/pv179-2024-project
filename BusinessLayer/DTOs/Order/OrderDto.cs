@@ -12,4 +12,6 @@ public class OrderDto : BaseDto
     public required OrderStatus OrderStatus { get; init; }
 
     public required double TotalPrice { get; init; }
+
+    public int? CouponId { get; init; }
 }

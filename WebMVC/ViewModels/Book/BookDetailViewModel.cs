@@ -22,11 +22,13 @@ public class BookDetailViewModel
 
     public required double Price { get; init; }
 
+    public required string PrimaryGenre { get; init; }
+
     public byte[] PreviewImage { get; init; }
 
-    public required List<String> Genres { get; init; } = [];
+    public required List<string> SecondaryGenres { get; init; } = [];
 
     public required List<BookReviewDto> Reviews { get; init; } = [];
 
-    public required List<String> Authors { get; init; } = [];
+    public required List<string> Authors { get; init; } = [];
 }

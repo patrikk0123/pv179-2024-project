@@ -30,6 +30,9 @@ public class BookCreateDto
     [Required]
     public required int PublisherId { get; init; }
 
+    [Required]
+    public required int PrimaryGenreId { get; init; }
+
     public required List<int> GenreIds { get; init; } = [];
 
     public required List<int> AuthorIds { get; init; } = [];

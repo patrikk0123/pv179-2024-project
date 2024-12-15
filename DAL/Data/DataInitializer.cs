@@ -36,12 +36,12 @@ public static class DataInitializer
         var orders = PrepareOrders(orderItems);
 
         modelBuilder.Entity<Publisher>().HasData(publishers);
+        modelBuilder.Entity<Genre>().HasData(genres);
         modelBuilder.Entity<Book>().HasData(books);
         modelBuilder.Entity<BookImage>().HasData(bookImages);
         modelBuilder.Entity<Author>().HasData(authors);
         modelBuilder.Entity<BookAuthor>().HasData(bookAuthors);
         modelBuilder.Entity<User>().HasData(users);
-        modelBuilder.Entity<Genre>().HasData(genres);
         modelBuilder.Entity<BookGenre>().HasData(bookGenres);
         modelBuilder.Entity<Review>().HasData(reviews);
         modelBuilder.Entity<WishListItem>().HasData(wishListItems);
@@ -80,6 +80,8 @@ public static class DataInitializer
             .RuleFor(o => o.PublisherId, f => f.Random.Int(1, 2))
             .RuleFor(o => o.PreviewImageId, (_, _) => "1849645247")
             .RuleFor(o => o.Publisher, _ => null)
+            .RuleFor(o => o.PrimaryGenreId, f => f.Random.Int(1, GenreCount))
+            .RuleFor(o => o.PrimaryGenre, _ => null)
             .RuleFor(o => o.BookAuthors, _ => [])
             .RuleFor(o => o.BookGenres, _ => [])
             .RuleFor(o => o.Reviews, _ => [])

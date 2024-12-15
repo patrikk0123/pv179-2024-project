@@ -1,5 +1,6 @@
 using BusinessLayer.DTOs.Author;
 using BusinessLayer.DTOs.Common;
+using BusinessLayer.DTOs.Genre;
 using BusinessLayer.DTOs.Image;
 
 namespace BusinessLayer.DTOs.Book;
@@ -21,6 +22,8 @@ public class BookDto : BaseDto
     public required double Price { get; init; }
 
     public required string PublisherName { get; init; }
+
+    public required GenreDto PrimaryGenre { get; init; }
 
     public ImageDto PreviewImage { get; init; }
 

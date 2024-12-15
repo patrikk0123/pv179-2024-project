@@ -35,7 +35,14 @@ public static class MapsterConfig
                 dest => dest.Authors,
                 src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
             )
-            .Map(dest => dest.Genres, src => src.Genres.ConvertAll(genre => genre.GenreType))
+            .Map(dest => dest.PrimaryGenre, src => src.PrimaryGenre.GenreType)
+            .Map(
+                dest => dest.SecondaryGenres,
+                src =>
+                    src.Genres.Where(genre => genre.Id != src.PrimaryGenre.Id)
+                        .Select(genre => genre.GenreType)
+                        .ToList()
+            )
             .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
 
         TypeAdapterConfig<List<WishListItemDetailDto>, WishListViewModel>

@@ -1,3 +1,4 @@
+@using DAL.Models
 @using WebMVC.ViewModels.Order;
 
 @model OrderDetailViewModel
@@ -16,6 +17,14 @@
             <span>@Model.OrderStatus</span>
         </div>
     </div>
+    
+    @if (Model.OrderStatus == OrderStatus.AwaitingPayment)
+    {
+        <div class="flex flex-col justify-center items-center space-y-1 mb-6">
+            <p class="text-lg font-semibold text-gray-800">Pay with QR Code</p>
+            <img src="~/images/qr_code.jpeg" alt="QR Code" class="w-48 h-auto" />
+        </div>
+    }
     
     @if (Model.OrderItems != null && Model.OrderItems.Any())
     {

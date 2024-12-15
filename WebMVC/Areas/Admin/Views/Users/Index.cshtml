@@ -1,1 +1,41 @@
-<h1>Users list</h1>
+@using WebMVC.Areas.Admin.ViewModels.Users;
+
+@model UserListViewModel;
+
+@{
+    ViewData["Title"] = "Users List";
+    var userIndex = 1;
+}
+
+<h1 class="text-3xl mb-3">Genres List</h1>
+
+<div class="overflow-x-auto">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@userIndex</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>
+                    <a class="link-primary text-lg" asp-area="Admin" asp-controller="Users" asp-action="Update" asp-route-id="@user.Id">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </td>
+            </tr>
+            {
+                userIndex++;
+            }
+        }
+        </tbody>
+    </table>
+</div>

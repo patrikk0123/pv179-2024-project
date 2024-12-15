@@ -3,6 +3,7 @@ using System;
 using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.SQLite.Migrations.Migrations
 {
     [DbContext(typeof(BookHubDBContext))]
-    partial class BookHubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241209193158_AddGiftCards")]
+    partial class AddGiftCards
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,22 +158,22 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Lizeth",
-                            Surname = "Osinski"
+                            Name = "Ricky",
+                            Surname = "Franecki"
                         },
                         new
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Frederique",
-                            Surname = "Price"
+                            Name = "Rubie",
+                            Surname = "Wisozk"
                         },
                         new
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Evalyn",
-                            Surname = "Bogan"
+                            Name = "Tom",
+                            Surname = "Abbott"
                         });
                 });
 
@@ -211,9 +214,6 @@ namespace DAL.SQLite.Migrations.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("PrimaryGenreId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateOnly>("PublishDate")
                         .HasColumnType("TEXT");
 
@@ -224,8 +224,6 @@ namespace DAL.SQLite.Migrations.Migrations
                         .HasColumnType("REAL");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PrimaryGenreId");
 
                     b.HasIndex("PublisherId");
 
@@ -242,8 +240,7 @@ namespace DAL.SQLite.Migrations.Migrations
                             Pages = 327,
                             PreviewImageId = "1849645247",
                             Price = 52.189999999999998,
-                            PrimaryGenreId = 2,
-                            PublishDate = new DateOnly(2024, 7, 20),
+                            PublishDate = new DateOnly(2024, 8, 1),
                             PublisherId = 1,
                             Rating = 2.7660833419142676
                         },
@@ -251,61 +248,57 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Dolor explicabo quam laboriosam perferendis qui sit accusamus qui assumenda.\nId quo odio autem est.\nQuaerat architecto quasi quis magnam aut sunt perspiciatis.\nQuasi assumenda voluptatem blanditiis porro inventore recusandae.",
-                            ISBN = "j9ea49gmfn",
-                            Name = "Barbados Dollar",
-                            Pages = 416,
+                            Description = "Non dolor explicabo.\nLaboriosam perferendis qui sit accusamus qui.\nCommodi id quo odio autem est et quaerat architecto.\nQuis magnam aut.",
+                            ISBN = "kjl2r0gp2x",
+                            Name = "Oklahoma",
+                            Pages = 172,
                             PreviewImageId = "1849645247",
-                            Price = 93.650000000000006,
-                            PrimaryGenreId = 1,
-                            PublishDate = new DateOnly(2023, 12, 28),
+                            Price = 32.880000000000003,
+                            PublishDate = new DateOnly(2024, 6, 29),
                             PublisherId = 1,
-                            Rating = 1.4557910545057575
+                            Rating = 2.5665950689309254
                         },
                         new
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Quidem asperiores facilis molestiae numquam.\nQuibusdam esse placeat magnam pariatur ad illo corporis et.\nDolorem voluptatibus ex ut.\nLaborum blanditiis eos.",
-                            ISBN = "msrfowp62f",
-                            Name = "navigating",
-                            Pages = 474,
+                            Description = "Nihil rerum dicta vel fugit recusandae dolor.\nPariatur vel minima.\nAsperiores facilis molestiae numquam nulla quibusdam esse placeat.\nPariatur ad illo corporis et.",
+                            ISBN = "56zcj0mgum",
+                            Name = "high-level",
+                            Pages = 393,
                             PreviewImageId = "1849645247",
-                            Price = 37.780000000000001,
-                            PrimaryGenreId = 2,
-                            PublishDate = new DateOnly(2024, 4, 30),
-                            PublisherId = 1,
-                            Rating = 4.6331177054127295
+                            Price = 68.430000000000007,
+                            PublishDate = new DateOnly(2024, 9, 25),
+                            PublisherId = 2,
+                            Rating = 2.720410956870956
                         },
                         new
                         {
                             Id = 4,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Commodi in commodi aperiam molestias enim omnis aut.\nDolores quo enim.\nUt repellendus ipsam.\nDicta consequatur maxime at unde cum.",
-                            ISBN = "7mvv8ttw85",
-                            Name = "software",
-                            Pages = 91,
+                            Description = "Odio nihil earum.\nNisi quia ducimus ipsam voluptas quo commodi in commodi aperiam.\nEnim omnis aut vitae dolores quo enim.\nUt repellendus ipsam.",
+                            ISBN = "f3dqujo7mv",
+                            Name = "Colombian Peso",
+                            Pages = 162,
                             PreviewImageId = "1849645247",
-                            Price = 28.600000000000001,
-                            PrimaryGenreId = 1,
-                            PublishDate = new DateOnly(2024, 10, 21),
+                            Price = 81.599999999999994,
+                            PublishDate = new DateOnly(2024, 10, 20),
                             PublisherId = 2,
-                            Rating = 2.136426879622241
+                            Rating = 4.2919113483707942
                         },
                         new
                         {
                             Id = 5,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Et cum et dolorem in ea quia doloremque possimus commodi.\nExplicabo vero illum eveniet dolorem quam fuga ducimus cupiditate amet.\nOfficia laborum aut consequuntur ducimus.\nEt expedita fugiat dolore at ut non.",
-                            ISBN = "0yghg4s1j9",
-                            Name = "Fresh",
-                            Pages = 67,
+                            Description = "Sunt veniam dolore omnis aliquam sed saepe rerum et cum.\nDolorem in ea quia.\nPossimus commodi hic.\nVero illum eveniet.",
+                            ISBN = "5fmgi69ll3",
+                            Name = "De-engineered",
+                            Pages = 251,
                             PreviewImageId = "1849645247",
-                            Price = 41.579999999999998,
-                            PrimaryGenreId = 2,
-                            PublishDate = new DateOnly(2023, 12, 22),
-                            PublisherId = 1,
-                            Rating = 2.1027372763970575
+                            Price = 11.220000000000001,
+                            PublishDate = new DateOnly(2024, 1, 23),
+                            PublisherId = 2,
+                            Rating = 3.0013645393780268
                         });
                 });
 
@@ -342,35 +335,35 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            AuthorId = 2,
+                            AuthorId = 3,
                             BookId = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
-                            AuthorId = 1,
+                            AuthorId = 2,
                             BookId = 2,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
-                            AuthorId = 1,
+                            AuthorId = 2,
                             BookId = 3,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
-                            AuthorId = 3,
+                            AuthorId = 2,
                             BookId = 4,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 5,
-                            AuthorId = 2,
+                            AuthorId = 1,
                             BookId = 5,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -411,7 +404,7 @@ namespace DAL.SQLite.Migrations.Migrations
                             Id = 1,
                             BookId = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 3
+                            GenreId = 2
                         },
                         new
                         {
@@ -425,14 +418,14 @@ namespace DAL.SQLite.Migrations.Migrations
                             Id = 3,
                             BookId = 3,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 2
+                            GenreId = 1
                         },
                         new
                         {
                             Id = 4,
                             BookId = 4,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 3
+                            GenreId = 2
                         },
                         new
                         {
@@ -503,14 +496,15 @@ namespace DAL.SQLite.Migrations.Migrations
                     b.Property<int>("GiftCardId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int?>("OrderdId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GiftCardId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderdId")
+                        .IsUnique();
 
                     b.ToTable("Coupons");
 
@@ -573,19 +567,19 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreType = "Sci-fi"
+                            GenreType = "Fantasy"
                         },
                         new
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreType = "Sci-fi"
+                            GenreType = "Romance"
                         },
                         new
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreType = "Romance"
+                            GenreType = "Horror"
                         });
                 });
 
@@ -624,7 +618,7 @@ namespace DAL.SQLite.Migrations.Migrations
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiryDate = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
                             PriceReduction = 3.1600000000000001,
-                            StartDate = new DateTime(2024, 12, 15, 12, 40, 45, 191, DateTimeKind.Utc).AddTicks(2896)
+                            StartDate = new DateTime(2024, 12, 9, 19, 31, 57, 665, DateTimeKind.Utc).AddTicks(1830)
                         },
                         new
                         {
@@ -632,7 +626,7 @@ namespace DAL.SQLite.Migrations.Migrations
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiryDate = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
                             PriceReduction = 3.3399999999999999,
-                            StartDate = new DateTime(2024, 12, 15, 12, 40, 45, 191, DateTimeKind.Utc).AddTicks(4255)
+                            StartDate = new DateTime(2024, 12, 9, 19, 31, 57, 665, DateTimeKind.Utc).AddTicks(2957)
                         });
                 });
 
@@ -654,9 +648,6 @@ namespace DAL.SQLite.Migrations.Migrations
                     b.Property<DateTime?>("EditedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("INTEGER");
-
                     b.Property<double>("TotalPrice")
                         .HasColumnType("REAL");
 
@@ -676,15 +667,15 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            TotalPrice = 415.79999999999995,
-                            UserId = 2
+                            TotalPrice = 317.05000000000001,
+                            UserId = 3
                         },
                         new
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            TotalPrice = 468.84999999999997,
-                            UserId = 3
+                            TotalPrice = 464.10000000000002,
+                            UserId = 1
                         });
                 });
 
@@ -730,34 +721,34 @@ namespace DAL.SQLite.Migrations.Migrations
                             BookId = 5,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderId = 1,
-                            PricePerItem = 41.579999999999998,
+                            PricePerItem = 11.220000000000001,
                             Quantity = 5
                         },
                         new
                         {
                             Id = 2,
-                            BookId = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = 1,
-                            PricePerItem = 41.579999999999998,
-                            Quantity = 5
-                        },
-                        new
-                        {
-                            Id = 3,
                             BookId = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = 2,
+                            OrderId = 1,
                             PricePerItem = 52.189999999999998,
                             Quantity = 5
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 3,
                             BookId = 5,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderId = 2,
-                            PricePerItem = 41.579999999999998,
+                            PricePerItem = 11.220000000000001,
+                            Quantity = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BookId = 4,
+                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderId = 2,
+                            PricePerItem = 81.599999999999994,
                             Quantity = 5
                         });
                 });
@@ -841,46 +832,46 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            Body = "mrzhcbhaeunzuidtqhzwoymxohatfyuqcysxnzmwajas",
-                            BookId = 3,
+                            Body = "ifomhpxikfnnvyaovdkmwjmrzhcbhaeunzuidtqhzwoymxohatfyuqcysxnzmwajaszverlbncnzuofbtvanugawwwpggqvcwfy",
+                            BookId = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 5,
-                            UserId = 2
+                            Rating = 1,
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Body = "lbncnzuofbtvanugawwwpggqvcwfytxsdjidkrdddeslfqwmotsczicfvwhkdpqleasrfrwi",
+                            Body = "jidkrdddeslfqwmotscz",
                             BookId = 5,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 1,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Body = "oulegjqebutugchnksznoghfyfhxxkjfpqrblceuzlkjgxkc",
-                            BookId = 4,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             Rating = 4,
                             UserId = 3
                         },
                         new
                         {
-                            Id = 4,
-                            Body = "uewhnfgabsgq",
-                            BookId = 2,
+                            Id = 3,
+                            Body = "whkdpqleasrfrwittsloulegjqebutugchnksznoghfyfhxxkjfpqrblceuzlkjgxkcjixauewhnfgabsgqlnf",
+                            BookId = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 5,
+                            Rating = 2,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Body = "iofocwxyavenpmi",
+                            BookId = 3,
+                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Rating = 2,
                             UserId = 2
                         },
                         new
                         {
                             Id = 5,
-                            Body = "lgbiofocwxyavenpmilkukogvdsgftyssurdgpmpqtkpggfxereccuvbrvmlmhxdz",
+                            Body = "ogvdsgftyssurdgpmpqtkpggfxereccuvbrvmlmhxdzgh",
                             BookId = 3,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Rating = 2,
+                            Rating = 4,
                             UserId = 2
                         });
                 });
@@ -920,25 +911,25 @@ namespace DAL.SQLite.Migrations.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Shyanne.Torphy96@gmail.com",
+                            Email = "Alivia.Gorczany@gmail.com",
                             Role = 0,
-                            Username = "Virginia_Bradtke"
+                            Username = "Pauline.Beatty"
                         },
                         new
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Etha17@gmail.com",
-                            Role = 0,
-                            Username = "Xzavier.Jacobs"
+                            Email = "Asa27@yahoo.com",
+                            Role = 1,
+                            Username = "Lizeth_Osinski"
                         },
                         new
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Donato.McKenzie39@yahoo.com",
-                            Role = 0,
-                            Username = "Willy57"
+                            Email = "Dayna_Towne20@hotmail.com",
+                            Role = 1,
+                            Username = "Lincoln53"
                         });
                 });
 
@@ -975,23 +966,23 @@ namespace DAL.SQLite.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            BookId = 2,
-                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
                             BookId = 3,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = 1
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             BookId = 2,
                             CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BookId = 5,
+                            CreatedAt = new DateTime(2021, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 3
                         });
                 });
 
@@ -1136,19 +1127,11 @@ namespace DAL.SQLite.Migrations.Migrations
 
             modelBuilder.Entity("DAL.Models.Book", b =>
                 {
-                    b.HasOne("DAL.Models.Genre", "PrimaryGenre")
-                        .WithMany()
-                        .HasForeignKey("PrimaryGenreId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
                     b.HasOne("DAL.Models.Publisher", "Publisher")
                         .WithMany("Books")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
-
-                    b.Navigation("PrimaryGenre");
 
                     b.Navigation("Publisher");
                 });
@@ -1211,8 +1194,8 @@ namespace DAL.SQLite.Migrations.Migrations
                         .IsRequired();
 
                     b.HasOne("DAL.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
+                        .WithOne()
+                        .HasForeignKey("DAL.Models.Coupon", "OrderdId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("GiftCard");

@@ -16,6 +16,7 @@ public class OrderMapper(IBookMapper bookMapper) : IOrderMapper
             Username = order.User?.Username ?? "",
             OrderStatus = order.OrderStatus,
             TotalPrice = order.TotalPrice,
+            CouponId = order.CouponId,
         };
     }
 
@@ -28,6 +29,7 @@ public class OrderMapper(IBookMapper bookMapper) : IOrderMapper
             Username = order.User?.Username ?? "",
             OrderStatus = order.OrderStatus,
             TotalPrice = order.TotalPrice,
+            CouponId = order.CouponId,
             OrderItems = order
                 .OrderItems.Select(oi => new OrderItemDto
                 {

@@ -76,7 +76,7 @@ public class BookController(
             return NotFound();
         }
 
-        var finalBook = await bookFacade.CreateBookWithImagesAsync(bookDto);
+        var finalBook = await bookService.AddBookAsync(bookDto, []);
 
         return CreatedAtAction(nameof(GetSingleBook), new { bookId = finalBook.Id }, finalBook);
     }

@@ -1,0 +1,122 @@
+@using WebMVC.Areas.Admin.ViewModels.Books;
+@model BooksFormPageViewModel;
+
+@{
+    ViewData["Title"] = "Create Book";
+}
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl">Create Book</h1>
+    @Html.ValidationSummary(false, "", new { @class = "text-red-500 text-sm mt-4" })
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Name</span>
+            </div>
+            <input id="name" asp-for="BookForm.Name" class="input input-bordered w-full max-w-xs" />
+            <span asp-validation-for="BookForm.Name" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">ISBN</span>
+            </div>
+            <input id="ISBN" asp-for="BookForm.ISBN" class="input input-bordered w-full max-w-xs" />
+            <span asp-validation-for="BookForm.ISBN" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Description</span>
+            </div>
+            <textarea id="Description" asp-for="BookForm.Description" class="input input-bordered w-full max-w-xs"></textarea>
+            <span asp-validation-for="BookForm.Description" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Pages</span>
+            </div>
+            <input id="pages" asp-for="BookForm.Pages" class="input input-bordered w-full max-w-xs" type="number" />
+            <span asp-validation-for="BookForm.Pages" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Price</span>
+            </div>
+            <input id="Price" asp-for="BookForm.Price" class="input input-bordered w-full max-w-xs" />
+            <span asp-validation-for="BookForm.Price" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label" asp-for="BookForm.Rating">
+                <span class="label-text">Rating</span>
+            </div>
+            <input id="Rating" asp-for="BookForm.Rating" class="input input-bordered w-full max-w-xs" />
+            <span asp-validation-for="BookForm.Rating" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Publish Date</span>
+            </div>
+            <input id="PublishDate" asp-for="BookForm.PublishDate" class="input input-bordered w-full max-w-xs" type="date" />
+            <span asp-validation-for="BookForm.PublishDate" class="text-danger"></span>
+        </label>
+        
+        
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Authors</span>
+            </div>
+            <select id="Authors" asp-for="BookForm.AuthorIds" class="select select-bordered w-full max-w-xs">
+                @foreach(var author in Model.Authors)
+                {
+                    <option value="@author.Id">@author.Name</option>
+                }
+            </select>
+            <span asp-validation-for="BookForm.AuthorIds" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Primary Genre</span>
+            </div>
+            <select id="PrimaryGenre" asp-for="BookForm.PrimaryGenreId" class="select select-bordered w-full max-w-xs">
+                <option>Select primary genre</option>
+                @foreach(var genre in Model.Genres)
+                {
+                    <option value="@genre.Id">@genre.GenreType</option>
+                }
+            </select>
+            <span asp-validation-for="BookForm.PrimaryGenreId" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Genres</span>
+            </div>
+            <select id="Genres" asp-for="BookForm.GenreIds"  class="select select-bordered w-full max-w-xs">
+                @foreach(var genre in Model.Genres)
+                {
+                    <option value="@genre.Id">@genre.GenreType</option>
+                }
+            </select>
+            <span asp-validation-for="BookForm.GenreIds" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Publisher</span>
+            </div>
+            <select id="Publisher" asp-for="BookForm.PublisherId" class="select select-bordered w-full max-w-xs">
+                <option>Select publisher</option>
+                @foreach(var publisher in Model.Publishers)
+                {
+                    <option value="@publisher.Id">@publisher.Name</option>
+                }
+            </select>
+            <span asp-validation-for="BookForm.PublisherId" class="text-danger"></span>
+        </label>
+        <label class="form-control mb-2">
+            <div class="label">
+                <span class="label-text">Image</span>
+            </div>
+            <input id="PreviewImage" asp-for="BookForm.Images" class="input input-bordered w-full max-w-xs" type="file" multiple />
+            <span asp-validation-for="BookForm.Images" class="text-danger"></span>
+        </label>
+        <button type="submit" class="btn btn-primary text-white">Create</button>
+    </form>
+</div>

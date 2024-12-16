@@ -4,7 +4,7 @@
 
 @{
     ViewData["Title"] = "Books List";
-    var bookIndex = 1;
+    var bookIndex = Model.PageIndex * Model.PageSize + 1;
 }
 
 <div class="flex flex-row justify-between mb-3">

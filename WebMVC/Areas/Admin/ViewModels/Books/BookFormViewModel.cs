@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BusinessLayer.DTOs.Book;
+namespace WebMVC.Areas.Admin.ViewModels.Books;
 
-public class BookCreateDto
+public class BookFormViewModel
 {
     [Required]
     public required string Name { get; init; }
@@ -35,4 +35,6 @@ public class BookCreateDto
     public required List<int> GenreIds { get; init; } = [];
 
     public required List<int> AuthorIds { get; init; } = [];
+
+    public required List<IFormFile> Images { get; init; } = [];
 }

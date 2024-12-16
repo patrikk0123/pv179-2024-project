@@ -4,6 +4,7 @@ using BusinessLayer.Facades.BookFacades.Interfaces;
 using BusinessLayer.Services.Book.Interfaces;
 using BusinessLayer.Services.Image.Interfaces;
 using Infrastructure.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace BusinessLayer.Facades.BookFacades;
 
@@ -28,11 +29,14 @@ public class BookFacade(IImageService imageService, IBookService bookService) : 
         return imageId;
     }
 
-    public async Task<BookDetailDto> CreateBookWithImagesAsync(BookCreateDto bookCreateDto)
+    public async Task<BookDetailDto> CreateBookWithImagesAsync(
+        BookCreateDto bookCreateDto,
+        List<IFormFile> images
+    )
     {
         List<string> createdImages = [];
 
-        foreach (var image in bookCreateDto.Images)
+        foreach (var image in images)
         {
             string imageId = IdGenerator.GenerateUniqueId();
             createdImages.Add(imageId);

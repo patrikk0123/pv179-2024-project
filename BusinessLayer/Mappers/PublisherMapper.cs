@@ -30,6 +30,7 @@ public class PublisherMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapp
                     ISBN = book.ISBN,
                     Description = book.Description,
                     PublishDate = book.PublishDate,
+                    PublisherId = publisher.Id,
                     Pages = book.Pages,
                     Rating = book.Rating,
                     Price = book.Price,

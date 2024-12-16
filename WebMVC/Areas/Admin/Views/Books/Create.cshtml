@@ -39,14 +39,14 @@
         </label>
         <label class="form-control mb-2">
             <div class="label">
-                <span class="label-text">Price</span>
+                <span class="label-text">Price (&euro;)</span>
             </div>
             <input id="Price" asp-for="BookForm.Price" class="input input-bordered w-full max-w-xs" />
             <span asp-validation-for="BookForm.Price" class="text-danger"></span>
         </label>
         <label class="form-control mb-2">
             <div class="label" asp-for="BookForm.Rating">
-                <span class="label-text">Rating</span>
+                <span class="label-text">Rating (1 - 5)</span>
             </div>
             <input id="Rating" asp-for="BookForm.Rating" class="input input-bordered w-full max-w-xs" />
             <span asp-validation-for="BookForm.Rating" class="text-danger"></span>

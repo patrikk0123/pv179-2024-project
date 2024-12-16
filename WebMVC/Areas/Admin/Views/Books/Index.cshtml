@@ -1,1 +1,94 @@
-<h1>Books list</h1>
+@using WebMVC.Areas.Admin.ViewModels.Books;
+
+@model BookListPageViewModel;
+
+@{
+    ViewData["Title"] = "Books List";
+    var bookIndex = 1;
+}
+
+<div class="flex flex-row justify-between mb-3">
+    <h1 class="text-3xl">Books List</h1>
+    <a class="btn btn-primary text-white" asp-area="Admin" asp-controller="Books" asp-action="Create">
+        Create <i class="fa-solid fa-plus"></i>
+    </a>
+</div>
+
+<div class="overflow-x-auto mb-4">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Rating</th>
+            <th>Genres</th>
+            <th>Authors</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var book in Model.Content)
+        {
+            <tr>
+                <td>@bookIndex</td>
+                <td>@book.Name</td>
+                <td>
+                    @{
+                        var fullStarsCount = (int)Math.Round(book.Rating);
+                        var emptyStarsCount = 5 - fullStarsCount;
+                    }
+                    @for (int i = 0; i < fullStarsCount; i++)
+                    {
+                        <span class="fa-solid fa-star"></span>
+                    }
+                    @for (int i = 0; i < emptyStarsCount; i++)
+                    {
+                        <span class="fa-regular fa-star"></span>
+                    }
+                </td>
+                <td>
+                    @foreach (var genre in book.Genres)
+                    {
+                        <span class="badge badge-primary">@genre</span>
+                    }
+                </td>
+                <td>
+                    @foreach (var author in book.Authors)
+                    {
+                        <span class="badge badge-primary">@author</span>
+                    }
+                </td>
+                <td>@book.Price.ToString("0.0")€</td>
+                <td>
+                    <a class="link-primary text-lg" asp-area="Admin" asp-controller="Books" asp-action="Detail" asp-route-id="@book.Id">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                    &nbsp;
+                    <a class="link-primary text-lg" asp-area="Admin" asp-controller="Books" asp-action="Update" asp-route-id="@book.Id">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                    &nbsp;
+                    <a class="link-error text-lg" asp-area="Admin" asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {
+                bookIndex++;
+            }
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <div class="flex justify-center">
+        <div class="join">
+            <a class="join-item btn @((Model.PageIndex <= 0) ? "pointer-events-none" : "")" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)">«</a>
+            <button class="join-item btn">@($"Page {Model.PageIndex + 1}")</button>
+            <a class="join-item btn @((Model.PageIndex >= Model.TotalPages - 1) ? "pointer-events-none" : "")" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)">»</a>
+        </div>
+    </div>
+}

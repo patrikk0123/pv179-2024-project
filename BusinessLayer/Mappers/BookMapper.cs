@@ -40,6 +40,13 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
                     Surname = bookAuthor.Author.Surname,
                 })
                 .ToList(),
+            Genres = book
+                .BookGenres?.Select(bookGenre => new GenreDto()
+                {
+                    Id = bookGenre.Genre.Id,
+                    GenreType = bookGenre.Genre.GenreType,
+                })
+                .ToList(),
         };
     }
 

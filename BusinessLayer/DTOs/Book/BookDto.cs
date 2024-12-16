@@ -28,4 +28,6 @@ public class BookDto : BaseDto
     public ImageDto PreviewImage { get; init; }
 
     public required List<AuthorDto> Authors { get; init; } = [];
+
+    public required List<GenreDto> Genres { get; init; } = [];
 }

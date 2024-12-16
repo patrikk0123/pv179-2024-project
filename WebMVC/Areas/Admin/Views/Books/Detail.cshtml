@@ -1,0 +1,80 @@
+@model WebMVC.Areas.Admin.ViewModels.Books.BookDetailPageViewModel;
+
+<h1 class="text-3xl mb-4">@Model.Name</h1>
+<img src="data:image/png;base64,@Convert.ToBase64String(Model.PreviewImage)" alt="@Model.Name" />
+<p class="mb-2">
+    @Model.Description
+</p>
+<p class="mb-2">
+    <strong>Rating:</strong>
+    @{
+        var fullStarsCount = (int)Math.Round(Model.Rating);
+        var emptyStarsCount = 5 - fullStarsCount;
+    }
+    @for (int i = 0; i < fullStarsCount; i++)
+    {
+        <span class="fa-solid fa-star"></span>
+    }
+    @for (int i = 0; i < emptyStarsCount; i++)
+    {
+        <span class="fa-regular fa-star"></span>
+    }
+</p>
+<p class="mb-2">
+    <strong>Authors:</strong>
+    @foreach (var author in Model.Authors)
+    {
+        <span class="badge badge-primary">@author</span>
+    }
+</p>
+<p class="mb-2">
+    <strong>Genres:</strong>
+    <sp2an class="badge badge-primary">@Model.PrimaryGenre</sp2an>
+    @foreach (var genre in Model.SecondaryGenres)
+    {
+        <span class="badge badge-secondary">@genre</span>
+    }
+</p>
+<p class="mb-2">
+    <strong>Price</strong> @Model.Price.ToString("0.0")€
+</p>
+<p class="mb-2">
+    <strong>Pages:</strong> @Model.Pages
+</p>
+<p class="mb-2">
+    <strong>Published:</strong> @Model.PublishDate.ToString("dd.MM.yyyy")
+</p>
+<p class="mb-2">
+    <strong>Publisher:</strong> @Model.PublisherName
+</p>
+<p class="mb-2">
+    <strong>ISBN:</strong> @Model.ISBN
+</p>
+
+
+<h2 class="text-2xl mb-4">Reviews</h2>
+@foreach(var review in Model.Reviews)
+{
+    <div class="mb-4 p-2 border border-solid border-gray-300">
+        <div class="mb-2 flex flex-row justify-between">
+            <div>
+                <strong>@review.ReviewerName</strong>
+            </div>
+            <div>
+                @{
+                    var fullStarsCountReview = review.Rating;
+                    var emptyStarsCountReview = 5 - fullStarsCountReview;
+                }
+                @for (int i = 0; i < fullStarsCountReview; i++)
+                {
+                    <span class="fa-solid fa-star"></span>
+                }
+                @for (int i = 0; i < emptyStarsCountReview; i++)
+                {
+                    <span class="fa-regular fa-star"></span>
+                }
+            </div>
+        </div>
+        <p>@review.Body</p>
+    </div>
+}

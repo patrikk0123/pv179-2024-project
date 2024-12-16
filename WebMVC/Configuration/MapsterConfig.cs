@@ -5,6 +5,7 @@ using BusinessLayer.DTOs.Publisher;
 using BusinessLayer.DTOs.User;
 using BusinessLayer.DTOs.WishListItem;
 using Mapster;
+using WebMVC.Areas.Admin.ViewModels.Books;
 using WebMVC.Areas.Admin.ViewModels.Genres;
 using WebMVC.Areas.Admin.ViewModels.Publisher;
 using WebMVC.Areas.Admin.ViewModels.Users;
@@ -12,6 +13,7 @@ using WebMVC.ViewModels.Book;
 using WebMVC.ViewModels.Order;
 using WebMVC.ViewModels.User;
 using WebMVC.ViewModels.WishListItem;
+using BookViewModel = WebMVC.ViewModels.Book.BookViewModel;
 
 namespace WebMVC.Configuration;
 
@@ -80,5 +82,30 @@ public static class MapsterConfig
         TypeAdapterConfig<List<UserDto>, UserListViewModel>
             .NewConfig()
             .Map(dest => dest.Users, src => src.ConvertAll(input => input.Adapt<UserViewModel>()));
+
+        TypeAdapterConfig<BookDto, Areas.Admin.ViewModels.Books.BookViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Authors,
+                src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
+            )
+            .Map(dest => dest.Genres, src => src.Genres.ConvertAll(genre => genre.GenreType))
+            .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
+
+        TypeAdapterConfig<BookDetailDto, BookDetailPageViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Authors,
+                src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
+            )
+            .Map(dest => dest.PrimaryGenre, src => src.PrimaryGenre.GenreType)
+            .Map(
+                dest => dest.SecondaryGenres,
+                src =>
+                    src.Genres.Where(genre => genre.Id != src.PrimaryGenre.Id)
+                        .Select(genre => genre.GenreType)
+                        .ToList()
+            )
+            .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
     }
 }

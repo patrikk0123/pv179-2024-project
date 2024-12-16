@@ -1,4 +1,7 @@
 @model WebMVC.Areas.Admin.ViewModels.Books.BookDetailPageViewModel;
+@{
+    ViewData["Title"] = "Book detail";
+}
 
 <h1 class="text-3xl mb-4">@Model.Name</h1>
 <img src="data:image/png;base64,@Convert.ToBase64String(Model.PreviewImage)" alt="@Model.Name" />
@@ -52,29 +55,36 @@
 </p>
 
 
-<h2 class="text-2xl mb-4">Reviews</h2>
-@foreach(var review in Model.Reviews)
+@if (Model.Reviews.Count == 0)
 {
-    <div class="mb-4 p-2 border border-solid border-gray-300">
-        <div class="mb-2 flex flex-row justify-between">
-            <div>
-                <strong>@review.ReviewerName</strong>
+    <h2 class="text-2xl mb-4">No reviews</h2>
+}
+else
+{
+    <h2 class="text-2xl mb-4">Reviews</h2>
+    @foreach(var review in Model.Reviews)
+    {
+        <div class="mb-4 p-2 border border-solid border-gray-300">
+            <div class="mb-2 flex flex-row justify-between">
+                <div>
+                    <strong>@review.ReviewerName</strong>
+                </div>
+                <div>
+                    @{
+                        var fullStarsCountReview = review.Rating;
+                        var emptyStarsCountReview = 5 - fullStarsCountReview;
+                    }
+                    @for (int i = 0; i < fullStarsCountReview; i++)
+                    {
+                        <span class="fa-solid fa-star"></span>
+                    }
+                    @for (int i = 0; i < emptyStarsCountReview; i++)
+                    {
+                        <span class="fa-regular fa-star"></span>
+                    }
+                </div>
             </div>
-            <div>
-                @{
-                    var fullStarsCountReview = review.Rating;
-                    var emptyStarsCountReview = 5 - fullStarsCountReview;
-                }
-                @for (int i = 0; i < fullStarsCountReview; i++)
-                {
-                    <span class="fa-solid fa-star"></span>
-                }
-                @for (int i = 0; i < emptyStarsCountReview; i++)
-                {
-                    <span class="fa-regular fa-star"></span>
-                }
-            </div>
+            <p>@review.Body</p>
         </div>
-        <p>@review.Body</p>
-    </div>
+    }
 }

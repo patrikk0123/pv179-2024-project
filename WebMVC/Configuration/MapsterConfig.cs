@@ -107,5 +107,20 @@ public static class MapsterConfig
                         .ToList()
             )
             .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
+
+        TypeAdapterConfig<BookDetailDto, BookFormViewModel>
+            .NewConfig()
+#pragma warning disable CA1305
+
+            .Map(dest => dest.AuthorIds, src => src.Authors.Select(author => author.Id))
+            .Map(
+                dest => dest.GenreIds,
+                src =>
+                    src.Genres.Where(genre => genre.Id != src.PrimaryGenre.Id)
+                        .Select(genre => genre.Id)
+                        .ToList()
+            )
+            .Map(dest => dest.PublishDate, src => src.PublishDate.ToString("yyyy-MM-dd"));
+#pragma warning restore CA1305
     }
 }

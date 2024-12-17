@@ -125,23 +125,7 @@ public class BooksController(
             Publishers = publishers.ConvertAll(publisher =>
                 publisher.Adapt<PublisherDetailViewModel>()
             ),
-            BookForm = new BookFormViewModel()
-            {
-                Name = book.Name,
-                Description = book.Description,
-                Pages = book.Pages,
-                Price = book.Price,
-                Rating = book.Rating,
-                AuthorIds = book.Authors.ConvertAll(author => author.Id),
-                GenreIds = book.Genres.ConvertAll(genre => genre.Id),
-                ISBN = book.ISBN,
-#pragma warning disable CA1305
-                PublishDate = book.PublishDate.ToString("yyyy-MM-dd"),
-#pragma warning restore CA1305
-                Images = [],
-                PublisherId = book.PublisherId,
-                PrimaryGenreId = book.PrimaryGenre.Id,
-            },
+            BookForm = book.Adapt<BookFormViewModel>(),
         };
 
         return View(model);

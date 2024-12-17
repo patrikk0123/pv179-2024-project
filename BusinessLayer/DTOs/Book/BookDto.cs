@@ -23,9 +23,13 @@ public class BookDto : BaseDto
 
     public required string PublisherName { get; init; }
 
+    public required int PublisherId { get; init; }
+
     public required GenreDto PrimaryGenre { get; init; }
 
     public ImageDto PreviewImage { get; init; }
 
     public required List<AuthorDto> Authors { get; init; } = [];
+
+    public required List<GenreDto> Genres { get; init; } = [];
 }

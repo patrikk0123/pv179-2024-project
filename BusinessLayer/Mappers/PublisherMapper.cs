@@ -30,6 +30,7 @@ public class PublisherMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapp
                     ISBN = book.ISBN,
                     Description = book.Description,
                     PublishDate = book.PublishDate,
+                    PublisherId = publisher.Id,
                     Pages = book.Pages,
                     Rating = book.Rating,
                     Price = book.Price,
@@ -48,6 +49,13 @@ public class PublisherMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapp
                             Id = bookAuthor.Author.Id,
                             Name = bookAuthor.Author.Name,
                             Surname = bookAuthor.Author.Surname,
+                        })
+                        .ToList(),
+                    Genres = book
+                        .BookGenres?.Select(bookGenre => new GenreDto()
+                        {
+                            Id = bookGenre.Genre.Id,
+                            GenreType = bookGenre.Genre.GenreType,
                         })
                         .ToList(),
                 })

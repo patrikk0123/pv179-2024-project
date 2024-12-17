@@ -128,7 +128,13 @@ public class BookService(BookHubDBContext dBContext, IBookMapper bookMapper)
             throw;
         }
 
-        return bookMapper.ToDto(book);
+        var updatedBook = await dBContext.Books.FindAsync(bookId);
+        if (updatedBook == null)
+        {
+            return null;
+        }
+
+        return bookMapper.ToDto(updatedBook);
     }
 
     public async Task<BookDetailDto?> DeleteBookAsync(int bookId)
@@ -177,7 +183,12 @@ public class BookService(BookHubDBContext dBContext, IBookMapper bookMapper)
         await using var transaction = await dBContext.Database.BeginTransactionAsync();
         try
         {
-            var book = dBContext.Books.Add(bookMapper.ToModel(bookDto));
+            var model = bookMapper.ToModel(bookDto);
+            if (imagesIds.Count > 0)
+            {
+                model.PreviewImageId = imagesIds[0];
+            }
+            var book = dBContext.Books.Add(model);
             await SaveAsync(true);
 
             dBContext.BookGenres.AddRange(

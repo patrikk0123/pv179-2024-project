@@ -110,13 +110,6 @@
             </select>
             <span asp-validation-for="BookForm.PublisherId" class="text-danger"></span>
         </label>
-        <label class="form-control mb-2 hidden">
-            <div class="label">
-                <span class="label-text">Image</span>
-            </div>
-            <input id="Images" asp-for="BookForm.Images" class="input input-bordered w-full max-w-xs" type="file" />
-            <span asp-validation-for="BookForm.Images" class="text-danger"></span>
-        </label>
         <button type="submit" class="btn btn-primary text-white">Update</button>
     </form>
 </div>

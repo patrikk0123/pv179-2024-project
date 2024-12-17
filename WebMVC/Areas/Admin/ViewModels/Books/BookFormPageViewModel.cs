@@ -4,7 +4,7 @@ using WebMVC.Areas.Admin.ViewModels.Publisher;
 
 namespace WebMVC.Areas.Admin.ViewModels.Books;
 
-public class BooksFormPageViewModel
+public class BookFormPageViewModel
 {
     public required List<AuthorDetailViewModel> Authors { get; init; } = [];
 

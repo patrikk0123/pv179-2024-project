@@ -82,13 +82,11 @@
     </table>
 </div>
 
-@if (Model.TotalPages > 1)
-{
-    <div class="flex justify-center">
-        <div class="join">
-            <a class="join-item btn @((Model.PageIndex <= 0) ? "pointer-events-none" : "")" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)">«</a>
-            <button class="join-item btn">@($"Page {Model.PageIndex + 1}")</button>
-            <a class="join-item btn @((Model.PageIndex >= Model.TotalPages - 1) ? "pointer-events-none" : "")" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)">»</a>
-        </div>
+<div class="flex justify-center">
+    <div class="join">
+        <a class="join-item btn @((Model.PageIndex <= 0) ? "pointer-events-none" : "")" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)">«</a>
+        <button class="join-item btn">@($"Page {Model.PageIndex + 1}")</button>
+        <a class="join-item btn @((Model.PageIndex >= Model.TotalPages - 1) ? "pointer-events-none" : "")" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)">»</a>
     </div>
-}
+</div>
+

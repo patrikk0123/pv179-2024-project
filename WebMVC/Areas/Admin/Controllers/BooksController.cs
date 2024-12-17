@@ -61,7 +61,7 @@ public class BooksController(
         var genres = await genreService.GetAllGenresAsync(null);
         var publishers = await publisherService.GetAllPublishersAsync();
 
-        var model = new BooksFormPageViewModel
+        var model = new BookFormPageViewModel
         {
             Authors = authors.ConvertAll(author => author.Adapt<AuthorDetailViewModel>()),
             Genres = genres.ConvertAll(genre => genre.Adapt<GenreDetailViewModel>()),
@@ -74,7 +74,7 @@ public class BooksController(
     }
 
     [HttpPost("admin/books/create")]
-    public async Task<IActionResult> Create(BooksFormPageViewModel bookFormViewModel)
+    public async Task<IActionResult> Create(BookFormPageViewModel bookFormViewModel)
     {
         if (!ModelState.IsValid)
         {
@@ -82,7 +82,7 @@ public class BooksController(
             var genres = await genreService.GetAllGenresAsync(null);
             var publishers = await publisherService.GetAllPublishersAsync();
 
-            var model = new BooksFormPageViewModel
+            var model = new BookFormPageViewModel
             {
                 Authors = authors.ConvertAll(author => author.Adapt<AuthorDetailViewModel>()),
                 Genres = genres.ConvertAll(genre => genre.Adapt<GenreDetailViewModel>()),
@@ -118,7 +118,7 @@ public class BooksController(
         var genres = await genreService.GetAllGenresAsync(null);
         var publishers = await publisherService.GetAllPublishersAsync();
 
-        var model = new BooksFormPageViewModel
+        var model = new BookFormPageViewModel
         {
             Authors = authors.ConvertAll(author => author.Adapt<AuthorDetailViewModel>()),
             Genres = genres.ConvertAll(genre => genre.Adapt<GenreDetailViewModel>()),
@@ -148,7 +148,7 @@ public class BooksController(
     }
 
     [HttpPost("admin/books/update/{id}")]
-    public async Task<IActionResult> Update(int id, BooksFormPageViewModel bookViewModel)
+    public async Task<IActionResult> Update(int id, BookFormPageViewModel bookViewModel)
     {
         var book = await bookService.GetSingleBookAsync(id);
 
@@ -163,7 +163,7 @@ public class BooksController(
             var genres = await genreService.GetAllGenresAsync(null);
             var publishers = await publisherService.GetAllPublishersAsync();
 
-            var model = new BooksFormPageViewModel
+            var model = new BookFormPageViewModel
             {
                 Authors = authors.ConvertAll(author => author.Adapt<AuthorDetailViewModel>()),
                 Genres = genres.ConvertAll(genre => genre.Adapt<GenreDetailViewModel>()),

@@ -70,7 +70,7 @@ public class BooksController(
 
     [HttpPost("detail/{bookId}")]
     [Authorize]
-    public async Task<IActionResult> Detail(int bookId, BookReviewViewModel viewModelReviewView)
+    public async Task<IActionResult> Detail(int bookId, BookFormReviewViewModel viewModelReviewView)
     {
         var book = await bookService.GetSingleBookAsync(bookId);
         if (book == null)

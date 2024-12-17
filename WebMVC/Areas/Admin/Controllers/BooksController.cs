@@ -11,6 +11,7 @@ using WebMVC.Areas.Admin.ViewModels.Authors;
 using WebMVC.Areas.Admin.ViewModels.Books;
 using WebMVC.Areas.Admin.ViewModels.Genres;
 using WebMVC.Areas.Admin.ViewModels.Publisher;
+using WebMVC.ViewModels.Book;
 
 namespace WebMVC.Areas.Admin.Controllers;
 
@@ -35,7 +36,7 @@ public class BooksController(
             null
         );
 
-        var model = bookPage.Adapt<BookListPageViewModel>();
+        var model = bookPage.Adapt<BookPageViewModel>();
 
         return View(model);
     }
@@ -49,7 +50,7 @@ public class BooksController(
             return NotFound();
         }
 
-        var model = book.Adapt<BookDetailPageViewModel>();
+        var model = book.Adapt<BookDetailViewModel>();
 
         return View(model);
     }

@@ -1,4 +1,4 @@
-namespace WebMVC.Areas.Admin.ViewModels.Books;
+namespace WebMVC.ViewModels.Book;
 
 public class BookReviewViewModel
 {

@@ -29,6 +29,7 @@ public static class MapsterConfig
                 dest => dest.Authors,
                 src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
             )
+            .Map(dest => dest.Genres, src => src.Genres.ConvertAll(genre => genre.GenreType))
             .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
 
         TypeAdapterConfig<BookDetailDto, BookDetailViewModel>
@@ -82,31 +83,6 @@ public static class MapsterConfig
         TypeAdapterConfig<List<UserDto>, UserListViewModel>
             .NewConfig()
             .Map(dest => dest.Users, src => src.ConvertAll(input => input.Adapt<UserViewModel>()));
-
-        TypeAdapterConfig<BookDto, Areas.Admin.ViewModels.Books.BookViewModel>
-            .NewConfig()
-            .Map(
-                dest => dest.Authors,
-                src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
-            )
-            .Map(dest => dest.Genres, src => src.Genres.ConvertAll(genre => genre.GenreType))
-            .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
-
-        TypeAdapterConfig<BookDetailDto, BookDetailPageViewModel>
-            .NewConfig()
-            .Map(
-                dest => dest.Authors,
-                src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
-            )
-            .Map(dest => dest.PrimaryGenre, src => src.PrimaryGenre.GenreType)
-            .Map(
-                dest => dest.SecondaryGenres,
-                src =>
-                    src.Genres.Where(genre => genre.Id != src.PrimaryGenre.Id)
-                        .Select(genre => genre.GenreType)
-                        .ToList()
-            )
-            .Map(dest => dest.PreviewImage, src => src.PreviewImage.Data);
 
         TypeAdapterConfig<BookDetailDto, BookFormViewModel>
             .NewConfig()

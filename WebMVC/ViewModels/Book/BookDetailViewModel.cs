@@ -1,5 +1,3 @@
-using BusinessLayer.DTOs.BookReview;
-
 namespace WebMVC.ViewModels.Book;
 
 public class BookDetailViewModel
@@ -28,7 +26,7 @@ public class BookDetailViewModel
 
     public required List<string> SecondaryGenres { get; init; } = [];
 
-    public required List<BookReviewDto> Reviews { get; init; } = [];
+    public required List<BookReviewViewModel> Reviews { get; init; } = [];
 
     public required List<string> Authors { get; init; } = [];
 }

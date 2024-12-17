@@ -70,7 +70,7 @@ public class BooksController(
 
     [HttpPost("detail/{bookId}")]
     [Authorize]
-    public async Task<IActionResult> Detail(int bookId, BookReviewModel modelReview)
+    public async Task<IActionResult> Detail(int bookId, BookReviewViewModel viewModelReviewView)
     {
         var book = await bookService.GetSingleBookAsync(bookId);
         if (book == null)
@@ -93,8 +93,8 @@ public class BooksController(
                     user.UserId,
                     new BookReviewCreateDto()
                     {
-                        Rating = modelReview.Rating,
-                        Body = modelReview.Body,
+                        Rating = viewModelReviewView.Rating,
+                        Body = viewModelReviewView.Body,
                     }
                 );
 

@@ -15,4 +15,5 @@ public class BookViewModel
     public byte[] PreviewImage { get; init; }
 
     public required List<String> Authors { get; init; } = [];
+    public required List<String> Genres { get; init; } = [];
 }

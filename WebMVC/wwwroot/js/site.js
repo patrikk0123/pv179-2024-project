@@ -63,7 +63,6 @@ class Cart {
     applyCoupon() {
         let couponCodeInput = document.getElementById("couponCode");
         let couponCodeValue = couponCodeInput.value;
-        let that = this;
         
         fetch(`/validate-coupon/${couponCodeValue}`, {
             method: "POST",
@@ -78,10 +77,10 @@ class Cart {
                 return response.json();
             })
             .then(data => {
-                that.discount = data.giftCard.priceReduction;
+                this.discount = data.giftCard.priceReduction;
                 document.getElementById("couponMessage").innerText = "Valid coupon";
-                document.getElementById("couponDiscount").innerText = "Discount: " +  that.discount .toFixed(2) + " €";
-                document.getElementById("cartTotal").innerText = "Total: " + that.getCartTotal() + " €";
+                document.getElementById("couponDiscount").innerText = "Discount: " +  this.discount .toFixed(2) + " €";
+                this.redrawTotalPrice();
                 couponCodeInput.disabled = true;
                 applyCouponButton.disabled = true;
                 document.getElementById("couponCodeHidden").value = couponCodeValue;
@@ -91,13 +90,24 @@ class Cart {
             });
     }
     
+    formatItemPrice(item) {
+        return (item.price * item.quantity).toFixed(2)  + " €";
+    }
+    
+    formatTotalPrice() {
+        return "Total: " + this.getCartTotal() + " €";
+    }
+    
+    redrawTotalPrice() {
+        document.getElementById("cartTotal").innerText = this.formatTotalPrice();
+    }
+    
     getCartTotal() {
         return (this.storage.getCartTotal() - this.discount).toFixed(2);
     }
     
     renderCart(elementToRender) {
         const cartItems = storage.getCart();
-        const that = this;
 
         if (cartItems.length === 0) {
             let h2 = document.createElement("h2");
@@ -112,15 +122,14 @@ class Cart {
 
         let total = document.createElement("div");
         total.className = "flex items-center justify-end mb-2 text-2xl font-bold mt-3";
-        total.innerText = "Total: " + this.getCartTotal() + " €";
+        total.innerText = this.formatTotalPrice();
         total.id = "cartTotal";
-
+        
         for (let index in cartItems) {
             let item = cartItems[index];
             let row = document.createElement("div");
             row.className = "flex items-center justify-between mb-2";
             row.id = `cartItem-${item.id}`;
-
 
             let title = document.createElement("div");
             title.className = "w-1/3 text-xl font-bold";
@@ -131,30 +140,30 @@ class Cart {
 
             let price = document.createElement("div");
             price.className = "w-1/3";
-            price.innerText = (item.price * item.quantity).toFixed(2)  + " €";
+            price.innerText = this.formatItemPrice(item);
 
             let quantityInput = document.createElement("input");
             quantityInput.className = "input input-bordered w-full max-w-xs";
             quantityInput.type = "number";
             quantityInput.value = item.quantity;
             quantityInput.name = `OrderItems[${index}][quantity]`;
-            quantityInput.addEventListener("change", function () {
+            quantityInput.addEventListener("change",  () => {
                 let value = +quantityInput.value;
                 if (value < 1) {
                     storage.removeCartItem(item.id);
                 } else {
                     storage.changeQuantity(item.id, value)
-                    price.innerText = (item.price * value).toFixed(2) + " €";
+                    price.innerText = this.formatItemPrice(item);
                 }
-                total.innerText = "Total: " + that.getCartTotal()  + " €";
+                this.redrawTotalPrice();
             });
 
             let removeButton = document.createElement("button");
             removeButton.className = "text-red-500";
-            removeButton.addEventListener("click", function () {
+            removeButton.addEventListener("click",  ()=> {
                 storage.removeCartItem(item.id);
                 row.remove();
-                total.innerText = "Total: " + that.getCartTotal()  + " €";
+                this.redrawTotalPrice();
             });
 
             let removeButtonIcon = document.createElement("i");

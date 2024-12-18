@@ -1,6 +1,6 @@
 ﻿@using DAL.Models.Auth
 @using Microsoft.AspNetCore.Identity
-
+@model WebMVC.ViewModels.Order.OrderFormViewModel;
 
 @{
     ViewData["Title"] = "Cart";
@@ -13,9 +13,18 @@
     @if (User.Identity.IsAuthenticated)
     {
         <form method="post">
-            <div id="cartRendering">
-            
+            <div id="cartRendering"></div>
+            <div class="flex justify-start items-end mt-4 gap-2">
+                <div>
+                    <label for="coupon" class="text-lg block">Coupon Code</label>
+                    <input type="text" id="couponCode" class="input input-bordered rounded p-2" />
+                    <input type="hidden" id="couponCodeHidden" asp-for="CouponCode" />
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="applyCoupon">Validate</button>
+                </div>
             </div>
+            <div id="couponMessage" class="flex justify-start"></div>
             
             <div class="flex justify-end">
                 <button type="submit" class="btn btn-primary">Order</button>
@@ -24,8 +33,6 @@
     }
     else
     {
-        <div id="cartRendering">
-        
-        </div>
+        <div id="cartRendering"></div>
     }
 </div>

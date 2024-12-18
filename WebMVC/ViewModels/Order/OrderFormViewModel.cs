@@ -2,5 +2,5 @@ namespace WebMVC.ViewModels.Order;
 
 public class OrderFormViewModel
 {
-    public List<OrderItemViewModel> OrderItems { get; init; }
+    public List<CartItemViewModel> OrderItems { get; init; }
 }

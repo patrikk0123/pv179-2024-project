@@ -92,11 +92,12 @@ function renderCart(elementToRender) {
         quantityInput.value = item.quantity;
         quantityInput.name = `OrderItems[${index}][quantity]`;
         quantityInput.addEventListener("change", function () {
-            if (quantityInput.value < 1) {
+            let value = +quantityInput.value;
+            if (value < 1) {
                 storage.removeCartItem(item.id);
             } else {
-                storage.changeQuantity(item.id, quantityInput.value)
-                price.innerText = (item.price * quantityInput.value).toFixed(2) + " €";
+                storage.changeQuantity(item.id, value)
+                price.innerText = (item.price * value).toFixed(2) + " €";
             }
             total.innerText = "Total: " + storage.getCartTotal().toFixed(2)  + " €";
         });

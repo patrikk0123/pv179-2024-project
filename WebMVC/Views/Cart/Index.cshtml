@@ -1,0 +1,31 @@
+﻿@using DAL.Models.Auth
+@using Microsoft.AspNetCore.Identity
+
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl mb-4">Cart</h1>
+    @Html.ValidationSummary(false, "", new { @class = "text-red-500 text-sm mt-4" })
+    
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form method="post">
+            <div id="cartRendering">
+            
+            </div>
+            
+            <div class="flex justify-end">
+                <button type="submit" class="btn btn-primary">Order</button>
+            </div>
+        </form>
+    }
+    else
+    {
+        <div id="cartRendering">
+        
+        </div>
+    }
+</div>

@@ -26,6 +26,9 @@
              <div class="flex space-x-2">
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <a asp-area="" asp-controller="Cart" asp-action="Index" class="flex items-center m-1 text-gray-800 font-medium py-2 px-4 rounded hover:bg-black hover:text-white transition duration-200">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
                     <details class="dropdown dropdown-end">
                         <summary class="btn btn-outline m-1"><i class="fas fa-user"></i>@User.Identity.Name</summary>
                         <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
@@ -47,6 +50,10 @@
         </div>
     </nav>
 </header>
+
+<div id="toastContainer" class="toast toast-top toast-end mt-14">
+    <div class="alert alert-success hidden"></div>
+</div>
 
 <main role="main" class="mt-4 px-2">
     @RenderBody()

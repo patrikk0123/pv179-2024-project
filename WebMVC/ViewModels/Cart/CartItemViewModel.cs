@@ -1,4 +1,4 @@
-namespace WebMVC.ViewModels.Order;
+namespace WebMVC.ViewModels.Cart;
 
 public class CartItemViewModel
 {

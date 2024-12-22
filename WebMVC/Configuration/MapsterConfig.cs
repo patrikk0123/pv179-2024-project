@@ -1,5 +1,6 @@
 using BusinessLayer.DTOs.Book;
 using BusinessLayer.DTOs.Genre;
+using BusinessLayer.DTOs.GiftCard;
 using BusinessLayer.DTOs.Order;
 using BusinessLayer.DTOs.Publisher;
 using BusinessLayer.DTOs.User;
@@ -7,6 +8,7 @@ using BusinessLayer.DTOs.WishListItem;
 using Mapster;
 using WebMVC.Areas.Admin.ViewModels.Books;
 using WebMVC.Areas.Admin.ViewModels.Genres;
+using WebMVC.Areas.Admin.ViewModels.GiftCards;
 using WebMVC.Areas.Admin.ViewModels.Publisher;
 using WebMVC.Areas.Admin.ViewModels.Users;
 using WebMVC.ViewModels.Book;
@@ -98,5 +100,14 @@ public static class MapsterConfig
             )
             .Map(dest => dest.PublishDate, src => src.PublishDate.ToString("yyyy-MM-dd"));
 #pragma warning restore CA1305
+        TypeAdapterConfig<List<GiftCardDto>, GiftCardListPageViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.GiftCards,
+                src => src.ConvertAll(input => input.Adapt<GiftCardViewModel>())
+            );
+        TypeAdapterConfig<GiftCardDetailDto, GiftCardDetailViewModel>
+            .NewConfig()
+            .Map(dest => dest.Coupons, src => src.Coupons.Adapt<IEnumerable<CouponViewModel>>());
     }
 }

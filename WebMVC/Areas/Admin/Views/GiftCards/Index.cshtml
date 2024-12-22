@@ -1,0 +1,43 @@
+﻿@model WebMVC.Areas.Admin.ViewModels.GiftCards.GiftCardListPageViewModel;
+@{
+    ViewData["Title"] = "Gift Cards list";
+}
+
+<div class="flex flex-row justify-between mb-3">
+    <h1 class="text-3xl">GiftCards list</h1>
+    <a class="btn btn-primary text-white" asp-area="Admin" asp-controller="GiftCards" asp-action="Create">
+        Create <i class="fa-solid fa-plus"></i>
+    </a>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Price Reduction</th>
+                <th>Amount of Coupons</th>
+                <th>Start Date</th>
+                <th>Expiration Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var giftCard in Model.GiftCards)
+            {
+                <tr>
+                    <td>#<a asp-area="Admin" asp-controller="GiftCards" asp-action="Detail" asp-route-giftCardId="@giftCard.Id">@giftCard.Id</a></td>
+                    <td>@giftCard.PriceReduction</td>
+                    <td>@giftCard.AmountOfCoupons</td>
+                    <td>@giftCard.StartDate</td>
+                    <td>@giftCard.ExpiryDate</td>
+                    <td>
+                        <a class="link-error text-lg" asp-area="Admin" asp-controller="GiftCards" asp-action="Delete" asp-route-id="@giftCard.Id">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

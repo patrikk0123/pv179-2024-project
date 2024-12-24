@@ -15,6 +15,15 @@ public interface IBookService
         string? genreType
     );
 
+    public Task<BookPage> GetAllBooksQueryAsync(
+        Pagination pagination,
+        string? query,
+        double? minPrice,
+        double? maxPrice,
+        string? publisherName,
+        string? genreType
+    );
+
     public Task<BookDetailDto?> GetSingleBookAsync(int bookId);
 
     public Task<BookDto?> UpdateBookAsync(int bookId, BookUpdateDto bookCreateDto);

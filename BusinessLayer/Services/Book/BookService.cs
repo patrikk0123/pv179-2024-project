@@ -68,6 +68,60 @@ public class BookService(BookHubDBContext dBContext, IBookMapper bookMapper)
         return bookPage;
     }
 
+    public async Task<BookPage> GetAllBooksQueryAsync(
+        Pagination pagination,
+        string? query,
+        double? minPrice,
+        double? maxPrice,
+        string? publisherName,
+        string? genreType
+    )
+    {
+        var baseQuery = dBContext
+            .Books.WhereIf(minPrice != null, book => book.Price >= minPrice.Value)
+            .WhereIf(maxPrice != null, book => book.Price <= maxPrice.Value)
+            .WhereIf(
+                !string.IsNullOrEmpty(publisherName),
+                book => EF.Functions.Like(book.Publisher.Name, $"%{publisherName}%")
+            )
+            .WhereIf(
+                !string.IsNullOrEmpty(genreType),
+                book =>
+                    book.BookGenres.Any(bookGenre =>
+                        EF.Functions.Like(bookGenre.Genre.GenreType, $"%{genreType}%")
+                    )
+            )
+            .WhereIf(
+                !string.IsNullOrEmpty(query),
+                book =>
+                    EF.Functions.Like(book.Name, $"%{query}%")
+                    || EF.Functions.Like(book.Description, $"%{query}%")
+                    || EF.Functions.Like(book.PrimaryGenre.GenreType, $"%{query}%")
+                    || EF.Functions.Like(book.Publisher.Name, $"%{query}%")
+            );
+
+        var books = await baseQuery
+            .Select(book => bookMapper.ToDto(book))
+            .Skip(pagination.PageIndex * pagination.PageSize)
+            .Take(pagination.PageSize)
+            .ToListAsync();
+
+        var totalCount = await baseQuery.CountAsync();
+
+        var totalPages = (int)Math.Ceiling((double)totalCount / pagination.PageSize);
+
+        var bookPage = new BookPage
+        {
+            PageIndex = pagination.PageIndex,
+            PageSize = pagination.PageSize,
+            TotalCount = totalCount,
+            TotalPages = totalPages,
+            Content = books ?? [],
+        };
+
+        return bookPage;
+    }
+
     public async Task<BookDetailDto?> GetSingleBookAsync(int bookId)
     {
         var book = await dBContext.Books.FindAsync(bookId);

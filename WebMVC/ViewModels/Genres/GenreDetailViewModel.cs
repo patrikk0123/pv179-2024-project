@@ -1,4 +1,4 @@
-namespace WebMVC.Areas.Admin.ViewModels.Genres;
+namespace WebMVC.ViewModels.Genres;
 
 public class GenreDetailViewModel
 {

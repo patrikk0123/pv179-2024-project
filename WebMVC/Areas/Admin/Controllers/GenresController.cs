@@ -3,6 +3,7 @@ using BusinessLayer.Services.Genre.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.Areas.Admin.ViewModels.Genres;
+using WebMVC.ViewModels.Genres;
 
 namespace WebMVC.Areas.Admin.Controllers;
 

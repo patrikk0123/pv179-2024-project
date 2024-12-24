@@ -1,7 +1,9 @@
+using BusinessLayer.DTOs.Book;
 using BusinessLayer.DTOs.BookReview;
-using BusinessLayer.DTOs.Common;
 using BusinessLayer.Services.Book.Interfaces;
 using BusinessLayer.Services.BookReview.Interfaces;
+using BusinessLayer.Services.Genre.Interfaces;
+using BusinessLayer.Services.Publisher.Interfaces;
 using BusinessLayer.Services.WishList.Interfaces;
 using DAL.Models.Auth;
 using Mapster;
@@ -9,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.ViewModels.Book;
+using WebMVC.ViewModels.Genres;
+using WebMVC.ViewModels.Publishers;
 
 namespace WebMVC.Controllers;
 
@@ -16,23 +20,32 @@ public class BooksController(
     UserManager<LocalIdentityUser> userManager,
     IBookService bookService,
     IWishlistService wishlistService,
-    IBookReviewService bookReviewService
+    IBookReviewService bookReviewService,
+    IGenreService genreService,
+    IPublisherService publisherService
 ) : Controller
 {
     [HttpGet("")]
-    public async Task<IActionResult> List([FromQuery] Pagination pagination)
+    public async Task<IActionResult> List([FromQuery] BookQueryParameters bookQueryParameters)
     {
-        var bookPage = await bookService.GetAllBooksAsync(
-            pagination,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+        var bookPage = await bookService.GetAllBooksQueryAsync(
+            bookQueryParameters.Pagination,
+            bookQueryParameters.Search,
+            bookQueryParameters.MinPrice,
+            bookQueryParameters.MaxPrice,
+            bookQueryParameters.Publisher,
+            bookQueryParameters.Genre
         );
 
         var model = bookPage.Adapt<BookPageViewModel>();
+
+        var genres = await genreService.GetAllGenresAsync(null);
+        model.Genres = genres.Adapt<GenreListPageViewModel>();
+
+        var publishers = await publisherService.GetAllPublishersAsync();
+        model.Publishers = publishers.Adapt<PublisherListPageViewModel>();
+
+        model.BookQueryParameters = bookQueryParameters;
 
         return View(model);
     }

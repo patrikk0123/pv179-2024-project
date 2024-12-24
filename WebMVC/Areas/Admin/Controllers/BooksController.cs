@@ -9,9 +9,9 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.Areas.Admin.ViewModels.Authors;
 using WebMVC.Areas.Admin.ViewModels.Books;
-using WebMVC.Areas.Admin.ViewModels.Genres;
-using WebMVC.Areas.Admin.ViewModels.Publisher;
 using WebMVC.ViewModels.Book;
+using WebMVC.ViewModels.Genres;
+using WebMVC.ViewModels.Publishers;
 
 namespace WebMVC.Areas.Admin.Controllers;
 

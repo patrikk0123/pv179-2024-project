@@ -12,7 +12,9 @@ using WebMVC.Areas.Admin.ViewModels.GiftCards;
 using WebMVC.Areas.Admin.ViewModels.Publisher;
 using WebMVC.Areas.Admin.ViewModels.Users;
 using WebMVC.ViewModels.Book;
+using WebMVC.ViewModels.Genres;
 using WebMVC.ViewModels.Order;
+using WebMVC.ViewModels.Publishers;
 using WebMVC.ViewModels.User;
 using WebMVC.ViewModels.WishListItem;
 using BookViewModel = WebMVC.ViewModels.Book.BookViewModel;
@@ -66,22 +68,23 @@ public static class MapsterConfig
                 dest => dest.Orders,
                 src => src.ConvertAll(order => order.Adapt<OrderViewModel>())
             );
-    }
 
-    private static void SetupAdminViewModel()
-    {
-        TypeAdapterConfig<List<PublisherDto>, PublisherListPageViewModel>
-            .NewConfig()
-            .Map(
-                dest => dest.Publishers,
-                src => src.ConvertAll(input => input.Adapt<PublisherDetailViewModel>())
-            );
         TypeAdapterConfig<List<GenreDto>, GenreListPageViewModel>
             .NewConfig()
             .Map(
                 dest => dest.Genres,
                 src => src.ConvertAll(input => input.Adapt<GenreDetailViewModel>())
             );
+        TypeAdapterConfig<List<PublisherDto>, PublisherListPageViewModel>
+            .NewConfig()
+            .Map(
+                dest => dest.Publishers,
+                src => src.ConvertAll(input => input.Adapt<PublisherDetailViewModel>())
+            );
+    }
+
+    private static void SetupAdminViewModel()
+    {
         TypeAdapterConfig<List<UserDto>, UserListViewModel>
             .NewConfig()
             .Map(dest => dest.Users, src => src.ConvertAll(input => input.Adapt<UserViewModel>()));

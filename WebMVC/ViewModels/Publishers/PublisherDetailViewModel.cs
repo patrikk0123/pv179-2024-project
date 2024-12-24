@@ -1,4 +1,4 @@
-namespace WebMVC.Areas.Admin.ViewModels.Publisher;
+namespace WebMVC.ViewModels.Publishers;
 
 public class PublisherDetailViewModel
 {

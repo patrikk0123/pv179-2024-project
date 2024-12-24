@@ -3,6 +3,7 @@ using BusinessLayer.Services.Publisher.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.Areas.Admin.ViewModels.Publisher;
+using WebMVC.ViewModels.Publishers;
 
 namespace WebMVC.Areas.Admin.Controllers;
 

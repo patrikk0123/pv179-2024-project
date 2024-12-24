@@ -6,6 +6,8 @@ using Infrastructure.UnitOfWork.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Middlewares;
+using Middlewares.Configuration;
 using Presentation.Common.Configuration;
 using WebMVC.Configuration;
 
@@ -36,6 +38,8 @@ builder.Services.AddSingleton<IImageUnitOfWork>(provider =>
 });
 
 builder.Services.RegisterBusinessLogicServices();
+
+builder.Services.RegisterLogging();
 
 MapsterConfig.Setup();
 
@@ -78,6 +82,8 @@ app.MapControllerRoute(
 );
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {

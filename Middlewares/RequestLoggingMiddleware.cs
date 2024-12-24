@@ -1,7 +1,9 @@
-﻿using Api.Configuration.LogEntities;
-using Elastic.Clients.Elasticsearch;
+﻿using Elastic.Clients.Elasticsearch;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Middlewares.Configuration.LogEntities;
 
-namespace Api.Middlewares;
+namespace Middlewares;
 
 public class RequestLoggingMiddleware(
     RequestDelegate next,
@@ -39,7 +41,7 @@ public class RequestLoggingMiddleware(
             logEntry.DurationMilliseconds = duration.TotalMilliseconds;
             try
             {
-                await elasticClient.IndexAsync(logEntry, i => i.Index("logs"));
+                await elasticClient.IndexAsync(logEntry);
             }
             catch (Exception e)
             {

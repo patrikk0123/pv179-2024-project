@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Middlewares\Middlewares.csproj" />
         <ProjectReference Include="..\Presentation.Common\Presentation.Common.csproj" />
         <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
         <ProjectReference Include="..\DAL.SQLite.Migrations\DAL.SQLite.Migrations.csproj" />

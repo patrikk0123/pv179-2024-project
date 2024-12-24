@@ -1,4 +1,4 @@
-﻿namespace Api.Configuration;
+﻿namespace Middlewares.Configuration;
 
 public class RequestLogsSettings
 {

@@ -4,22 +4,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{51D97329-6148-470D-A7B7-BC3D540610C9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3DEFA35E-031C-43EA-9CE2-772BE8F1E42A} = {3DEFA35E-031C-43EA-9CE2-772BE8F1E42A}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{09684FBE-095F-4B9F-8432-A0069A7807CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.SQLite.Migrations", "DAL.SQLite.Migrations\DAL.SQLite.Migrations.csproj", "{FD8C3FE4-641B-4AA5-9E0E-A0D90F1F8F60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{5E67E660-6E76-4505-8782-9A83F035AE41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{5E67E660-6E76-4505-8782-9A83F035AE41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{7C73B795-461B-4B3B-8357-7E322AF23F84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{7C73B795-461B-4B3B-8357-7E322AF23F84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer.Tests", "BusinessLayer.Tests\BusinessLayer.Tests.csproj", "{DF2620FD-F338-4EEF-9588-C3AFB150AB12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer.Tests", "BusinessLayer.Tests\BusinessLayer.Tests.csproj", "{DF2620FD-F338-4EEF-9588-C3AFB150AB12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMVC", "WebMVC\WebMVC.csproj", "{E992AD46-F7C1-497E-95DD-C41DFB23F048}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC", "WebMVC\WebMVC.csproj", "{E992AD46-F7C1-497E-95DD-C41DFB23F048}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3DEFA35E-031C-43EA-9CE2-772BE8F1E42A} = {3DEFA35E-031C-43EA-9CE2-772BE8F1E42A}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{3BB7A60E-E376-4037-94B2-8B7042060D72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{3BB7A60E-E376-4037-94B2-8B7042060D72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Common", "Presentation.Common\Presentation.Common.csproj", "{C93E3DFB-35EF-45B5-9667-B5988D989533}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Common", "Presentation.Common\Presentation.Common.csproj", "{C93E3DFB-35EF-45B5-9667-B5988D989533}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Middlewares", "Middlewares\Middlewares.csproj", "{3DEFA35E-031C-43EA-9CE2-772BE8F1E42A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +63,6 @@ Global
 		{E992AD46-F7C1-497E-95DD-C41DFB23F048}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E992AD46-F7C1-497E-95DD-C41DFB23F048}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E992AD46-F7C1-497E-95DD-C41DFB23F048}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF2620FD-F338-4EEF-9588-C3AFB150AB12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF2620FD-F338-4EEF-9588-C3AFB150AB12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF2620FD-F338-4EEF-9588-C3AFB150AB12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF2620FD-F338-4EEF-9588-C3AFB150AB12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BB7A60E-E376-4037-94B2-8B7042060D72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BB7A60E-E376-4037-94B2-8B7042060D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BB7A60E-E376-4037-94B2-8B7042060D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,6 +71,10 @@ Global
 		{C93E3DFB-35EF-45B5-9667-B5988D989533}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C93E3DFB-35EF-45B5-9667-B5988D989533}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C93E3DFB-35EF-45B5-9667-B5988D989533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DEFA35E-031C-43EA-9CE2-772BE8F1E42A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DEFA35E-031C-43EA-9CE2-772BE8F1E42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DEFA35E-031C-43EA-9CE2-772BE8F1E42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DEFA35E-031C-43EA-9CE2-772BE8F1E42A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

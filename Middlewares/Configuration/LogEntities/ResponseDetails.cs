@@ -1,4 +1,4 @@
-﻿namespace Api.Configuration.LogEntities;
+﻿namespace Middlewares.Configuration.LogEntities;
 
 public class ResponseDetails
 {

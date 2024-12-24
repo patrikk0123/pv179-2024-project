@@ -1,9 +1,10 @@
 using System.Net;
 using System.Text;
 using System.Xml;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Api.Middlewares;
+namespace Middlewares;
 
 public class OutputFormatMiddleware(RequestDelegate next)
 {

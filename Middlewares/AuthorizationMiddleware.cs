@@ -1,9 +1,13 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-namespace Api.Middlewares;
+namespace Middlewares;
 
 public class AuthorizationMiddleware(
     RequestDelegate next,
@@ -50,8 +54,10 @@ public class AuthorizationMiddleware(
             return false;
         }
         var token = header[7..];
-        var authenticated = String
-            .CompareOrdinal(token, configuration.GetSection("Authorization:Token").Value)
+        var authenticated = string.CompareOrdinal(
+                token,
+                configuration.GetSection("Authorization:Token").Value
+            )
             .Equals(0);
 
         if (!authenticated)

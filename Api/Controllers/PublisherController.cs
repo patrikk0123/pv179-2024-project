@@ -1,48 +1,45 @@
-using Api.DTOs.Publisher;
-using Api.Mappers.Interfaces;
-using DAL.Data;
+using BusinessLayer.DTOs.Publisher;
+using BusinessLayer.Services.Publisher.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("/publishers")]
-public class PublisherController(BookHubDBContext dBContext, IPublisherMapper publisherMapper)
-    : Controller
+public class PublisherController(IPublisherService publisherService) : Controller
 {
     [HttpGet]
-    [Route("")]
-    public async Task<IActionResult> GetAllPublisher()
+    public async Task<IActionResult> GetAllPublishers()
     {
-        var publishers = await dBContext.Publishers.ToListAsync();
-
-        return Ok(publishers.Select(publisher => publisherMapper.ToDto(publisher)));
+        return Ok(await publisherService.GetAllPublishersAsync());
     }
 
     [HttpGet]
     [Route("{publisherId}")]
     public async Task<IActionResult> GetPublisherDetail(int publisherId)
     {
-        var book = await dBContext.Publishers.FindAsync(publisherId);
-        if (book == null)
+        var publisher = await publisherService.GetSinglePublisherAsync(publisherId);
+        if (publisher == null)
         {
             return NotFound();
         }
 
-        return Ok(publisherMapper.ToDetailDto(book));
+        return Ok(publisher);
     }
 
     [HttpPost]
-    [Route("")]
-    public async Task<IActionResult> CreatePublisher([FromBody] PublisherCreateDto dto)
+    public async Task<IActionResult> CreatePublisher(
+        [FromBody] PublisherCreateDto publisherCreateDto
+    )
     {
-        var createdPublisher = await dBContext.Publishers.AddAsync(publisherMapper.ToModel(dto));
-        await dBContext.SaveChangesAsync();
+        var createdPublisher = await publisherService.CreateSinglePublisherAsync(
+            publisherCreateDto
+        );
+
         return CreatedAtAction(
             nameof(GetPublisherDetail),
-            new { publisherId = createdPublisher.Entity.Id },
-            publisherMapper.ToDto(createdPublisher.Entity)
+            new { publisherId = createdPublisher.Id },
+            createdPublisher
         );
     }
 
@@ -50,34 +47,31 @@ public class PublisherController(BookHubDBContext dBContext, IPublisherMapper pu
     [Route("{publisherId}")]
     public async Task<IActionResult> UpdatePublisher(
         int publisherId,
-        [FromBody] PublisherUpdateDto dto
+        [FromBody] PublisherUpdateDto publisherUpdateDto
     )
     {
-        var publisherToUpdate = await dBContext.Publishers.FindAsync(publisherId);
-        if (publisherToUpdate == null)
+        var updatedPublisher = await publisherService.UpdateSinglePublisherAsync(
+            publisherId,
+            publisherUpdateDto
+        );
+        if (updatedPublisher == null)
         {
             return NotFound();
         }
 
-        publisherMapper.UpdateModel(publisherToUpdate, dto);
-        await dBContext.SaveChangesAsync();
-
-        return Ok(publisherMapper.ToDto(publisherToUpdate));
+        return Ok(updatedPublisher);
     }
 
     [HttpDelete]
     [Route("{publisherId}")]
     public async Task<IActionResult> DeletePublisher(int publisherId)
     {
-        var publisher = await dBContext.Publishers.FindAsync(publisherId);
-        if (publisher == null)
+        var deletedPublisher = await publisherService.DeleteSinglePublisherAsync(publisherId);
+        if (deletedPublisher == null)
         {
             return NotFound();
         }
 
-        publisher.DeletedAt = DateTime.Now;
-        await dBContext.SaveChangesAsync();
-
-        return Ok(publisherMapper.ToDto(publisher));
+        return Ok(deletedPublisher);
     }
 }

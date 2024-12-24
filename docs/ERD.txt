@@ -29,6 +29,7 @@ Table book {
     pages integer
     rating integer
     price double
+    preview_image_id integer
     created_at timestamp
     edited_at timestamp
     deleted_at timestamp
@@ -101,6 +102,17 @@ Table genre {
     deleted_at timestamp
 }
 
+Table repository_image {
+    id integer [primary key]
+    data BLOB
+}
+
+Table book_image {
+    id integer [primary key]
+    book_id integer
+    image_id integer
+}
+
 Table wishlist_item {
     id integer [primary key]
     book_id integer
@@ -122,3 +134,6 @@ Ref: book.id < book_genre.book_id
 Ref: genre.id < book_genre.genre_id
 Ref: book.id < wishlist_item.book_id
 Ref: user.id < wishlist_item.user_id
+Ref: book.id < book_image.book_id
+Ref: repository_image.id < book_image.image_id
+Ref: book.preview_image_id > repository_image.id

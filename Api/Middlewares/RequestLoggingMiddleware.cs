@@ -1,7 +1,11 @@
-﻿namespace Api.Middlewares;
+﻿using Api.Configuration.LogEntities;
+using Elastic.Clients.Elasticsearch;
+
+namespace Api.Middlewares;
 
 public class RequestLoggingMiddleware(
     RequestDelegate next,
+    ElasticsearchClient elasticClient,
     ILogger<RequestLoggingMiddleware> logger
 )
 {
@@ -9,29 +13,38 @@ public class RequestLoggingMiddleware(
     {
         var startTime = DateTime.UtcNow;
 
-        if (logger.IsEnabled(LogLevel.Information))
-        {
-            var request = context.Request;
-            logger.LogInformation(
-                $"Received request: {request.Method} {request.Path}{request.QueryString}"
-            );
-        }
+        context.Request.Headers.TryGetValue("Authorization", out var authToken);
 
-        context.Response.OnStarting(() =>
+        var logEntry = new LogEntry
+        {
+            Request = new RequestDetails
+            {
+                Method = context.Request.Method,
+                Path = context.Request.Path.ToString(),
+                QueryString = context.Request.QueryString.ToString(),
+            },
+            Timestamp = startTime,
+            AuthorizationToken = authToken.ToString(),
+            DurationMilliseconds = 0.0,
+        };
+
+        try
+        {
+            await next(context);
+        }
+        finally
         {
             var duration = DateTime.UtcNow - startTime;
-
-            if (logger.IsEnabled(LogLevel.Information))
+            logEntry.Response.StatusCode = context.Response.StatusCode;
+            logEntry.DurationMilliseconds = duration.TotalMilliseconds;
+            try
             {
-                var response = context.Response;
-                logger.LogInformation(
-                    $"Sending response: {response.StatusCode}. Duration: {duration.TotalMilliseconds} ms."
-                );
+                await elasticClient.IndexAsync(logEntry, i => i.Index("logs"));
             }
-
-            return Task.CompletedTask;
-        });
-
-        await next(context);
+            catch (Exception e)
+            {
+                logger.LogWarning(e.Message);
+            }
+        }
     }
 }

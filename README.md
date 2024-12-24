@@ -1,8 +1,14 @@
 # BookHub I guess
 Eshop for books, that will guess what book you want to read.
 
+## Members
+- Marcel Lukčo (Team-lead) he/him
+- Patrik Korytár (Lead developer) he/him
+- Oldřich Machal (QA engineer) he/him 
+
 ## Pre-requisites
 - .NET 8.0
+- Node.js v20
 
 ## API
 - Install dependencies
@@ -14,7 +20,14 @@ dotnet restore
 dotnet run --project "API"
 ```
 - Swagger is available at `https://localhost:5174/swagger/index.html`
-- API is encrypted with hardcoded Bearer token (that need to be set up in swagger to test the API)
+- API is encrypted with hardcoded Bearer token (that needs to be set up in swagger to test the API)
+
+## Web MVC
+- Run the UI
+```sh
+dotnet run --project "WebMVC"
+```
+- UI is running at `http://localhost:5269/`
 
 ## Database
 - We are using SQLITE, may be changed in the future
@@ -27,6 +40,22 @@ dotnet ef database update --project "DAL.SQLite.Migrations" --startup-project "A
 dotnet ef migrations add <Migration-Name> --project "DAL.SQLite.Migrations" --startup-project "Api"
 dotnet ef database update --project "DAL.SQLite.Migrations" --startup-project "Api"
 ```
+
+## Tests
+- Run tests
+```sh
+dotnet test
+```
+
+## Request Logging
+The project uses [ElasticSearch with Kibana](https://www.elastic.co/)
+
+### Console
+To run the logger locally:
+```sh
+docker-compose up -d
+```
+Kibana available at: http://localhost:5601/
 
 ## Code formatter
 The project uses [Csharpier](https://csharpier.com/docs/About).

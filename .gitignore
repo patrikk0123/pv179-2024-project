@@ -139,6 +139,11 @@ $RECYCLE.BIN/
 
 _NCrunch*
 
+# Node
+node_modules/
+
+# Generated code
+WebMVC/wwwroot/css/output.css
 
 # Data
 api/data/
@@ -148,3 +153,13 @@ Api/fintechDB
 Api/fintechDB-shm
 Api/fintechDB-wal
 Api/appsettings.Development.json
+
+# Images
+images/*
+images/previewImages/*
+
+!images/0.jpg
+!images/1849645247.jpg
+!images/previewImages
+!images/previewImages/0.jpg
+!images/previewImages/1849645247.jpg

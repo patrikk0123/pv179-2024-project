@@ -1,16 +1,24 @@
-﻿using Api.DTOs.Book;
-using Api.Mappers.Interfaces;
-using DAL.Data;
-using DAL.Extensions;
-using DAL.Models;
+﻿using BusinessLayer.DTOs.Book;
+using BusinessLayer.Facades.BookFacades.Interfaces;
+using BusinessLayer.Mappers.Interfaces;
+using BusinessLayer.Services.Author.Interfaces;
+using BusinessLayer.Services.Book.Interfaces;
+using BusinessLayer.Services.Genre.Interfaces;
+using BusinessLayer.Services.Publisher.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("/books")]
-public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) : Controller
+public class BookController(
+    IAuthorService authorService,
+    IGenreService genreService,
+    IPublisherService publisherService,
+    IBookMapper bookMapper,
+    IBookService bookService,
+    IBookFacade bookFacade
+) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> GetAllBooks(
@@ -22,30 +30,14 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
         [FromQuery] string? genreType
     )
     {
-        var books = await dBContext
-            .Books.WhereIf(
-                !string.IsNullOrEmpty(name),
-                book => EF.Functions.Like(book.Name, $"%{name}%")
-            )
-            .WhereIf(
-                !string.IsNullOrEmpty(description),
-                book => EF.Functions.Like(book.Description, $"%{description}%")
-            )
-            .WhereIf(minPrice != null, book => book.Price >= minPrice.Value)
-            .WhereIf(maxPrice != null, book => book.Price <= maxPrice.Value)
-            .WhereIf(
-                !string.IsNullOrEmpty(publisherName),
-                book => EF.Functions.Like(book.Publisher.Name, $"%{publisherName}%")
-            )
-            .WhereIf(
-                !string.IsNullOrEmpty(genreType),
-                book =>
-                    book.BookGenres.Any(bookGenre =>
-                        EF.Functions.Like(bookGenre.Genre.GenreType, $"%{genreType}%")
-                    )
-            )
-            .Select(book => bookMapper.ToDto(book))
-            .ToListAsync();
+        var books = await bookService.GetAllBooksAsync(
+            name,
+            description,
+            minPrice,
+            maxPrice,
+            publisherName,
+            genreType
+        );
 
         return Ok(books);
     }
@@ -54,172 +46,78 @@ public class BookController(BookHubDBContext dBContext, IBookMapper bookMapper) 
     [Route("{bookId}")]
     public async Task<IActionResult> GetSingleBook(int bookId)
     {
-        var book = await dBContext.Books.FindAsync(bookId);
+        var book = await bookService.GetSingleBookAsync(bookId);
         if (book == null)
         {
             return NotFound();
         }
 
-        return Ok(bookMapper.ToDetailDto(book));
+        return Ok(book);
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddBook([FromBody] BookCreateDto bookDto)
+    public async Task<IActionResult> AddBook([FromForm] BookCreateDto bookDto)
     {
-        var publisher = await dBContext.Publishers.FindAsync(bookDto.PublisherId);
-        if (publisher == null)
+        if (!await publisherService.DoesPublisherExistAsync(bookDto.PublisherId))
         {
             return NotFound();
         }
 
-        var genres = await dBContext
-            .Genres.Where(genre => bookDto.GenreIds.Contains(genre.Id))
-            .ToListAsync();
-        if (genres.Count != bookDto.GenreIds.Count)
+        if (!await genreService.DoGenresExistAsync(bookDto.GenreIds))
         {
             return NotFound();
         }
 
-        var authors = await dBContext
-            .Authors.Where(author => bookDto.AuthorIds.Contains(author.Id))
-            .ToListAsync();
-        if (authors.Count != bookDto.AuthorIds.Count)
+        if (!await authorService.DoAuthorsExistAsync(bookDto.AuthorIds))
         {
             return NotFound();
         }
 
-        await using var transaction = await dBContext.Database.BeginTransactionAsync();
-        try
-        {
-            var book = dBContext.Books.Add(bookMapper.ToModel(bookDto));
-            await dBContext.SaveChangesAsync();
+        var finalBook = await bookFacade.CreateBookWithImagesAsync(bookDto);
 
-            dBContext.BookGenres.AddRange(
-                bookDto.GenreIds.Select(genreId => new BookGenre()
-                {
-                    BookId = book.Entity.Id,
-                    GenreId = genreId,
-                })
-            );
-            dBContext.BookAuthors.AddRange(
-                bookDto.AuthorIds.Select(authorId => new BookAuthor()
-                {
-                    BookId = book.Entity.Id,
-                    AuthorId = authorId,
-                })
-            );
-            await dBContext.SaveChangesAsync();
-
-            await transaction.CommitAsync();
-            return CreatedAtAction(
-                nameof(GetSingleBook),
-                new { bookId = book.Entity.Id },
-                bookMapper.ToDetailDto(book.Entity)
-            );
-        }
-        catch (Exception e)
-        {
-            await transaction.RollbackAsync();
-            throw e;
-        }
+        return CreatedAtAction(nameof(GetSingleBook), new { bookId = finalBook.Id }, finalBook);
     }
 
     [HttpPut]
     [Route("{bookId}")]
     public async Task<IActionResult> UpdateBook(int bookId, [FromBody] BookUpdateDto bookDto)
     {
-        var book = await dBContext.Books.FindAsync(bookId);
-        if (book == null)
+        if (!await bookService.DoesBookExistAsync(bookId))
         {
             return NotFound();
         }
 
-        var publisher = await dBContext.Publishers.FindAsync(bookDto.PublisherId);
-        if (publisher == null)
+        if (!await publisherService.DoesPublisherExistAsync(bookDto.PublisherId))
         {
             return NotFound();
         }
 
-        var genres = await dBContext
-            .Genres.Where(genre => bookDto.GenreIds.Contains(genre.Id))
-            .ToListAsync();
-        if (genres.Count != bookDto.GenreIds.Count)
+        if (!await genreService.DoGenresExistAsync(bookDto.GenreIds))
         {
             return NotFound();
         }
 
-        var authors = await dBContext
-            .Authors.Where(author => bookDto.AuthorIds.Contains(author.Id))
-            .ToListAsync();
-        if (authors.Count != bookDto.AuthorIds.Count)
+        if (!await authorService.DoAuthorsExistAsync(bookDto.AuthorIds))
         {
             return NotFound();
         }
 
-        using var transaction = await dBContext.Database.BeginTransactionAsync();
-        try
-        {
-            bookMapper.UpdateModel(book, bookDto);
+        var updatedBook = await bookService.UpdateBookAsync(bookId, bookDto);
 
-            dBContext.BookGenres.RemoveRange(
-                dBContext.BookGenres.Where(bookGenre => bookGenre.BookId == book.Id)
-            );
-            dBContext.BookAuthors.RemoveRange(
-                dBContext.BookAuthors.Where(bookAuthor => bookAuthor.BookId == book.Id)
-            );
-
-            dBContext.BookGenres.AddRange(
-                bookDto.GenreIds.Select(genreId => new BookGenre()
-                {
-                    BookId = book.Id,
-                    GenreId = genreId,
-                })
-            );
-            dBContext.BookAuthors.AddRange(
-                bookDto.AuthorIds.Select(authorId => new BookAuthor()
-                {
-                    BookId = book.Id,
-                    AuthorId = authorId,
-                })
-            );
-            await dBContext.SaveChangesAsync();
-
-            await transaction.CommitAsync();
-            return Ok(bookMapper.ToDetailDto(book));
-        }
-        catch (Exception)
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
+        return Ok(updatedBook);
     }
 
     [HttpDelete]
     [Route("{bookId}")]
     public async Task<IActionResult> DeleteBook(int bookId)
     {
-        var book = await dBContext.Books.FindAsync(bookId);
-        if (book == null)
+        if (!await bookService.DoesBookExistAsync(bookId))
         {
             return NotFound();
         }
 
-        using var transaction = await dBContext.Database.BeginTransactionAsync();
-        try
-        {
-            book.DeletedAt = DateTime.Now;
-            await dBContext
-                .Reviews.Where(review => review.BookId == bookId)
-                .ForEachAsync(review => review.DeletedAt = DateTime.Now);
-            await dBContext.SaveChangesAsync();
-            await transaction.CommitAsync();
-        }
-        catch (Exception)
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
+        var book = await bookService.DeleteBookAsync(bookId);
 
-        return NoContent();
+        return Ok(book);
     }
 }

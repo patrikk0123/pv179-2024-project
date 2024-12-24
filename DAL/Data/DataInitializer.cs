@@ -1,12 +1,27 @@
-﻿using DAL.Models;
+﻿using Bogus;
+using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Data;
 
 public static class DataInitializer
 {
+    private const int PublisherCount = 2;
+    private const int BookCount = 5;
+    private const int AuthorCount = 3;
+    private const int GenreCount = 3;
+    private const int UserCount = 3;
+    private const int ReviewCount = 5;
+    private const int WishListItemCount = 3;
+    private const int OrderCount = 2;
+    private const int RandomizerSeed = 12345;
+    private static readonly DateTime CreatedAt = new(2021, 1, 1, 10, 0, 0);
+
     public static void Seed(this ModelBuilder modelBuilder)
     {
+        // make Bogus generator, generate same output each time
+        Randomizer.Seed = new Random(RandomizerSeed);
+
         var publishers = PreparePublisherModels();
         var books = PrepareBookModels();
         var authors = PrepareAuthorModels();
@@ -15,274 +30,250 @@ public static class DataInitializer
         var genres = PrepareGenreModels();
         var bookGenres = PrepareBookGenreModels();
         var reviews = PrepareReviewModels();
+        var bookImages = PrepareBookImageModels();
+        var wishListItems = PrepareWishListItems();
+        var orderItems = PrepareOrdersItem(books);
+        var orders = PrepareOrders(orderItems);
 
         modelBuilder.Entity<Publisher>().HasData(publishers);
         modelBuilder.Entity<Book>().HasData(books);
+        modelBuilder.Entity<BookImage>().HasData(bookImages);
         modelBuilder.Entity<Author>().HasData(authors);
         modelBuilder.Entity<BookAuthor>().HasData(bookAuthors);
         modelBuilder.Entity<User>().HasData(users);
         modelBuilder.Entity<Genre>().HasData(genres);
         modelBuilder.Entity<BookGenre>().HasData(bookGenres);
         modelBuilder.Entity<Review>().HasData(reviews);
-        modelBuilder.Entity<WishListItem>().HasData(PrepareWishListItems());
-        modelBuilder.Entity<Order>().HasData(PrepareOrders());
-        modelBuilder.Entity<OrderItem>().HasData(PrepareOrdersItem());
+        modelBuilder.Entity<WishListItem>().HasData(wishListItems);
+        modelBuilder.Entity<Order>().HasData(orders);
+        modelBuilder.Entity<OrderItem>().HasData(orderItems);
     }
 
     private static List<Publisher> PreparePublisherModels()
     {
-        return new List<Publisher>()
-        {
-            new Publisher() { Id = 1, Name = "Booklord ABC" },
-        };
+        var publisherIds = 1;
+        var testPublisher = new Faker<Publisher>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => publisherIds++)
+            .RuleFor(o => o.Name, f => f.Company.CompanyName())
+            .RuleFor(o => o.Books, _ => [])
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testPublisher.Generate(PublisherCount);
     }
 
     private static List<Book> PrepareBookModels()
     {
-        return new List<Book>()
-        {
-            new Book()
+        var bookId = 1;
+        var testBooks = new Faker<Book>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => bookId++)
+            .RuleFor(o => o.Name, f => f.Random.Words(1))
+            .RuleFor(o => o.Description, f => f.Lorem.Sentences(4))
+            .RuleFor(o => o.ISBN, f => f.Random.AlphaNumeric(10))
+            .RuleFor(o => o.PublishDate, f => f.Date.PastDateOnly())
+            .RuleFor(o => o.Pages, f => f.Random.Int(50, 500))
+            .RuleFor(o => o.Rating, f => f.Random.Double(1, 5))
+            .RuleFor(o => o.Price, f => (double)f.Finance.Amount(5, 100))
+            .RuleFor(o => o.PublisherId, f => f.Random.Int(1, 2))
+            .RuleFor(o => o.PreviewImageId, (_, _) => "1849645247")
+            .RuleFor(o => o.Publisher, _ => null)
+            .RuleFor(o => o.BookAuthors, _ => [])
+            .RuleFor(o => o.BookGenres, _ => [])
+            .RuleFor(o => o.Reviews, _ => [])
+            .RuleFor(o => o.Images, _ => [])
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testBooks.Generate(BookCount);
+    }
+
+    private static List<BookImage> PrepareBookImageModels()
+    {
+        return
+        [
+            new()
             {
                 Id = 1,
-                Name = "Cesta do neznáma",
-                Description = "",
-                ISBN = "0-9742-0105-7",
-                PublishDate = new DateOnly(1990, 1, 2),
-                Pages = 120,
-                Rating = 4.0,
-                Price = 10.0,
-                PublisherId = 1,
+                BookId = 1,
+                ImageId = "1849645247",
+                CreatedAt = CreatedAt,
             },
-            new Book()
-            {
-                Id = 2,
-                Name = "Hadí princezna a 102 psů",
-                Description = "",
-                ISBN = "0-5613-1830-1",
-                PublishDate = new DateOnly(2001, 3, 10),
-                Pages = 102,
-                Rating = 3.2,
-                Price = 30.0,
-                PublisherId = 1,
-            },
-        };
+        ];
     }
 
     private static List<Author> PrepareAuthorModels()
     {
-        return new List<Author>()
-        {
-            new Author()
-            {
-                Id = 1,
-                Name = "Ronald",
-                Surname = "Kingson",
-            },
-            new Author()
-            {
-                Id = 2,
-                Name = "Richard",
-                Surname = "Douchebag",
-            },
-            new Author()
-            {
-                Id = 3,
-                Name = "William",
-                Surname = "Jerk",
-            },
-        };
+        var authorId = 1;
+        var testAuthors = new Faker<Author>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => authorId++)
+            .RuleFor(o => o.Name, f => f.Name.FirstName())
+            .RuleFor(o => o.Surname, f => f.Name.LastName())
+            .RuleFor(o => o.BookAuthors, _ => [])
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testAuthors.Generate(AuthorCount);
     }
 
     private static List<BookAuthor> PrepareBookAuthorModels()
     {
-        return new List<BookAuthor>()
-        {
-            new BookAuthor()
-            {
-                Id = 1,
-                BookId = 1,
-                AuthorId = 1,
-            },
-            new BookAuthor()
-            {
-                Id = 2,
-                BookId = 2,
-                AuthorId = 2,
-            },
-        };
+        var bookAuthorId = 1;
+        var bookId = 1;
+        var testsBookAuthors = new Faker<BookAuthor>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => bookAuthorId++)
+            .RuleFor(o => o.BookId, _ => bookId++)
+            .RuleFor(o => o.AuthorId, f => f.Random.Int(1, AuthorCount))
+            .RuleFor(o => o.Book, _ => null)
+            .RuleFor(o => o.Author, _ => null)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testsBookAuthors.Generate(BookCount);
     }
 
     private static List<User> PrepareUserModels()
     {
-        return new List<User>()
-        {
-            new User()
-            {
-                Id = 1,
-                Username = "johnmotika335",
-                Password = "123456",
-                Email = "john335@muni.com",
-                Role = UserRole.Admin,
-            },
-            new User()
-            {
-                Id = 2,
-                Username = "kvalitnipolevka90",
-                Password = "212121",
-                Email = "john335@muni.com",
-                Role = UserRole.User,
-            },
-            new User()
-            {
-                Id = 3,
-                Username = "flameboi22",
-                Password = "432343",
-                Email = "john335@muni.com",
-                Role = UserRole.User,
-            },
-        };
+        var userId = 1;
+        var testUsers = new Faker<User>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => userId++)
+            .RuleFor(o => o.Username, f => f.Internet.UserName())
+            .RuleFor(o => o.Email, f => f.Internet.Email())
+            .RuleFor(o => o.Role, f => f.PickRandom<UserRole>())
+            .RuleFor(o => o.WishListItems, _ => [])
+            .RuleFor(o => o.Orders, _ => [])
+            .RuleFor(o => o.Reviews, _ => [])
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testUsers.Generate(UserCount);
     }
 
     private static List<Review> PrepareReviewModels()
     {
-        return new List<Review>()
-        {
-            new Review()
-            {
-                Id = 1,
-                UserId = 1,
-                BookId = 1,
-                Rating = 4,
-                Body = "Great book, I loved it!",
-            },
-            new Review()
-            {
-                Id = 2,
-                UserId = 1,
-                BookId = 2,
-                Rating = 2,
-                Body = "I didn't like it at all.",
-            },
-            new Review()
-            {
-                Id = 3,
-                UserId = 2,
-                BookId = 2,
-                Rating = 1,
-                Body = "I hated it.",
-                EditedAt = DateTime.Now - TimeSpan.FromDays(2),
-            },
-            new Review()
-            {
-                Id = 4,
-                UserId = 3,
-                BookId = 2,
-                Rating = 5,
-                Body = "Was great!",
-                DeletedAt = DateTime.Now - TimeSpan.FromDays(3),
-            },
-        };
+        var reviewId = 1;
+        var testReviews = new Faker<Review>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => reviewId++)
+            .RuleFor(o => o.UserId, f => f.Random.Int(1, UserCount))
+            .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
+            .RuleFor(o => o.Rating, f => f.Random.Int(1, 5))
+            .RuleFor(o => o.Body, f => f.Lorem.Random.String2(10, 100))
+            .RuleFor(o => o.User, _ => null)
+            .RuleFor(o => o.Book, _ => null)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testReviews.Generate(ReviewCount);
     }
 
     private static List<Genre> PrepareGenreModels()
     {
-        return new List<Genre>()
-        {
-            new Genre() { Id = 1, GenreType = "Fantasy" },
-            new Genre() { Id = 2, GenreType = "Horror" },
-            new Genre() { Id = 3, GenreType = "Sci-fi" },
-        };
+        var genreId = 1;
+        var testGenres = new Faker<Genre>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => genreId++)
+            .RuleFor(o => o.GenreType, f => f.PickRandom("Fantasy", "Horror", "Sci-fi", "Romance"))
+            .RuleFor(o => o.BookGenres, _ => [])
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testGenres.Generate(GenreCount);
     }
 
     private static List<BookGenre> PrepareBookGenreModels()
     {
-        return new List<BookGenre>()
-        {
-            new BookGenre()
-            {
-                Id = 1,
-                BookId = 1,
-                GenreId = 1,
-            },
-            new BookGenre()
-            {
-                Id = 2,
-                BookId = 2,
-                GenreId = 2,
-            },
-            new BookGenre()
-            {
-                Id = 3,
-                BookId = 2,
-                GenreId = 3,
-            },
-        };
+        var bookGenreId = 1;
+        var bookId = 1;
+        var testBookGenres = new Faker<BookGenre>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => bookGenreId++)
+            .RuleFor(o => o.BookId, _ => bookId++)
+            .RuleFor(o => o.GenreId, f => f.Random.Int(1, GenreCount))
+            .RuleFor(o => o.Book, _ => null)
+            .RuleFor(o => o.Genre, _ => null)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testBookGenres.Generate(BookCount);
     }
 
     private static List<WishListItem> PrepareWishListItems()
     {
-        return new List<WishListItem>()
-        {
-            new WishListItem()
-            {
-                Id = 1,
-                UserId = 1,
-                BookId = 1,
-            },
-            new WishListItem()
-            {
-                Id = 2,
-                UserId = 1,
-                BookId = 2,
-            },
-            new WishListItem()
-            {
-                Id = 3,
-                UserId = 2,
-                BookId = 2,
-            },
-        };
+        var wishListItemId = 1;
+        var testWishListItems = new Faker<WishListItem>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => wishListItemId++)
+            .RuleFor(o => o.UserId, f => f.Random.Int(1, UserCount))
+            .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
+            .RuleFor(o => o.Book, _ => null!)
+            .RuleFor(o => o.User, _ => null)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testWishListItems.Generate(WishListItemCount);
     }
 
-    private static List<Order> PrepareOrders()
+    private static List<Order> PrepareOrders(List<OrderItem> orderItems)
     {
-        return new List<Order>()
-        {
-            new Order()
-            {
-                Id = 1,
-                TotalPrice = 40.0,
-                UserId = 1,
-            },
-            new Order()
-            {
-                Id = 2,
-                TotalPrice = 30.0,
-                UserId = 2,
-            },
-        };
+        var orderId = 1;
+        var testOrders = new Faker<Order>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => orderId++)
+            .RuleFor(
+                o => o.TotalPrice,
+                (_, o) =>
+                    orderItems
+                        .Where(oi => oi.OrderId == o.Id)
+                        .Sum(oi => oi.PricePerItem * oi.Quantity)
+            )
+            .RuleFor(o => o.UserId, f => f.Random.Int(1, UserCount))
+            .RuleFor(o => o.User, _ => null!)
+            .RuleFor(o => o.OrderItems, _ => null!)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null);
+
+        return testOrders.Generate(OrderCount);
     }
 
-    private static List<OrderItem> PrepareOrdersItem()
+    private static List<OrderItem> PrepareOrdersItem(List<Book> books)
     {
-        return new List<OrderItem>()
+        var orderItemId = 1;
+
+        List<OrderItem> orderItems = [];
+
+        for (int i = 0; i < OrderCount; i++)
         {
-            new OrderItem()
-            {
-                Id = 1,
-                OrderId = 1,
-                BookId = 1,
-                Quantity = 4,
-                PricePerItem = 10.0,
-            },
-            new OrderItem()
-            {
-                Id = 2,
-                OrderId = 2,
-                BookId = 2,
-                Quantity = 1,
-                PricePerItem = 30.0,
-            },
-        };
+            var testOrdersItems = new Faker<OrderItem>()
+                .RuleFor(o => o.Id, _ => orderItemId++)
+                .RuleFor(o => o.OrderId, _ => i + 1)
+                .RuleFor(o => o.BookId, f => f.Random.Int(1, BookCount))
+                .RuleFor(o => o.Quantity, f => f.Random.Int(1, 5))
+                .RuleFor(
+                    o => o.PricePerItem,
+                    (_, o) => books.Find(b => b.Id == o.BookId)?.Price ?? 0.0
+                )
+                .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+                .RuleFor(o => o.EditedAt, _ => null)
+                .RuleFor(o => o.DeletedAt, _ => null);
+
+            orderItems.AddRange(testOrdersItems.Generate(2));
+        }
+
+        return orderItems;
     }
 }

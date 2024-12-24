@@ -1,29 +1,24 @@
-﻿using Api.DTOs.Author;
-using Api.DTOs.WishListItem;
-using Api.Mappers;
-using Api.Mappers.Interfaces;
-using DAL.Data;
+﻿using BusinessLayer.DTOs.WishListItem;
+using BusinessLayer.Services.Book.Interfaces;
+using BusinessLayer.Services.User.Interfaces;
+using BusinessLayer.Services.WishList.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("/wishlist")]
 public class WishListItemController(
-    BookHubDBContext dBContext,
-    IWishListItemMapper wishListItemMapper
+    IUserService userService,
+    IBookService bookService,
+    IWishlistService wishlistService
 ) : Controller
 {
-    // TODO: get only the wishlist items of the current user
     [HttpGet]
-    public async Task<IActionResult> GetALlWishListItems()
+    public async Task<IActionResult> GetAllWishListItems()
     {
-        var wishlists = await dBContext
-            .WishListItems.Select(item => wishListItemMapper.ToDto(item))
-            .ToListAsync();
-
-        return Ok(wishlists);
+        // TODO: get only the wishlist items of the current user
+        return Ok(await wishlistService.GetAllWishListItems(1));
     }
 
     [HttpPost]
@@ -31,43 +26,36 @@ public class WishListItemController(
         [FromBody] WishListItemCreateDto wishListDto
     )
     {
-        var user = await dBContext.Users.FindAsync(wishListDto.UserId);
-
-        if (user == null)
+        if (!await userService.DoesUserExistAsync(wishListDto.UserId))
         {
             return NotFound("User not found");
         }
 
-        var book = await dBContext.Books.FindAsync(wishListDto.BookId);
-        if (book == null)
+        if (!await bookService.DoesBookExistAsync(wishListDto.BookId))
         {
             return NotFound("Book not found");
         }
 
-        var wishListItem = await dBContext.WishListItems.AddAsync(
-            wishListItemMapper.ToModel(wishListDto)
+        var wishListItem = await wishlistService.CreateWishListItem(
+            wishListDto.UserId,
+            wishListDto.BookId
         );
-        await dBContext.SaveChangesAsync();
 
-        return CreatedAtAction(
-            nameof(GetALlWishListItems),
-            wishListItemMapper.ToDto(wishListItem.Entity)
-        );
+        return CreatedAtAction(nameof(GetAllWishListItems), wishListItem);
     }
 
     [HttpDelete]
     [Route("{wishListItemId}")]
     public async Task<IActionResult> DeleteWishListItem(int wishListItemId)
     {
-        var wishListItem = await dBContext.WishListItems.FindAsync(wishListItemId);
-        if (wishListItem == null)
+        var deletedWishListItem = await wishlistService.GetSingleWishlistItemAsync(wishListItemId);
+        if (deletedWishListItem == null)
         {
-            return NotFound();
+            return NotFound("Wish list item not found");
         }
 
-        dBContext.WishListItems.Remove(wishListItem);
-        await dBContext.SaveChangesAsync();
+        await wishlistService.DeleteWishListItem(wishListItemId);
 
-        return Ok();
+        return Ok(deletedWishListItem);
     }
 }

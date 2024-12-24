@@ -1,22 +1,28 @@
-using Api.DTOs.BookReview;
-using Api.Mappers.Interfaces;
-using DAL.Data;
+using BusinessLayer.DTOs.BookReview;
+using BusinessLayer.Services.Book.Interfaces;
+using BusinessLayer.Services.BookReview.Interfaces;
+using BusinessLayer.Services.User.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
+[ApiController]
 [Route("/books/{bookId}/reviews")]
-public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper bookReviewMapper)
-    : Controller
+public class BookReviewController(
+    IUserService userService,
+    IBookService bookService,
+    IBookReviewService bookReviewService
+) : Controller
 {
     [HttpGet]
-    [Route("")]
     public async Task<IActionResult> GetAllReviews([FromRoute] int bookId)
     {
-        var reviews = await dBContext.Reviews.Where(r => r.BookId == bookId).ToListAsync();
+        if (!await bookService.DoesBookExistAsync(bookId))
+        {
+            return NotFound();
+        }
 
-        return Ok(reviews.Select(r => bookReviewMapper.ToDto(r)));
+        return Ok(await bookReviewService.GetAllReviewsAsync(bookId));
     }
 
     [HttpGet]
@@ -26,54 +32,43 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         [FromRoute] int reviewId
     )
     {
-        var review = await dBContext.Reviews.FirstOrDefaultAsync(r =>
-            r.Id == reviewId && r.BookId == bookId
-        );
+        var review = await bookReviewService.GetSingleReviewAsync(bookId, reviewId);
 
         if (review == null)
         {
             return NotFound();
         }
 
-        return Ok(bookReviewMapper.ToDetailDto(review));
+        return Ok(review);
     }
 
     [HttpPost]
-    [Route("")]
     public async Task<IActionResult> AddReview(
         [FromRoute] int bookId,
         [FromBody] BookReviewCreateDto reviewDto
     )
     {
-        if (!ValidateReview(reviewDto.Rating))
-        {
-            return BadRequest(ModelState);
-        }
-
-        var book = await dBContext.Books.FindAsync(bookId);
-        if (book == null)
+        if (!await bookService.DoesBookExistAsync(bookId))
         {
             return NotFound();
         }
 
-        var userId = 1;
-        var user = await dBContext.Users.FindAsync(userId); // TODO: Get the user ID from the JWT token
-        if (user == null)
+        const int userId = 1; // TODO: Get the user ID from the JWT token
+        if (!await userService.DoesUserExistAsync(userId))
         {
             return NotFound();
         }
 
-        var review = bookReviewMapper.ToModel(reviewDto);
-        review.BookId = bookId;
-        review.UserId = userId;
-
-        var createdReview = await dBContext.Reviews.AddAsync(review);
-        await dBContext.SaveChangesAsync();
+        var createdReview = await bookReviewService.CreateSingleReviewAsync(
+            bookId,
+            userId,
+            reviewDto
+        );
 
         return CreatedAtAction(
             nameof(GetSingleReview),
-            new { bookId = bookId, reviewId = createdReview.Entity.Id },
-            bookReviewMapper.ToDto(createdReview.Entity)
+            new { bookId, reviewId = createdReview.Id },
+            createdReview
         );
     }
 
@@ -85,52 +80,27 @@ public class BookReviewController(BookHubDBContext dBContext, IBookReviewMapper 
         [FromBody] BookReviewUpdateDto reviewDto
     )
     {
-        if (!ValidateReview(reviewDto.Rating))
-        {
-            return BadRequest(ModelState);
-        }
-
-        var review = await dBContext.Reviews.FirstOrDefaultAsync(r =>
-            r.Id == reviewId && r.BookId == bookId
-        );
+        var review = await bookReviewService.UpdateSingleReviewAsync(bookId, reviewId, reviewDto);
 
         if (review == null)
         {
             return NotFound();
         }
 
-        bookReviewMapper.UpdateModel(review, reviewDto);
-        await dBContext.SaveChangesAsync();
-
-        return Ok(bookReviewMapper.ToDto(review));
+        return Ok(review);
     }
 
     [HttpDelete]
     [Route("{reviewId}")]
     public async Task<IActionResult> DeleteReview([FromRoute] int bookId, [FromRoute] int reviewId)
     {
-        var review = await dBContext.Reviews.FirstOrDefaultAsync(r =>
-            r.Id == reviewId && r.BookId == bookId
-        );
+        var review = await bookReviewService.DeleteSingleReviewAsync(bookId, reviewId);
 
         if (review == null)
         {
             return NotFound();
         }
 
-        review.DeletedAt = DateTime.UtcNow;
-        await dBContext.SaveChangesAsync();
-
-        return Ok(bookReviewMapper.ToDto(review));
-    }
-
-    private bool ValidateReview(int rating)
-    {
-        if (rating < 1 || rating > 5)
-        {
-            ModelState.AddModelError("Rating", "Rating must be between 1 and 5");
-        }
-
-        return ModelState.IsValid;
+        return Ok(review);
     }
 }

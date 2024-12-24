@@ -1,85 +1,66 @@
-﻿using Api.DTOs.BookReview;
-using Api.DTOs.User;
-using Api.Mappers;
-using Api.Mappers.Interfaces;
-using DAL.Data;
+﻿using BusinessLayer.DTOs.User;
+using BusinessLayer.Services.User.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("/users")]
-public class UserController(BookHubDBContext dBContext, IUserMapper userMapper) : Controller
+public class UserController(IUserService userService) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var reviews = await dBContext.Users.ToListAsync();
-
-        return Ok(reviews.Select(u => userMapper.ToDto(u)));
+        return Ok(await userService.GetAllUsersAsync());
     }
 
     [HttpGet]
     [Route("{userId}")]
     public async Task<IActionResult> GetSingleUser(int userId)
     {
-        var user = await dBContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
+        var user = await userService.GetSingleUserAsync(userId);
         if (user == null)
         {
             return NotFound();
         }
 
-        return Ok(userMapper.ToDetailDto(user));
+        return Ok(user);
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddUser([FromBody] UserCreateDto userCreateDto)
+    public async Task<IActionResult> CreateSingleUser([FromBody] UserCreateDto userCreateDto)
     {
-        var user = userMapper.ToModel(userCreateDto);
+        var createdUser = await userService.CreateSingleUserAsync(userCreateDto);
 
-        var createdUser = await dBContext.Users.AddAsync(user);
-        await dBContext.SaveChangesAsync();
-
-        return CreatedAtAction(
-            nameof(GetSingleUser),
-            new { userId = createdUser.Entity.Id },
-            userMapper.ToDto(createdUser.Entity)
-        );
+        return CreatedAtAction(nameof(GetSingleUser), new { userId = createdUser.Id }, createdUser);
     }
 
     [HttpPut]
     [Route("{userId}")]
-    public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserUpdateDto userUpdateDto)
+    public async Task<IActionResult> UpdateSingleUser(
+        int userId,
+        [FromBody] UserUpdateDto userUpdateDto
+    )
     {
-        var user = await dBContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-        if (user == null)
+        var updatedUser = await userService.UpdateSingleUserAsync(userId, userUpdateDto);
+        if (updatedUser == null)
         {
             return NotFound();
         }
 
-        userMapper.UpdateModel(user, userUpdateDto);
-        await dBContext.SaveChangesAsync();
-
-        return Ok(userMapper.ToDto(user));
+        return Ok(updatedUser);
     }
 
     [HttpDelete]
     [Route("{userId}")]
-    public async Task<IActionResult> DeleteUser(int userId)
+    public async Task<IActionResult> DeleteSingleUser(int userId)
     {
-        var user = await dBContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-        if (user == null)
+        var deletedUser = await userService.DeleteSingleUserAsync(userId);
+        if (deletedUser == null)
         {
             return NotFound();
         }
 
-        user.DeletedAt = DateTime.UtcNow;
-        await dBContext.SaveChangesAsync();
-
-        return Ok(userMapper.ToDto(user));
+        return Ok(deletedUser);
     }
 }

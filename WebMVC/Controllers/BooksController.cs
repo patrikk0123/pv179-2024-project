@@ -10,6 +10,7 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using WebMVC.ViewModels.Book;
 using WebMVC.ViewModels.Genres;
 using WebMVC.ViewModels.Publishers;
@@ -22,7 +23,8 @@ public class BooksController(
     IWishlistService wishlistService,
     IBookReviewService bookReviewService,
     IGenreService genreService,
-    IPublisherService publisherService
+    IPublisherService publisherService,
+    IMemoryCache memoryCache
 ) : Controller
 {
     [HttpGet("")]
@@ -39,22 +41,85 @@ public class BooksController(
 
         var model = bookPage.Adapt<BookPageViewModel>();
 
-        var genres = await genreService.GetAllGenresAsync(null);
-        model.Genres = genres.Adapt<GenreListPageViewModel>();
+        model.Genres = await GetCachedGenres();
 
-        var publishers = await publisherService.GetAllPublishersAsync();
-        model.Publishers = publishers.Adapt<PublisherListPageViewModel>();
+        model.Publishers = await GetCachedPublishers();
 
         model.BookQueryParameters = bookQueryParameters;
 
         return View(model);
     }
 
+    private async Task<GenreListPageViewModel?> GetCachedGenres()
+    {
+        const string cacheKey = "genres";
+        if (!memoryCache.TryGetValue(cacheKey, out GenreListPageViewModel? genres))
+        {
+            var genreDto = await genreService.GetAllGenresAsync(null);
+            genres = genreDto.Adapt<GenreListPageViewModel>();
+            memoryCache.Set(
+                cacheKey,
+                genres,
+                new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
+                }
+            );
+        }
+
+        return genres;
+    }
+
+    private async Task<PublisherListPageViewModel?> GetCachedPublishers()
+    {
+        const string cacheKey = "publishers";
+        if (!memoryCache.TryGetValue(cacheKey, out PublisherListPageViewModel? publishers))
+        {
+            var publisherDto = await publisherService.GetAllPublishersAsync();
+            publishers = publisherDto.Adapt<PublisherListPageViewModel>();
+            memoryCache.Set(
+                cacheKey,
+                publishers,
+                new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
+                }
+            );
+        }
+
+        return publishers;
+    }
+
+    private async Task<BookDetailViewModel?> GetCachedBookDetailModel(int bookId)
+    {
+        var cacheKey = $"book-detail-{bookId}";
+        if (!memoryCache.TryGetValue(cacheKey, out BookDetailViewModel? bookModel))
+        {
+            var bookDto = await bookService.GetSingleBookAsync(bookId);
+            if (bookDto == null)
+            {
+                return null;
+            }
+
+            bookModel = bookDto.Adapt<BookDetailViewModel>();
+            memoryCache.Set(
+                cacheKey,
+                bookModel,
+                new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
+                }
+            );
+        }
+
+        return bookModel;
+    }
+
     [HttpGet("detail/{bookId}")]
     public async Task<IActionResult> Detail(int bookId)
     {
-        var book = await bookService.GetSingleBookAsync(bookId);
-        if (book == null)
+        var bookModel = await GetCachedBookDetailModel(bookId);
+        if (bookModel == null)
         {
             return NotFound();
         }
@@ -75,7 +140,6 @@ public class BooksController(
             }
         }
 
-        var bookModel = book.Adapt<BookDetailViewModel>();
         var model = new UserBookViewModel { Book = bookModel, IsInUserWishList = isInUserWishList };
 
         return View(model);
@@ -110,8 +174,6 @@ public class BooksController(
                         Body = viewModelReviewView.Body,
                     }
                 );
-
-                book = await bookService.GetSingleBookAsync(bookId);
             }
             catch (Exception e)
             {

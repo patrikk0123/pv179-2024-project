@@ -10,6 +10,8 @@ using BusinessLayer.Services.BookReview;
 using BusinessLayer.Services.BookReview.Interfaces;
 using BusinessLayer.Services.Genre;
 using BusinessLayer.Services.Genre.Interfaces;
+using BusinessLayer.Services.GiftCard;
+using BusinessLayer.Services.GiftCard.Interfaces;
 using BusinessLayer.Services.Image;
 using BusinessLayer.Services.Image.Interfaces;
 using BusinessLayer.Services.Order;
@@ -38,6 +40,7 @@ public static class BusinessLogicConfiguration
         services.AddScoped<IBookReviewService, BookReviewService>();
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IBookFacade, BookFacade>();
+        services.AddScoped<IGiftCardService, GiftCardService>();
 
         services.RegisterBusinessLogicMappers();
 
@@ -55,5 +58,6 @@ public static class BusinessLogicConfiguration
         services.AddSingleton<IOrderMapper, OrderMapper>();
         services.AddSingleton<IBookReviewMapper, BookReviewMapper>();
         services.AddSingleton<IImageMapper, ImageMapper>();
+        services.AddSingleton<IGiftCardMapper, GiftCardMapper>();
     }
 }

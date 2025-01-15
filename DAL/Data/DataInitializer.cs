@@ -15,6 +15,8 @@ public static class DataInitializer
     private const int WishListItemCount = 3;
     private const int OrderCount = 2;
     private const int RandomizerSeed = 12345;
+    private const int GiftCardCount = 2;
+    private const int CouponCount = GiftCardCount * 2;
     private static readonly DateTime CreatedAt = new(2021, 1, 1, 10, 0, 0);
 
     public static void Seed(this ModelBuilder modelBuilder)
@@ -34,19 +36,58 @@ public static class DataInitializer
         var wishListItems = PrepareWishListItems();
         var orderItems = PrepareOrdersItem(books);
         var orders = PrepareOrders(orderItems);
+        var giftCards = PrepareGiftCards();
+        var coupons = PrepareCoupons();
 
         modelBuilder.Entity<Publisher>().HasData(publishers);
+        modelBuilder.Entity<Genre>().HasData(genres);
         modelBuilder.Entity<Book>().HasData(books);
         modelBuilder.Entity<BookImage>().HasData(bookImages);
         modelBuilder.Entity<Author>().HasData(authors);
         modelBuilder.Entity<BookAuthor>().HasData(bookAuthors);
         modelBuilder.Entity<User>().HasData(users);
-        modelBuilder.Entity<Genre>().HasData(genres);
         modelBuilder.Entity<BookGenre>().HasData(bookGenres);
         modelBuilder.Entity<Review>().HasData(reviews);
         modelBuilder.Entity<WishListItem>().HasData(wishListItems);
         modelBuilder.Entity<Order>().HasData(orders);
         modelBuilder.Entity<OrderItem>().HasData(orderItems);
+        modelBuilder.Entity<GiftCard>().HasData(giftCards);
+        modelBuilder.Entity<Coupon>().HasData(coupons);
+    }
+
+    private static List<GiftCard> PrepareGiftCards()
+    {
+        var giftCardId = 1;
+        var testGiftCards = new Faker<GiftCard>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => giftCardId++)
+            .RuleFor(o => o.PriceReduction, f => (double)f.Finance.Amount(1, 5))
+            .RuleFor(o => o.StartDate, _ => DateTime.UtcNow)
+            .RuleFor(o => o.ExpiryDate, _ => DateTime.MaxValue)
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null)
+            .RuleFor(o => o.Coupons, _ => []);
+
+        return testGiftCards.Generate(GiftCardCount);
+    }
+
+    private static List<Coupon> PrepareCoupons()
+    {
+        var couponId = 1;
+        var testCoupons = new Faker<Coupon>()
+            .StrictMode(true)
+            .RuleFor(o => o.Id, _ => couponId++)
+            .RuleFor(o => o.Code, f => f.Random.AlphaNumeric(10))
+            .RuleFor(o => o.CreatedAt, _ => CreatedAt)
+            .RuleFor(o => o.EditedAt, _ => null)
+            .RuleFor(o => o.DeletedAt, _ => null)
+            .RuleFor(o => o.GiftCardId, f => f.Random.Int(1, GiftCardCount))
+            .RuleFor(o => o.OrderId, _ => null)
+            .RuleFor(o => o.GiftCard, _ => null)
+            .RuleFor(o => o.Order, _ => null);
+
+        return testCoupons.Generate(CouponCount);
     }
 
     private static List<Publisher> PreparePublisherModels()
@@ -80,6 +121,8 @@ public static class DataInitializer
             .RuleFor(o => o.PublisherId, f => f.Random.Int(1, 2))
             .RuleFor(o => o.PreviewImageId, (_, _) => "1849645247")
             .RuleFor(o => o.Publisher, _ => null)
+            .RuleFor(o => o.PrimaryGenreId, f => f.Random.Int(1, GenreCount))
+            .RuleFor(o => o.PrimaryGenre, _ => null)
             .RuleFor(o => o.BookAuthors, _ => [])
             .RuleFor(o => o.BookGenres, _ => [])
             .RuleFor(o => o.Reviews, _ => [])
@@ -233,6 +276,7 @@ public static class DataInitializer
         var testOrders = new Faker<Order>()
             .StrictMode(true)
             .RuleFor(o => o.Id, _ => orderId++)
+            .RuleFor(o => o.OrderStatus, (o, _) => o.PickRandom<OrderStatus>())
             .RuleFor(
                 o => o.TotalPrice,
                 (_, o) =>
@@ -245,7 +289,9 @@ public static class DataInitializer
             .RuleFor(o => o.OrderItems, _ => null!)
             .RuleFor(o => o.CreatedAt, _ => CreatedAt)
             .RuleFor(o => o.EditedAt, _ => null)
-            .RuleFor(o => o.DeletedAt, _ => null);
+            .RuleFor(o => o.DeletedAt, _ => null)
+            .RuleFor(o => o.CouponId, _ => null)
+            .RuleFor(o => o.Coupon, _ => null);
 
         return testOrders.Generate(OrderCount);
     }

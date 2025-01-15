@@ -1,0 +1,32 @@
+@using WebMVC.Areas.Admin.ViewModels.Authors;
+
+@model AuthorUpdatePageViewModel;
+
+@{
+    ViewData["Title"] = "Update Author";
+}
+
+
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl">Update Author</h1>
+    @Html.ValidationSummary(false, "", new { @class = "text-red-500 text-sm mt-4" })
+
+    <form asp-action="Update" method="post">
+        <label class="form-control mb-2">
+            <div class="label" asp-for="Name">
+                <span class="label-text">Author's name</span>
+            </div>
+            <input id="name" asp-for="Name" class="input input-bordered w-full max-w-xs" value="@Model.Name"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </label>
+        
+        <label class="form-control mb-2">
+            <div class="label" asp-for="Surname">
+                <span class="label-text">Author's surname</span>
+            </div>
+            <input id="surname" asp-for="Surname" class="input input-bordered w-full max-w-xs" value="@Model.Surname"/>
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </label>
+        <button type="submit" class="btn btn-primary text-white">Update</button>
+    </form>
+</div>

@@ -1,12 +1,23 @@
 ﻿using BusinessLayer.DTOs.Book;
+using BusinessLayer.DTOs.Common;
 
 namespace BusinessLayer.Services.Book.Interfaces;
 
 public interface IBookService
 {
-    public Task<List<BookDto>> GetAllBooksAsync(
+    public Task<BookPage> GetAllBooksAsync(
+        Pagination pagination,
         string? name,
         string? description,
+        double? minPrice,
+        double? maxPrice,
+        string? publisherName,
+        string? genreType
+    );
+
+    public Task<BookPage> GetAllBooksQueryAsync(
+        Pagination pagination,
+        string? query,
         double? minPrice,
         double? maxPrice,
         string? publisherName,

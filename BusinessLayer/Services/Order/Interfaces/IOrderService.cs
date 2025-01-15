@@ -6,7 +6,11 @@ public interface IOrderService
 {
     public Task<List<OrderDto>> GetAllOrdersAsync();
 
+    public Task<List<OrderDto>> GetAllOrdersAsync(int userId);
+
     public Task<OrderDetailDto?> GetSingleOrderAsync(int orderId);
 
     public Task<OrderDto?> CreateOrderAsync(OrderCreateDto orderCreateDto, int userId);
+
+    public Task<OrderDto?> UpdateSingleOrderAsync(int orderId, OrderUpdateDto orderUpdateDto);
 }

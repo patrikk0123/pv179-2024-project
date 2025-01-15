@@ -24,7 +24,7 @@ public class AuthorMapper(IBookMapper bookMapper) : IAuthorMapper
             Name = author.Name,
             Surname = author.Surname,
             Books = author
-                .BookAuthors.Select(bookAuthor => bookMapper.ToDetailDto(bookAuthor.Book))
+                .BookAuthors?.Select(bookAuthor => bookMapper.ToDetailDto(bookAuthor.Book))
                 .ToList(),
         };
     }

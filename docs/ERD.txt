@@ -30,6 +30,7 @@ Table book {
     rating integer
     price double
     preview_image_id integer
+    primary_genre_id integer
     created_at timestamp
     edited_at timestamp
     deleted_at timestamp
@@ -137,3 +138,5 @@ Ref: user.id < wishlist_item.user_id
 Ref: book.id < book_image.book_id
 Ref: repository_image.id < book_image.image_id
 Ref: book.preview_image_id > repository_image.id
+Ref: book.primary_genre_id > genre.id
+

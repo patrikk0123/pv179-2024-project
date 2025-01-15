@@ -1,0 +1,32 @@
+@using WebMVC.ViewModels.User;
+
+@model UserViewModel
+
+@{
+    ViewData["Title"] = $"Profile | {User.Identity.Name}";
+}
+
+
+<div class="container mx-auto p-4">
+    <div class="flex justify-between">
+        <p class="text-2xl mb-6">Profile</p>
+        <a class="btn btn-outline" asp-controller="Profile" asp-action="ProfileUpdate">
+            Edit
+        </a>
+    </div>
+
+    <div class="text-gray-800 space-y-2">
+        <div class="flex">
+            <span class="font-medium mr-2">Username:</span>
+            <span>@Model.Username</span>
+        </div>
+        <div class="flex">
+            <span class="font-medium mr-2">Email:</span>
+            <span>@Model.Email</span>
+        </div>
+        <div class="flex">
+            <span class="font-medium mr-2">Role:</span>
+            <span>@Model.Role</span>
+        </div>
+    </div>
+</div>

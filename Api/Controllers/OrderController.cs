@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs.Order;
 using BusinessLayer.Services.Book.Interfaces;
+using BusinessLayer.Services.GiftCard.Interfaces;
 using BusinessLayer.Services.Order.Interfaces;
 using BusinessLayer.Services.User.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,8 @@ namespace Api.Controllers;
 public class OrderController(
     IUserService userService,
     IBookService bookService,
-    IOrderService orderService
+    IOrderService orderService,
+    IGiftCardService giftCardService
 ) : Controller
 {
     [HttpGet]
@@ -50,8 +52,37 @@ public class OrderController(
             return BadRequest("One or more books do not exist.");
         }
 
+        if (
+            orderDto.CouponCode != null
+            && !await giftCardService.CheckCouponIsValidAsync(orderDto.CouponCode)
+        )
+        {
+            return BadRequest("Coupon is not valid.");
+        }
+
         var order = await orderService.CreateOrderAsync(orderDto, userId);
 
+        if (order == null)
+        {
+            return BadRequest();
+        }
+
         return CreatedAtAction(nameof(GetSingleOrder), new { orderId = order.Id }, order);
+    }
+
+    [HttpPut]
+    [Route("{orderId}")]
+    public async Task<IActionResult> UpdateOrder(
+        int orderId,
+        [FromBody] OrderUpdateDto orderUpdateDto
+    )
+    {
+        var updatedOrder = await orderService.UpdateSingleOrderAsync(orderId, orderUpdateDto);
+        if (updatedOrder == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(updatedOrder);
     }
 }

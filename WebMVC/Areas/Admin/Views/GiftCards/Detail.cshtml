@@ -1,0 +1,51 @@
+@model WebMVC.Areas.Admin.ViewModels.GiftCards.GiftCardDetailViewModel;
+
+@{
+    ViewData["Title"] = $"Gift Card #{Model.Id}";
+}
+
+<div class="text-gray-800 space-y-2 mb-6">
+    <div class="flex">
+        <span class="font-medium mr-2">Price Reduction:</span>
+        <span>@Model.PriceReduction</span>
+    </div>
+    <div class="flex">
+        <span class="font-medium mr-2">Amount Of Coupons:</span>
+        <span>@Model.AmountOfCoupons</span>
+    </div>
+    <div class="flex">
+        <span class="font-medium mr-2">Start Date:</span>
+        <span>@Model.StartDate</span>
+    </div>
+    <div class="flex">
+        <span class="font-medium mr-2">Expiration Date:</span>
+        <span>@Model.ExpiryDate</span>
+    </div>
+</div>
+
+@if (Model.Coupons != null && Model.Coupons.Any())
+{
+    <div class="overflow-x-auto">
+        <table class="table table-zebra">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var giftCard in Model.Coupons)
+                {
+                    <tr>
+                        <td>@giftCard.Code</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h2 class="text-lg font-semibold text-gray-800">No coupons.</h2>
+    </div>
+}

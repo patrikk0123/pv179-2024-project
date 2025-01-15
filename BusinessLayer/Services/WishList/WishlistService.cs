@@ -11,34 +11,54 @@ public class WishlistService(BookHubDBContext dBContext, IWishListItemMapper wis
     : BaseService(dBContext),
         IWishlistService
 {
-    public async Task<List<WishListItemDto>> GetAllWishListItems(int userId)
+    public async Task<List<WishListItemDetailDto>> GetAllWishListItems(int userId)
     {
         var wishlistItems = await dBContext
             .WishListItems.Where(item => item.UserId == userId)
             .ToListAsync();
 
-        return wishlistItems.ConvertAll(wishListItemMapper.ToDto);
+        return wishlistItems.ConvertAll(wishListItemMapper.ToDetailDto);
     }
 
-    public async Task<WishListItemDto?> GetSingleWishlistItemAsync(int wishListItemId)
+    public async Task<WishListItemDetailDto?> GetSingleWishlistItemAsync(int wishListItemId)
     {
         var wishListItem = await dBContext.WishListItems.FindAsync(wishListItemId);
         if (wishListItem == null)
         {
             return null;
         }
-        return wishListItemMapper.ToDto(wishListItem);
+
+        return wishListItemMapper.ToDetailDto(wishListItem);
+    }
+
+    public async Task<WishListItemDetailDto?> GetSingleWishlistItemAsync(int userId, int bookId)
+    {
+        var wishListItem = await dBContext.WishListItems.FirstOrDefaultAsync(wishListItem =>
+            wishListItem.UserId == userId && wishListItem.BookId == bookId
+        );
+        if (wishListItem == null)
+        {
+            return null;
+        }
+
+        return wishListItemMapper.ToDetailDto(wishListItem);
     }
 
     public async Task<WishListItemDto> CreateWishListItem(int userId, int bookId)
     {
-        var wishListItem = await dBContext.WishListItems.AddAsync(
+        var bookInWishList = await GetSingleWishlistItemAsync(userId, bookId);
+        if (bookInWishList is not null)
+        {
+            return bookInWishList;
+        }
+
+        var createdWishListItem = await dBContext.WishListItems.AddAsync(
             new WishListItem { UserId = userId, BookId = bookId }
         );
 
         await SaveAsync(true);
 
-        return wishListItemMapper.ToDto(wishListItem.Entity);
+        return wishListItemMapper.ToDto(createdWishListItem.Entity);
     }
 
     public async Task DeleteWishListItem(int wishListItemId)

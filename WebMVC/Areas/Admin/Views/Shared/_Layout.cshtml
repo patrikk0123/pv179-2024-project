@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @if (@ViewData["Title"] == null)
+    {
+        <title>Admin | BookHub</title>
+    }
+    else
+    {
+        <title>@ViewData["Title"] | Admin | BookHub</title>
+    }
+    <link rel="stylesheet" href="~/css/output.css" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="static w-full top-0">
+        <nav class="bg-white shadow-md">
+            <div class="mx-auto py-4 px-4 flex justify-between items-center">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index"
+                   class="text-2xl font-bold text-gray-800 hover:text-blue-500 transition duration-200">
+                    BookHub Admin
+                </a>
+                <div class="flex space-x-2">
+                    <a asp-area="Admin" asp-controller="Profile" asp-action="Index"
+                       class="text-gray-800 font-medium py-2 px-4 rounded hover:bg-rose-500 hover:text-white transition duration-200">
+                        Profile
+                    </a>
+
+                    <a asp-area="" asp-controller="Account" asp-action="Logout"
+                       class="text-gray-800 font-medium py-2 px-4 rounded hover:bg-rose-500 hover:text-white transition duration-200">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="grid grid-cols-12 gap-4 p-4">
+        <aside class="col-span-2">
+            <nav class="border border-solid border-gray-300 rounded-md">
+                <ul>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index"
+                           class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200 rounded-t-md">Home</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Books" asp-action="Index"
+                           class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200">Books</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Genres" asp-action="Index"
+                           class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200">Genres</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Authors" asp-action="Index"
+                           class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200">Authors</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Publishers" asp-action="Index"
+                           class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200">Publishers</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Gift Cards" asp-action="Index"
+                           class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200">GiftCards</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Orders" asp-action="Index"
+                           class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200">Orders</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Users" asp-action="Index"
+                           class="block py-4 px-2 bg-white text-gray-800 hover:bg-gray-200 rounded-b-md">Users</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="col-span-10">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

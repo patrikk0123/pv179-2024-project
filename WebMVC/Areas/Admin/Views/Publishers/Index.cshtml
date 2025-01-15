@@ -1,0 +1,49 @@
+@using WebMVC.Areas.Admin.ViewModels.Publisher;
+@using WebMVC.ViewModels.Publishers;
+
+@model PublisherListPageViewModel;
+
+@{
+    ViewData["Title"] = "Publishers List";
+    var publisherIndex = 1;
+}
+
+<div class="flex flex-row justify-between mb-3">
+    <h1 class="text-3xl">Publishers List</h1>
+    <a class="btn btn-primary text-white" asp-area="Admin" asp-controller="Publishers" asp-action="Create">
+        Create <i class="fa-solid fa-plus"></i>
+    </a>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var publisher in Model.Publishers)
+        {
+            <tr>
+                <td>@publisherIndex</td>
+                <td>@publisher.Name</td>
+                <td>
+                    <a class="link-primary text-lg" asp-area="Admin" asp-controller="Publishers" asp-action="Update" asp-route-id="@publisher.Id">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                    &nbsp;
+                    <a class="link-error text-lg" asp-area="Admin" asp-controller="Publishers" asp-action="Delete" asp-route-id="@publisher.Id">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {
+                publisherIndex++;
+            }
+        }
+        </tbody>
+    </table>
+</div>

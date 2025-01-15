@@ -13,7 +13,10 @@ public class OrderMapper(IBookMapper bookMapper) : IOrderMapper
         {
             Id = order.Id,
             UserId = order.UserId,
+            Username = order.User?.Username ?? "",
+            OrderStatus = order.OrderStatus,
             TotalPrice = order.TotalPrice,
+            CouponId = order.CouponId,
         };
     }
 
@@ -23,7 +26,10 @@ public class OrderMapper(IBookMapper bookMapper) : IOrderMapper
         {
             Id = order.Id,
             UserId = order.UserId,
+            Username = order.User?.Username ?? "",
+            OrderStatus = order.OrderStatus,
             TotalPrice = order.TotalPrice,
+            CouponId = order.CouponId,
             OrderItems = order
                 .OrderItems.Select(oi => new OrderItemDto
                 {
@@ -38,8 +44,11 @@ public class OrderMapper(IBookMapper bookMapper) : IOrderMapper
 
     public Order ToModel(OrderCreateDto dto)
     {
-        return new Order();
+        return new Order { OrderStatus = OrderStatus.AwaitingPayment };
     }
 
-    public void UpdateModel(Order model, OrderUpdateDto updateDto) { }
+    public void UpdateModel(Order model, OrderUpdateDto updateDto)
+    {
+        model.OrderStatus = updateDto.OrderStatus;
+    }
 }

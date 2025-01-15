@@ -13,7 +13,6 @@ public class WishListItemMapper(IBookMapper bookMapper) : IWishListItemMapper
             Id = item.Id,
             BookId = item.BookId,
             UserId = item.UserId,
-            BookName = item.Book.Name,
         };
     }
 
@@ -24,7 +23,6 @@ public class WishListItemMapper(IBookMapper bookMapper) : IWishListItemMapper
             Id = item.Id,
             BookId = item.BookId,
             UserId = item.UserId,
-            BookName = item.Book.Name,
             Book = bookMapper.ToDetailDto(item.Book),
         };
     }

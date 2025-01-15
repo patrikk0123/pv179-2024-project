@@ -1,0 +1,137 @@
+@using WebMVC.ViewModels.Book;
+
+@model UserBookViewModel
+
+@{
+    var book = Model.Book;
+    
+    ViewData["Title"] = book.Name;
+}
+
+<div class="container mx-auto p-4">
+    <div class="flex flex-row gap-10 bg-white mb-4">
+        <div class="w-64">
+            <img
+                src="data:image/png;base64,@Convert.ToBase64String(book.PreviewImage)"
+                alt="@book.Name"
+                class="w-full mb-4" />
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                @using (Html.BeginForm("CreateWishListItem", "Profile", new { bookId = book.Id }, FormMethod.Post))
+                {
+                    <button @(Model.IsInUserWishList ? "disabled='disabled'" : "") type="submit"  class="btn btn-primary w-full text-white mb-4">
+                        <i class="fa fa-heart"></i> Add to wishlist
+                    </button>
+                }
+                <a class="btn btn-primary w-full text-white addToCart" href="#" data-book='@Json.Serialize(book)'>
+                    <i class="fa-solid fa-cart-shopping"></i> Add to cart
+                </a>
+            }
+        </div>
+        <div>
+            <h3 class="text-2xl font-semibold">@book.Name</h3>
+            <div class="mb-1">
+                <span class="bg-yellow-500 text-gray-800 text-xs px-2 py-1 rounded-full">@book.PrimaryGenre</span>
+                @foreach (var genre in book.SecondaryGenres)
+                {
+                    <span class="bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full">@genre</span>
+                }
+            </div>
+            <div class="mb-1">
+                <b>Authors:</b> 
+                @foreach(var author in book.Authors)
+                {
+                    <span>@author</span>
+                    if (author != book.Authors.Last())
+                    {
+                        <span>, </span>
+                    }
+                }
+            </div>
+            <div class="flex items-center">
+                @{
+                    var fullStarsCount = (int)Math.Round(book.Rating);
+                    var emptyStarsCount = 5 - fullStarsCount;
+                }
+                @for (int i = 0; i < fullStarsCount; i++)
+                {
+                    <span class="fa-solid fa-star"></span>
+                }
+                @for (int i = 0; i < emptyStarsCount; i++)
+                {
+                    <span class="fa-regular fa-star"></span>
+                }
+            </div>
+            <p class="text-sm text-gray-600">@book.Pages pages</p>
+            <p class="text-sm text-gray-600"><b>ISBN:</b> @book.ISBN</p>
+            <p class="text-sm text-gray-600"><b>Publisher:</b> @book.PublisherName</p>
+            <p class="text-sm text-gray-600"><b>Publish date:</b> @book.PublishDate.ToShortDateString()</p>
+            <p class="text-sm text-gray-600"><b>Price:</b> @book.Price.ToString("0.0")€ </p>
+            <p class="mt-4">
+                @book.Description
+            </p>
+        </div>
+    </div>
+    
+    <hr class="mb-4"/>
+
+    <div>
+        <h2 class="text-xl font-bold mb-4">Reviews</h2>
+        @foreach (var review in book.Reviews)
+        {
+            <div class="bg-white p-4 mb-4 rounded-lg shadow-md">
+                <div class="flex flex-col gap-2">
+                    <p>@review.Body</p>
+
+                    <div class="flex flex-row justify-between">
+                        <div>
+                            @{
+                                var fullStarsCountReview = review.Rating;
+                                var emptyStarsCountReview = 5 - fullStarsCountReview;
+                            }
+                            @for (int i = 0; i < fullStarsCountReview; i++)
+                            {
+                                <span class="fa-solid fa-star"></span>
+                            }
+                            @for (int i = 0; i < emptyStarsCountReview; i++)
+                            {
+                                <span class="fa-regular fa-star"></span>
+                            }
+                        </div>
+                        <div>
+                            @review.ReviewerName
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form class="flex flex-items gap-4" asp-action="Detail" method="post">
+                <div class="w-64">
+                    <label class="form-control w-full max-w-xs">
+                        <div class="label">
+                            <span class="label-text">Rating</span>
+                        </div>
+                        <input type="number" id="rating" name="Rating" class="input input-bordered w-full max-w-xs" min="1" max="5"/>
+                    </label>
+                </div>
+                <div class="w-96">
+                    <label class="form-control">
+                        <div class="label">
+                            <span class="label-text">Text</span>
+                        </div>
+                        <textarea id="text" name="Body" class="textarea textarea-bordered h-24 w-full"></textarea>
+                    </label>
+                </div>
+                <div class="flex flex-col-reverse">
+                    <button type="submit" class="btn btn-active btn-primary text-white">Submit</button>
+                </div>
+            </form>
+            @Html.ValidationSummary(false, "", new { @class = "text-red-500 text-sm mt-4" })
+        }
+    </div>
+</div>
+

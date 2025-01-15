@@ -1,0 +1,39 @@
+@using WebMVC.ViewModels.Order;
+
+@model OrderListViewModel;
+
+@{
+    ViewData["Title"] = "Orders List";
+}
+
+<h1 class="text-3xl mb-3">Orders List</h1>
+
+<div class="overflow-x-auto">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Order</th>
+            <th>User</th>
+            <th>Order Status</th>
+            <th>Total Price</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var order in Model.Orders)
+        {
+            <tr>
+                <td>#<a asp-area="Admin" asp-controller="Orders" asp-action="Detail" asp-route-orderId="@order.Id">@order.Id</a></td>
+                <td>@order.Username</td>
+                <td>@order.OrderStatus</td>
+                <td>@order.TotalPrice€</td>
+                <td>
+                    <a class="link-primary text-lg" asp-area="Admin" asp-controller="Orders" asp-action="Update" asp-route-id="@order.Id">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

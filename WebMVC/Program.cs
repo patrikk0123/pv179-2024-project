@@ -1,7 +1,15 @@
+using BusinessLayer.Configuration;
 using DAL.Data;
 using DAL.Models.Auth;
+using Infrastructure.UnitOfWork;
+using Infrastructure.UnitOfWork.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Middlewares;
+using Middlewares.Configuration;
+using Presentation.Common.Configuration;
+using WebMVC.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +25,23 @@ builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
 );
 
 builder.Services.AddDbContext<BookHubDBContext>();
+
+builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("Images"));
+
+builder.Services.AddSingleton<IImageUnitOfWork>(provider =>
+{
+    var imageSettings = provider.GetRequiredService<IOptions<ImageSettings>>().Value;
+    return new ImageUnitOfWork(
+        imageSettings.ImagesFolderPath,
+        imageSettings.PreviewImagesFolderPath
+    );
+});
+
+builder.Services.RegisterBusinessLogicServices();
+
+builder.Services.RegisterLogging();
+
+MapsterConfig.Setup();
 
 builder
     .Services.AddIdentity<LocalIdentityUser, IdentityRole>()
@@ -51,6 +76,33 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+);
+
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.UseMiddleware<RequestLoggingMiddleware>();
+
+using (var scope = app.Services.CreateScope())
+{
+    await SeedRoles(scope.ServiceProvider);
+}
+
 app.Run();
+
+static async Task SeedRoles(IServiceProvider serviceProvider)
+{
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+
+    if (!await roleManager.RoleExistsAsync("User"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("User"));
+    }
+}

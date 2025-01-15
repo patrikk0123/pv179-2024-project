@@ -1,0 +1,94 @@
+@using WebMVC.ViewModels.Book;
+
+@model BookPageViewModel
+
+<div class="container mx-auto p-4">
+    <form asp-action="List" asp-controller="Books" method="get" class="flex flex-wrap gap-4 justify-center mb-4">
+        <input type="text" asp-for="BookQueryParameters.Search" placeholder="Search..." class="border rounded py-2 px-3 text-gray-700" />
+
+        <input type="number" asp-for="BookQueryParameters.MinPrice" placeholder="Min. price" class="border rounded py-2 px-3 text-gray-700" />
+        <input type="number" asp-for="BookQueryParameters.MaxPrice" placeholder="Max. price" class="border rounded py-2 px-3 text-gray-700" />
+
+        <select asp-for="BookQueryParameters.Publisher" class="border rounded py-2 px-3 text-gray-700">
+            <option value="">All publishers</option>
+            @foreach (var publisher in Model.Publishers.Publishers ?? [])
+            {
+                    <option value="@publisher.Name">@publisher.Name</option>
+            }
+        </select>
+
+        <select asp-for="BookQueryParameters.Genre" class="border rounded py-2 px-3 text-gray-700">
+            <option value="">All Genres</option>
+            @foreach (var genre in Model.Genres?.Genres ?? [])
+            {
+                <option value="@genre.GenreType">@genre.GenreType</option>
+            }
+        </select>
+
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
+    </form>
+</div>
+
+<div class="container mx-auto p-4">
+    @if (Model != null && Model.Content.Any())
+    {
+        <div class="flex flex-wrap gap-6 justify-center mb-4">
+            @foreach (var book in Model.Content)
+            {
+                <a class="block flex flex-col gap-2 bg-white shadow-md rounded-lg w-64 p-4" asp-area="" asp-controller="Books" asp-action="Detail" asp-route-bookId="@book.Id">
+                    <img
+                        src="data:image/png;base64,@Convert.ToBase64String(book.PreviewImage)"
+                        alt="@book.Name"
+                        class="w-full h-40 object-cover rounded-md" />
+                    
+                    <h3 class="text-lg font-semibold">@book.Name</h3>
+                    
+                    <div class="flex items-center">
+                        @{
+                            var fullStarsCount = (int)Math.Round(book.Rating);
+                            var emptyStarsCount = 5 - fullStarsCount;
+                        }
+                        @for (int i = 0; i < fullStarsCount; i++)
+                        {
+                            <span class="fa-solid fa-star"></span>
+                        }
+                        @for (int i = 0; i < emptyStarsCount; i++)
+                        {
+                            <span class="fa-regular fa-star"></span>
+                        }
+                    </div>
+                    
+                    <p class="text-sm text-gray-600">@book.Pages pages</p>
+                    
+                    <p class="text-sm text-gray-600 flex items-center">
+                        <span class="flex flex-inline flex-wrap gap-2">
+                            @foreach (var author in book.Authors)
+                            {
+                                <span>@author</span> @if (author != book.Authors.Last())
+                                {
+                                    <span class="mr-1">,</span>
+                                }
+                            }
+                        </span>
+                    </p>
+                    
+                    <p class="text-sm text-gray-800 text-right font-bold">@book.Price.ToString("0.0")€</p>
+                </a>
+            }
+        </div>
+        
+        <div class="flex justify-center">
+            <div class="join">
+                <a class="join-item btn @((Model.PageIndex <= 0) ? "pointer-events-none" : "")" asp-action="List" asp-route-pageIndex="@(Model.PageIndex - 1)">«</a>
+                <button class="join-item btn">@($"Page {Model.PageIndex + 1}")</button>
+                <a class="join-item btn @((Model.PageIndex >= Model.TotalPages - 1) ? "pointer-events-none" : "")" asp-action="List" asp-route-pageIndex="@(Model.PageIndex + 1)">»</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h2 class="text-lg font-semibold text-gray-800">No books.</h2>
+        </div>
+    }
+</div>

@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 
 namespace BusinessLayer.DTOs.Book;
 
@@ -30,9 +29,10 @@ public class BookCreateDto
     [Required]
     public required int PublisherId { get; init; }
 
+    [Required]
+    public required int PrimaryGenreId { get; init; }
+
     public required List<int> GenreIds { get; init; } = [];
 
     public required List<int> AuthorIds { get; init; } = [];
-
-    public required List<IFormFile> Images { get; init; } = [];
 }

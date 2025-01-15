@@ -13,20 +13,41 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
 {
     public BookDto ToDto(Book book)
     {
-        return new BookDto()
+        return new BookDto
         {
             Id = book.Id,
             Name = book.Name,
             ISBN = book.ISBN,
             Description = book.Description,
             PublishDate = book.PublishDate,
+            PublisherId = book.PublisherId,
             Pages = book.Pages,
             Rating = book.Rating,
             Price = book.Price,
-            PublisherName = book.Publisher.Name,
+            PublisherName = book.Publisher?.Name ?? "",
+            PrimaryGenre = new GenreDto()
+            {
+                Id = book.PrimaryGenre.Id,
+                GenreType = book.PrimaryGenre.GenreType,
+            },
             PreviewImage = imageMapper.ToDto(
                 unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
             ),
+            Authors = book
+                .BookAuthors?.Select(bookAuthor => new AuthorDto()
+                {
+                    Id = bookAuthor.Author.Id,
+                    Name = bookAuthor.Author.Name,
+                    Surname = bookAuthor.Author.Surname,
+                })
+                .ToList(),
+            Genres = book
+                .BookGenres?.Select(bookGenre => new GenreDto()
+                {
+                    Id = bookGenre.Genre.Id,
+                    GenreType = bookGenre.Genre.GenreType,
+                })
+                .ToList(),
         };
     }
 
@@ -43,6 +64,12 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
             Rating = book.Rating,
             Price = book.Price,
             PublisherName = book.Publisher?.Name ?? "",
+            PublisherId = book.PublisherId,
+            PrimaryGenre = new GenreDto()
+            {
+                Id = book.PrimaryGenre.Id,
+                GenreType = book.PrimaryGenre.GenreType,
+            },
             Authors = book
                 .BookAuthors?.Select(bookAuthor => new AuthorDto()
                 {
@@ -95,6 +122,7 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
             Rating = dto.Rating,
             Price = dto.Price,
             PublisherId = dto.PublisherId,
+            PrimaryGenreId = dto.PrimaryGenreId,
         };
     }
 
@@ -108,5 +136,6 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
         book.Rating = dto.Rating;
         book.Price = dto.Price;
         book.PublisherId = dto.PublisherId;
+        book.PrimaryGenreId = dto.PrimaryGenreId;
     }
 }

@@ -6,7 +6,7 @@ using Infrastructure.UnitOfWork.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Middlewares;
+// using Middlewares;
 using Middlewares.Configuration;
 using Presentation.Common.Configuration;
 using WebMVC.Configuration;
@@ -40,6 +40,12 @@ builder.Services.AddSingleton<IImageUnitOfWork>(provider =>
 builder.Services.RegisterBusinessLogicServices();
 
 builder.Services.RegisterLogging();
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddConsole();
+    loggingBuilder.AddDebug();
+});
 
 MapsterConfig.Setup();
 
@@ -83,11 +89,17 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseMiddleware<RequestLoggingMiddleware>();
+// app.UseMiddleware<RequestLoggingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
     await SeedRoles(scope.ServiceProvider);
+}
+
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetService<BookHubDBContext>();
+    context.Database.Migrate();
 }
 
 app.Run();

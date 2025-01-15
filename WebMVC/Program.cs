@@ -5,8 +5,9 @@ using Infrastructure.UnitOfWork;
 using Infrastructure.UnitOfWork.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.AzureAppServices;
 using Microsoft.Extensions.Options;
-// using Middlewares;
+using Middlewares;
 using Middlewares.Configuration;
 using Presentation.Common.Configuration;
 using WebMVC.Configuration;
@@ -15,8 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-var folder = Environment.SpecialFolder.LocalApplicationData;
-var dbPath = Path.Join(Environment.GetFolderPath(folder), "bookhub.db");
+var dbPath = "./bookhub.db";
 
 builder.Services.AddDbContextFactory<BookHubDBContext>(options =>
     options
@@ -41,10 +41,12 @@ builder.Services.RegisterBusinessLogicServices();
 
 builder.Services.RegisterLogging();
 
-builder.Services.AddLogging(loggingBuilder =>
+builder.Logging.AddAzureWebAppDiagnostics();
+builder.Services.Configure<AzureFileLoggerOptions>(options =>
 {
-    loggingBuilder.AddConsole();
-    loggingBuilder.AddDebug();
+    options.FileName = "LogTracestoFile";
+    options.FileSizeLimit = 50 * 1024;
+    options.RetainedFileCountLimit = 3;
 });
 
 MapsterConfig.Setup();
@@ -89,17 +91,17 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// app.UseMiddleware<RequestLoggingMiddleware>();
-
-using (var scope = app.Services.CreateScope())
-{
-    await SeedRoles(scope.ServiceProvider);
-}
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 {
     var context = serviceScope.ServiceProvider.GetService<BookHubDBContext>();
     context.Database.Migrate();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    await SeedRoles(scope.ServiceProvider);
 }
 
 app.Run();

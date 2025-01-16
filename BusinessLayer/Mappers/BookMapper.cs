@@ -25,16 +25,19 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
             Rating = book.Rating,
             Price = book.Price,
             PublisherName = book.Publisher?.Name ?? "",
-            PrimaryGenre = new GenreDto()
-            {
-                Id = book.PrimaryGenre.Id,
-                GenreType = book.PrimaryGenre.GenreType,
-            },
+            PrimaryGenre = book.PrimaryGenre is not null
+                ? new GenreDto()
+                {
+                    Id = book.PrimaryGenre.Id,
+                    GenreType = book.PrimaryGenre.GenreType,
+                }
+                : null,
             PreviewImage = imageMapper.ToDto(
                 unitOfWork.ImagePreviewRepository.GetById(book.PreviewImageId)
             ),
             Authors = book
-                .BookAuthors?.Select(bookAuthor => new AuthorDto()
+                .BookAuthors?.Where(bookAuthor => bookAuthor.Author is not null)
+                .Select(bookAuthor => new AuthorDto()
                 {
                     Id = bookAuthor.Author.Id,
                     Name = bookAuthor.Author.Name,
@@ -42,7 +45,8 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
                 })
                 .ToList(),
             Genres = book
-                .BookGenres?.Select(bookGenre => new GenreDto()
+                .BookGenres?.Where(bookGenre => bookGenre.Genre is not null)
+                .Select(bookGenre => new GenreDto()
                 {
                     Id = bookGenre.Genre.Id,
                     GenreType = bookGenre.Genre.GenreType,
@@ -65,26 +69,36 @@ public class BookMapper(IImageUnitOfWork unitOfWork, IImageMapper imageMapper) :
             Price = book.Price,
             PublisherName = book.Publisher?.Name ?? "",
             PublisherId = book.PublisherId,
-            PrimaryGenre = new GenreDto()
-            {
-                Id = book.PrimaryGenre.Id,
-                GenreType = book.PrimaryGenre.GenreType,
-            },
-            Authors = book
-                .BookAuthors?.Select(bookAuthor => new AuthorDto()
+            PrimaryGenre = book.PrimaryGenre is not null
+                ? new GenreDto()
                 {
-                    Id = bookAuthor.Author.Id,
-                    Name = bookAuthor.Author.Name,
-                    Surname = bookAuthor.Author.Surname,
-                })
-                .ToList(),
-            Genres = book
-                .BookGenres?.Select(bookGenre => new GenreDto()
-                {
-                    Id = bookGenre.Genre.Id,
-                    GenreType = bookGenre.Genre.GenreType,
-                })
-                .ToList(),
+                    Id = book.PrimaryGenre.Id,
+                    GenreType = book.PrimaryGenre.GenreType,
+                }
+                : null,
+            Authors =
+                (
+                    book
+                        .BookAuthors?.Where(bookAuthor => bookAuthor.Author is not null)
+                        .Select(bookAuthor => new AuthorDto()
+                        {
+                            Id = bookAuthor.Author.Id,
+                            Name = bookAuthor.Author.Name,
+                            Surname = bookAuthor.Author.Surname,
+                        })
+                        .ToList()
+                ) ?? [],
+            Genres =
+                (
+                    book
+                        .BookGenres?.Where(bookGenre => bookGenre.Genre is not null)
+                        .Select(bookGenre => new GenreDto()
+                        {
+                            Id = bookGenre.Genre.Id,
+                            GenreType = bookGenre.Genre.GenreType,
+                        })
+                        .ToList()
+                ) ?? [],
             Reviews =
                 book.Reviews != null
                     ? book

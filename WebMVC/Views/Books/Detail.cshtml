@@ -32,7 +32,10 @@
         <div>
             <h3 class="text-2xl font-semibold">@book.Name</h3>
             <div class="mb-1">
-                <span class="bg-yellow-500 text-gray-800 text-xs px-2 py-1 rounded-full">@book.PrimaryGenre</span>
+                @if (book.PrimaryGenre != null)
+                {
+                    <span class="bg-yellow-500 text-gray-800 text-xs px-2 py-1 rounded-full">@book.PrimaryGenre</span>
+                }
                 @foreach (var genre in book.SecondaryGenres)
                 {
                     <span class="bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full">@genre</span>

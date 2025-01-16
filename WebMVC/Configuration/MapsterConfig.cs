@@ -7,9 +7,7 @@ using BusinessLayer.DTOs.User;
 using BusinessLayer.DTOs.WishListItem;
 using Mapster;
 using WebMVC.Areas.Admin.ViewModels.Books;
-using WebMVC.Areas.Admin.ViewModels.Genres;
 using WebMVC.Areas.Admin.ViewModels.GiftCards;
-using WebMVC.Areas.Admin.ViewModels.Publisher;
 using WebMVC.Areas.Admin.ViewModels.Users;
 using WebMVC.ViewModels.Book;
 using WebMVC.ViewModels.Genres;
@@ -42,11 +40,16 @@ public static class MapsterConfig
                 dest => dest.Authors,
                 src => src.Authors.ConvertAll(author => $"{author.Name} {author.Surname}")
             )
-            .Map(dest => dest.PrimaryGenre, src => src.PrimaryGenre.GenreType)
+            .Map(
+                dest => dest.PrimaryGenre,
+                src => src.PrimaryGenre != null ? src.PrimaryGenre.GenreType : ""
+            )
             .Map(
                 dest => dest.SecondaryGenres,
                 src =>
-                    src.Genres.Where(genre => genre.Id != src.PrimaryGenre.Id)
+                    src.Genres.Where(genre =>
+                            src.PrimaryGenre == null || genre.Id != src.PrimaryGenre.Id
+                        )
                         .Select(genre => genre.GenreType)
                         .ToList()
             )
